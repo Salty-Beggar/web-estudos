@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        * {
+            margin: 0; padding: 0;
+            box-sizing: padding-box;
+        }
+        body {
+            width: 100vw;
+            min-height: 100vh;
+            height: 100%;
+        }
+
+        div {
+            border: 2px red solid;
+        }
+
+        button {
+            border: 2px blue solid;
+        }
+
+        .pagina {
+            border: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="pagina grid grid-cols-12 grid-rows-20 gap-1">
+        <div class="col-span-12 row-span-1 text-center text-[30px]">
+            <b>Rede Social de Estudos</b>
+        </div>
+        <div class="col-span-3 row-span-20">
+            <button id="MEUS-CURSOS">meus cursos</button>
+            <button id="MINHAS-ATIVIDADES">minhas atividades</button>
+            <button id="MINHAS-PROVAS">minhas provas</button>
+            <button id="MEUS-VIDEOS">meus videos</button>
+            <button id="MINHAS-QUESTOES">minhas questoes</button>
+        </div>
+        <div class="col-span-6 row-span-20">
+            <div >
+                <header id="feed-header">
+                    <div id="material-buttons flex d">
+                        <button class="material-button">Atividades</button>
+                        <button class="material-button">Prova</button>
+                        <button class="material-button">Cursos</button>
+                        <button class="material-button">Vídeos</button>
+                        <button class="material-button">Questoes</button>
+                    </div>
+                    <div id="config-buttons">
+                        <button class="filter-button">Filtro</button>
+                    </div>
+                </header>
+                <div id="feed-container-main">
+                    <div id="feed-container" data-owner="feed-container">
+                        <section class="feed-container-data">
+                            <h2 class="container-tittle">Prova de historia do Americana.</h2><br>
+                            <p class="container-type-user">Professor:Lucas Andrade da Silva</p></br>
+                            <p class="container-date">Data de postagem: 20/06/2026</p></br>
+                            <p class="container-rating">
+                                Matematica: 200: Votos: 5 <button>+</button><button>-</button></br>
+                                Interpretacao: 950.</br>
+                                Logica: 1010.</br>
+                            </p><br>
+                        <section>
+                    </div>
+                </div>
+                <div id="feed-container-main">
+                    <div id="feed-container" data-owner="feed-container">
+                        <section class="feed-container-data">
+                            <h2 class="container-tittle">Prova de historia do Americana.</h2><br>
+                            <p class="container-type-user">Professor:Lucas Andrade da Silva</p></br>
+                            <p class="container-date">Data de postagem: 20/06/2026</p></br>
+                            <p class="container-rating">
+                                Matematica: 200.</br>
+                                Interpretacao: 950.</br>
+                                Logica: 1010.</br>
+                            </p><br>
+                        <section>
+                    </div>
+                </div>
+                <div id="feed-container-main">
+                    <div id="feed-container" data-owner="feed-container">
+                        <section class="feed-container-data">
+                            <h2 class="container-tittle">Prova de historia do Americana.</h2><br>
+                            <p class="container-type-user">Professor:Lucas Andrade da Silva</p></br>
+                            <p class="container-date">Data de postagem: 20/06/2026</p></br>
+                            <p class="container-rating">
+                                Matematica: 1200.</br>
+                                Interpretacao: 122.</br>
+                                Logica: 635.</br>
+                            </p><br>
+                        <section>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-span-3 row-span-20">
+
+        </div>
+    </div>
+    
+    
+    <script src="./script.js"></script>
+</body>
+</html>
