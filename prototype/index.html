@@ -8,7 +8,7 @@
     <style>
         * {
             margin: 0; padding: 0;
-            box-sizing: padding-box;
+            box-sizing: border-box;
         }
         body {
             width: 100vw;
@@ -22,17 +22,32 @@
 
         button {
             border: 2px blue solid;
+            cursor:pointer;
         }
 
-        .pagina {
+        .pagina0 {
             border: 0;
             width: 100%;
             height: 100%;
         }
+
+        h2 {
+            font-weight: bold;
+            font-size: 2rem;
+        }
+        
+        h2:hover {
+            color: red;
+            cursor:pointer;
+        }
+
+        li {
+            margin-left: 30px;
+        }
     </style>
 </head>
 <body>
-    <div class="pagina grid grid-cols-12 grid-rows-20 gap-1">
+    <div class="pagina0 grid grid-cols-12 grid-rows-20 gap-1">
         <div class="col-span-12 row-span-1 text-center text-[30px]">
             <b>Rede Social de Estudos</b>
         </div>
@@ -44,7 +59,7 @@
             <button id="MINHAS-QUESTOES">minhas questoes</button>
         </div>
         <div class="col-span-6 row-span-20">
-            <div >
+            <div>
                 <header id="feed-header">
                     <div id="material-buttons flex d">
                         <button class="material-button">Atividades</button>
@@ -57,52 +72,67 @@
                         <button class="filter-button">Filtro</button>
                     </div>
                 </header>
-                <div id="feed-container-main">
-                    <div id="feed-container" data-owner="feed-container">
-                        <section class="feed-container-data">
-                            <h2 class="container-tittle">Prova de historia do Americana.</h2><br>
-                            <p class="container-type-user">Professor:Lucas Andrade da Silva</p></br>
-                            <p class="container-date">Data de postagem: 20/06/2026</p></br>
-                            <p class="container-rating">
-                                Matematica: 200: Votos: 5 <button>+</button><button>-</button></br>
-                                Interpretacao: 950.</br>
-                                Logica: 1010.</br>
-                            </p><br>
-                        <section>
+                <div id="feed">
+                    <div id="feed-container-main">
+                        <div id="feed-container" data-owner="feed-container">
+                            <section class="feed-container-data">
+                                <h2 class="container-tittle">Prova de historia do Americana.</h2><br>
+                                <p class="container-type-user">Usuário: Lucas Andrade da Silva (Professor)</p></br>
+                                <p class="container-date">Data de postagem: 20/06/2026</p></br>
+                                <p class="container-rating">
+                                    Matematica: 
+                                    <ul>
+                                        <li>
+                                            Dificuldade: 200
+                                        </li>
+                                        <li>
+                                            Votos: 5 <button>+</button><button>-</button>
+                                        </li>
+                                    </ul>
+                                    Interpretacao: 950: Votos: 5 <button>+</button><button>-</button></br>
+                                    Logica: 1010: Votos: 5 <button>+</button><button>-</button></br>
+                                </p><br>
+                            <section>
+                        </div>
                     </div>
-                </div>
-                <div id="feed-container-main">
-                    <div id="feed-container" data-owner="feed-container">
-                        <section class="feed-container-data">
-                            <h2 class="container-tittle">Prova de historia do Americana.</h2><br>
-                            <p class="container-type-user">Professor:Lucas Andrade da Silva</p></br>
-                            <p class="container-date">Data de postagem: 20/06/2026</p></br>
-                            <p class="container-rating">
-                                Matematica: 200.</br>
-                                Interpretacao: 950.</br>
-                                Logica: 1010.</br>
-                            </p><br>
-                        <section>
+                    <div id="feed-container-main">
+                        <div id="feed-container" data-owner="feed-container">
+                            <section class="feed-container-data">
+                                <h2 class="container-tittle">Prova de historia do Americana.</h2><br>
+                                <p class="container-type-user">Professor:Lucas Andrade da Silva</p></br>
+                                <p class="container-date">Data de postagem: 20/06/2026</p></br>
+                                <p class="container-rating">
+                                    Matematica: 200.</br>
+                                    Interpretacao: 950.</br>
+                                    Logica: 1010.</br>
+                                </p><br>
+                            <section>
+                        </div>
                     </div>
-                </div>
-                <div id="feed-container-main">
-                    <div id="feed-container" data-owner="feed-container">
-                        <section class="feed-container-data">
-                            <h2 class="container-tittle">Prova de historia do Americana.</h2><br>
-                            <p class="container-type-user">Professor:Lucas Andrade da Silva</p></br>
-                            <p class="container-date">Data de postagem: 20/06/2026</p></br>
-                            <p class="container-rating">
-                                Matematica: 1200.</br>
-                                Interpretacao: 122.</br>
-                                Logica: 635.</br>
-                            </p><br>
-                        <section>
+                    <div id="feed-container-main">
+                        <div id="feed-container" data-owner="feed-container">
+                            <section class="feed-container-data">
+                                <h2 class="container-tittle">Prova de historia do Americana.</h2><br>
+                                <p class="container-type-user">Professor:Lucas Andrade da Silva</p></br>
+                                <p class="container-date">Data de postagem: 20/06/2026</p></br>
+                                <p class="container-rating">
+                                    Matematica: 1200.</br>
+                                    Interpretacao: 122.</br>
+                                    Logica: 635.</br>
+                                </p><br>
+                            <section>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-span-3 row-span-20">
-
+            <div class="text-[2rem]"><b>Classificações</b></div>
+            <div id="checklist_classificacoes">
+                <input type="checkbox">
+                Biologia
+            </div>
+            </div>
         </div>
     </div>
     
