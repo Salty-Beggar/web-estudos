@@ -60,7 +60,8 @@ const postagens = [
                 rating: 200,
                 votos: 3
             }
-        ]
+        ],
+        voto: 0
     },
     {
         nome: 'Maus: Desenhos fofos com história trágica',
@@ -82,7 +83,8 @@ const postagens = [
                 rating: 700,
                 votos: 15
             }
-        ]
+        ],
+        voto: 0
     },
     {
         nome: 'França: Tomada da bastilha',
@@ -94,7 +96,8 @@ const postagens = [
                 rating: 800,
                 votos: 3
             }
-        ]
+        ],
+        voto: 0
     },
     {
         nome: 'Guerra Mundial',
@@ -116,7 +119,8 @@ const postagens = [
                 rating: 300,
                 votos: 5
             }
-        ]
+        ],
+        voto: 0
     },
     {
         nome: 'Como escrever redações: inicio',
@@ -128,7 +132,8 @@ const postagens = [
                 rating: 300,
                 votos: 5
             }
-        ]
+        ],
+        voto: 0
     },
     {
         nome: 'Gente oq é uma celula????',
@@ -145,7 +150,8 @@ const postagens = [
                 rating: 500,
                 votos: 3
             }
-        ]
+        ],
+        voto: 0
     },
     {
         nome: 'Questão ENEM Invertebrados',
@@ -162,9 +168,16 @@ const postagens = [
                 rating: 400,
                 votos: 6
             }
-        ]
+        ],
+        voto: 0
     }
 ]
+
+for (let i = 0; i < postagens.length; i++) {
+    for (let j = 0; j < postagens[i].classificacoes.length; j++) {
+        postagens[i].classificacoes[j].votoUser = 0;
+    }
+}
 
 const postDiv = `<div id="feed-container-main">
                     <div id="feed-container" data-owner="feed-container">
@@ -185,7 +198,7 @@ const postClassDiv = `:nome:
                                 Dificuldade: :dificuldade
                             </li>
                             <li>
-                                Votos: :votos <button class='voto_mais'>+</button><button class='voto_menos'>-</button>
+                                Votos: :votos <button class='voto_mais_:indice_:class'>+</button><button class='voto_menos_:indice_:class'>-</button>
                             </li>
                         </ul>`
 
@@ -227,7 +240,9 @@ function gerarPosts() {
             let strAtual = postClassDiv;
             strAtual = strAtual.replace(':nome', classificacoes[classificacaoAtual.class]);
             strAtual = strAtual.replace(':dificuldade', classificacaoAtual.rating);
-            strAtual = strAtual.replace(':votos', classificacaoAtual.votos);
+            strAtual = strAtual.replace(':votos', classificacaoAtual.votos + classificacaoAtual.votoUser);
+            strAtual = strAtual.replace(':indice', i);
+            strAtual = strAtual.replace(':class', classificacaoAtual.class);
             classificacoesString += strAtual;
         }
 
@@ -238,6 +253,29 @@ function gerarPosts() {
         postDivAtual = postDivAtual.replace(':classificacoes', classificacoesString);
 
         feedHeader.innerHTML += postDivAtual;
+    }
+
+    for (let i = 0; i < postagens.length; i++) {
+        const postagemAtual = postagens[i];
+        const classificacoesPostagem = postagemAtual.classificacoes;
+        for (let j = 0; j < classificacoesPostagem.length; j++) {
+            const classificacaoAtual = classificacoesPostagem[j];
+
+            const classificacaoVotoMaisClass = 'voto_mais_'+i+'_'+classificacaoAtual.class;
+            const classificacaoVotoMenosClass = 'voto_menos_'+i+'_'+classificacaoAtual.class;
+
+            const votoMaisDiv = document.getElementsByClassName(classificacaoVotoMaisClass)[0];
+            const votoMenosDiv = document.getElementsByClassName(classificacaoVotoMenosClass)[1];
+
+            votoMaisDiv.addEventListener('click', function() {
+                if (classificacaoAtual.votoUser != 1) classificacaoAtual.votoUser = 1;
+                else classificacaoAtual.votoUser = 0;
+            });
+            votoMenosDiv.addEventListener('click', function() {
+                if (classificacaoAtual.votoUser != -1) classificacaoAtual.votoUser = -1;
+                else classificacaoAtual.votoUser = 0;
+            });
+        }
     }
 }
 
