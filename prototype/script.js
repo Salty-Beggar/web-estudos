@@ -1,3 +1,6 @@
+const paginaFeed = 0;
+const paginaQuestao = 1;
+const paginaAtividade = 2;
 
 const paginas = [
     document.getElementsByClassName('pagina0')
@@ -191,6 +194,7 @@ const postDiv = `<div id="feed-container-main">
                     <div id="feed-container" data-owner="feed-container">
                         <section class="feed-container-data">
                             <h2 class="container-tittle">:nome</h2><button id='salvar_post_:indice'></button><br>
+                            <p class="container-type-user">Tipo: :tipo</p></br>
                             <p class="container-type-user">Usuário: :usuario (:cargo)</p></br>
                             <p class="container-date">Data de postagem: 20/06/2026</p></br>
                             <p class="container-rating">
@@ -258,6 +262,7 @@ function gerarPosts() {
 
         let postDivAtual = postDiv;
         postDivAtual = postDivAtual.replace(':nome', postagemAtual.nome);
+        postDivAtual = postDivAtual.replace(':tipo', postagemAtual.tipo);
         postDivAtual = postDivAtual.replace(':usuario', postagemAtual.usuario);
         postDivAtual = postDivAtual.replace(':cargo', postagemAtual.cargo);
         postDivAtual = postDivAtual.replace(':indice', i);
@@ -292,8 +297,9 @@ function gerarPosts() {
         }
 
         const botaoSalvar = $id('salvar_post_'+i);
-        botaoSalvar.addEventListener();
-        // RIGHT_NOW: Continuar criando o event listener.
+        botaoSalvar.addEventListener('click', function() {
+            postagemAtual.salvo = !postagemAtual.salvo;
+        });
     }
 }
 
