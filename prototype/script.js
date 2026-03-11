@@ -193,7 +193,7 @@ for (let i = 0; i < postagens.length; i++) {
 const postDiv = `<div id="feed-container-main">
                     <div id="feed-container" data-owner="feed-container">
                         <section class="feed-container-data">
-                            <h2 class="container-tittle">:nome</h2><button id='salvar_post_:indice'></button><br>
+                            <h2 class="container-tittle">:nome</h2><button id='salvar_post_:indice :salvar_selecionado'></button><br>
                             <p class="container-type-user">Tipo: :tipo</p></br>
                             <p class="container-type-user">Usuário: :usuario (:cargo)</p></br>
                             <p class="container-date">Data de postagem: 20/06/2026</p></br>
@@ -266,6 +266,7 @@ function gerarPosts() {
         postDivAtual = postDivAtual.replace(':usuario', postagemAtual.usuario);
         postDivAtual = postDivAtual.replace(':cargo', postagemAtual.cargo);
         postDivAtual = postDivAtual.replace(':indice', i);
+        if (postagemAtual.salvo) postDivAtual = postDivAtual.replace(':salvar_selecionado', 'selecionado');
         postDivAtual = postDivAtual.replace(':classificacoes', classificacoesString);
 
         feedHeader.innerHTML += postDivAtual;
