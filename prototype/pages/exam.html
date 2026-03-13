@@ -6,7 +6,269 @@
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="../styles/exam.css">
+    <style>
+        body{
+            height: 100vh;
+            width:auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .exam {
+            background-color: #f9f9f9;
+            height: auto;
+            width: 90%;
+            padding: 20px;
+            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+            margin: auto;
+            
+        }
+        .grades {
+            border: solid 1px #ccc;
+            padding: 5px;
+        }
+        .button-vote {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .exam-questions {
+            margin-top: 20px;
+            border: solid 1px #ccc;
+            padding: 20px;
+        }
+        hr{
+            margin: 20px 0;
+        }
+        textarea {
+            width: 100%;
+            height: 180px;
+            background-color: #efefef;
+        }
+        .options {
+            margin: 10px 0;
+        }
+        .buttom-comment{
+            border: solid 1px #ccc;
+            padding: 5px 10px;
+            cursor: pointer;
+            background-color: #007bff;
+        }
+        #container-blur {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* O segredo é backdrop-filter + fundo semi-transparente */
+            backdrop-filter: blur(8px); 
+            -webkit-backdrop-filter: blur(8px); /* Para Safari */
+            background-color: rgba(24, 24, 24, 0.6); /* Branco opaco */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .comentario{
+            background-color: #efefef;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .conteudo {
+            position: ;
+            background-color: white;
+            height: 80%;
+            width: 50%;
+            padding: 2%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        #comentarios-questoes {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            width: 50%;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .horario{
+            font-size: 0.8rem;
+            color: #888;
+            text-align: right;
+        }
+        #exit-buttom{
+            border-radius:100%;
+            position: relative;
+            top: 10px;
+            right: 10px;
+            background-color:red;
+            height:45px;
+            color:white;
+            aspect-ratio: 1/1;
+        }
+    </style>
 </head>
 <body>
+    <div class="exam">
+        <h1 class="exam-title">Prova de Português</h1>
+        <div id="user-info">
+            <p id="creator">Professor: Joao Gomer Romero</p>
+            <input type="checkbox" name="user" id="user1">
+            <label for="user1">Seguir</label>
+        </div>
+        <div class="exam-info">
+            <p id="date">Data: 20/06/2024</p>
+            <p id="duration">Materias</p>
+            <div class="grades">
+                <div class="grade" id="math">
+                    <p>Matematica</p>
+                    <p>Dificuldade:200</p>
+                    <div class="votes">
+                        <button class="button-vote upvote">Upvote</button>
+                        <span class="vote-count">0</span>
+                        <button class="button-vote downvote">Downvote</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="exam-questions">
+                <div class="question" question-type="unique-select">
+                    <h1 class="question-number">Questao 1.</h1>
+                    <p> (Enem/2017) Essas moças tinham o vezo de afirmar o contrário do que desejavam.\
+                        Notei a singularidade quando principiaram a elogiar o meu paletó cor de macaco.
+                        Examinavam-no sérias, achavam o pano e os aviamentos de qualidade superior, o feitio admirável. 
+                        Envaideci-me: nunca havia reparado em tais vantagens. Mas os gabos se prolongaram, trouxeram-me desconfiança. 
+                        Percebi afinal que elas zombavam e não me susceptibilizei. Longe disso: achei curiosa aquela maneira de falar
+                        pelo avesso, diferente das grosserias a que me habituara. Em geral me diziam com franqueza que a roupa não me 
+                        assentava no corpo, sobrava nos sovacos.RAMOS, G. Infância. Rio de Janeiro: Record, 1994.
+                        Por meio de recursos linguísticos, os textos mobilizam estratégias para introduzir e retomar ideias, 
+                        promovendo a progressão do tema. No fragmento transcrito, um novo aspecto do tema é introduzido pela 
+                        expressão
+                    </p>
+
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="question1" id="option1">
+                            <label for="option1">A)</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="question1" id="option2">
+                            <label for="option2">B)</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="question1" id="option3">
+                            <label for="option3">C)</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="question1" id="option4">
+                            <label for="option4">D)</label>
+                        </div>
+                    </div>
+                    <div class="batman">
+                        <button class="buttom-comment">Comentarios</button>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="question" question-type="multiple-select">
+                    <h1 class="question-number">Questao 2.</h1>
+                    <p> (Enem/2017) Essas moças tinham o vezo de afirmar o contrário do que desejavam.\
+                        Notei a singularidade quando principiaram a elogiar o meu paletó cor de macaco.
+                        Examinavam-no sérias, achavam o pano e os aviamentos de qualidade superior, o feitio admirável. 
+                        Envaideci-me: nunca havia reparado em tais vantagens. Mas os gabos se prolongaram, trouxeram-me desconfiança. 
+                        Percebi afinal que elas zombavam e não me susceptibilizei. Longe disso: achei curiosa aquela maneira de falar
+                        pelo avesso, diferente das grosserias a que me habituara. Em geral me diziam com franqueza que a roupa não me 
+                        assentava no corpo, sobrava nos sovacos.RAMOS, G. Infância. Rio de Janeiro: Record, 1994.
+                        Por meio de recursos linguísticos, os textos mobilizam estratégias para introduzir e retomar ideias, 
+                        promovendo a progressão do tema. No fragmento transcrito, um novo aspecto do tema é introduzido pela 
+                        expressão
+                    </p>
+
+                    <div class="options">
+                        <div class="option">
+                            <input type="checkbox" name="question2" id="option1">
+                            <label for="option1">A)</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="question2" id="option2">
+                            <label for="option2">B)</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="question2" id="option3">
+                            <label for="option3">C)</label>
+                        </div>
+                        <div class="option">
+                            <input type="checkbox" name="question2" id="option4">
+                            <label for="option4">D)</label>
+                        </div>
+                    </div>
+                    <div class="batman">
+                        <button class="buttom-comment">Comentarios</button>
+                    </div>
+                </div>
+
+                <hr>
+                <div class="question" question-type="descriptive">
+                    <h1 class="question-number">Questao 3.</h1>
+                    <p> (Enem/2017) Essas moças tinham o vezo de afirmar o contrário do que desejavam.\
+                        Notei a singularidade quando principiaram a elogiar o meu paletó cor de macaco.
+                        Examinavam-no sérias, achavam o pano e os aviamentos de qualidade superior, o feitio admirável. 
+                        Envaideci-me: nunca havia reparado em tais vantagens. Mas os gabos se prolongaram, trouxeram-me desconfiança. 
+                        Percebi afinal que elas zombavam e não me susceptibilizei. Longe disso: achei curiosa aquela maneira de falar
+                        pelo avesso, diferente das grosserias a que me habituara. Em geral me diziam com franqueza que a roupa não me 
+                        assentava no corpo, sobrava nos sovacos.RAMOS, G. Infância. Rio de Janeiro: Record, 1994.
+                        Por meio de recursos linguísticos, os textos mobilizam estratégias para introduzir e retomar ideias, 
+                        promovendo a progressão do tema. No fragmento transcrito, um novo aspecto do tema é introduzido pela 
+                        expressão
+                    </p>
+
+                    <div class="options">
+                        <textarea name="question3" id="question3"></textarea>
+                    </div>
+                    <div class="batman">
+                        <button class="buttom-comment">Comentarios</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div id="container-blur">
+        <div class="conteudo" user-comment="Usecei_7282">
+            <h2>Comentarios: </h2>
+            <button id="exit-buttom">✖</button>
+            <div class="comentario">
+                <p><b>Usecei_7282:</b> Oi, eu acho que a resposta certa é a letra A, porque...</p>
+                <p class="horario">13/03/2026 08:15</p>
+            </div>
+            <hr>
+            <div class="comentario">
+                <p><b>JoaoGomerRomero:</b> Olá Usecei_7282, obrigado pelo comentário! Na verdade, a resposta correta é a letra B, porque...</p>
+                <p class="horario">13/03/2026 09:30</p>
+            </div>
+            <hr>
+            <div class="comentario">
+                <p><b>Usecei_7282:</b> Ah, entendi! Obrigado pela explicação, professor!</p>
+                <p class="horario">13/03/2026 10:00</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        const buttonComment = document.querySelector('.buttom-comment');
+        const containerBlur = document.getElementById('container-blur');
+        const exitButton = document.getElementById('exit-buttom');
+
+        buttonComment.addEventListener('click', () => {
+            containerBlur.style.display = 'flex';
+        });
+
+        exitButton.addEventListener('click', () => {
+            containerBlur.style.display = 'none';
+        });
+    </script>
 </body>
 </html>
