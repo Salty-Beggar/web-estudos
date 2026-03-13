@@ -193,7 +193,7 @@ for (let i = 0; i < postagens.length; i++) {
 const postDiv = `<div id="feed-container-main">
                     <div id="feed-container" data-owner="feed-container">
                         <section class="feed-container-data">
-                            <h2 class="container-tittle">:nome</h2><button id='salvar_post_:indice :salvar_selecionado'></button><br>
+                            <h2 class="container-tittle">:nome</h2><button id='salvar_post_:indice' class=':salvar_selecionado'>Salvar</button><br>
                             <p class="container-type-user">Tipo: :tipo</p></br>
                             <p class="container-type-user">Usuário: :usuario (:cargo)</p></br>
                             <p class="container-date">Data de postagem: 20/06/2026</p></br>
@@ -299,7 +299,15 @@ function gerarPosts() {
 
         const botaoSalvar = $id('salvar_post_'+i);
         botaoSalvar.addEventListener('click', function() {
-            postagemAtual.salvo = !postagemAtual.salvo;
+            if (!postagemAtual.salvo) {
+                postagemAtual.salvo = true;
+                postsSalvos.push(i);
+            }else {
+                postagemAtual.salvo = false;
+                postsSalvos.splice(postsSalvos.indexOf(i), 1);
+            }
+            gerarSalvos();
+            gerarPosts();
         });
     }
 }
@@ -332,3 +340,33 @@ function gerarChecklistClass() {
 }
 
 gerarChecklistClass();
+
+const divSalvos = $id('tab_salvos');
+const divPostSalvo = `<div style="margin-top: 10px; margin-bottom: 20px">
+                    <h3>:titulo</h3>
+                    <i>:tipo</i><br>
+                    <i>Classificações</i>
+                    <ul>
+                        :classificacoes
+                    </ul>
+                </div>`
+
+postsSalvos = [];
+
+function gerarSalvos() {
+    divSalvos.innerHTML = '';
+    for (let i = 0; i < postsSalvos.length; i++) {
+        const postagemAtual = postagens[postsSalvos[i]];
+        let strAtual = divPostSalvo;
+        let strClassificacoes = '';
+        for (let j = 0; j < postagemAtual.classificacoes.length; j++) {
+            strClassificacoes += '<li>'+classificacoes[postagemAtual.classificacoes[j].class]+'</li>'
+        }
+        strAtual = strAtual.replace(':titulo', postagemAtual.nome);
+        strAtual = strAtual.replace(':tipo', postagemAtual.tipo);
+        strAtual = strAtual.replace(':classificacoes', strClassificacoes);
+        divSalvos.innerHTML += strAtual;
+    }
+}
+
+gerarSalvos();
