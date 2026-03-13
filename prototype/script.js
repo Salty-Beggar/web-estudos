@@ -1,6 +1,13 @@
+const body = document.getElementsByTagName('body')[0];
+
+body.addEventListener('keydown', (e) => {
+    console.log(e.key);
+    if (e.key === 'Escape') carregarPagina(0, paginaFeed);
+});
+
 const paginaFeed = 0;
 const paginaQuestao = 1;
-const paginaAtividade = 2;
+const paginaProva = 2;
 
 const paginas = [
     document.getElementsByClassName('pagina0')
@@ -9,14 +16,15 @@ const paginas = [
 function iniciarPaginas(pagIndex) {
     for (let index = 0; index < paginas[pagIndex].length; index++) {
         const element = paginas[pagIndex][index];
-        element.style.visibility = 'hidden';
+        element.style.display = 'none';
     }
 }
 
 let ultimaPagina = -1;
 function carregarPagina(pagIndex, indice) {
-    if (ultimaPagina != -1) paginas[pagIndex][ultimaPagina].style.visibility = 'hidden';
-    paginas[pagIndex][indice].style.visibility = 'visible';
+    if (ultimaPagina != -1) paginas[pagIndex][ultimaPagina].style.display = 'none';
+    paginas[pagIndex][indice].style.display = 'block';
+    if (pagIndex == 0 && indice == paginaFeed) paginas[pagIndex][indice].style.display = 'grid';
     ultimaPagina = indice;
 }
 
@@ -164,7 +172,7 @@ const postagens = [
     },
     {
         nome: 'Questão ENEM Invertebrados',
-        tipo: 'Atividade',
+        tipo: 'Questão',
         usuario: 'Lucas Andrade da Silva',
         cargo: 'Professor',
         classificacoes: [
@@ -191,9 +199,9 @@ for (let i = 0; i < postagens.length; i++) {
 }
 
 const postDiv = `<div id="feed-container-main">
-                    <div id="feed-container" data-owner="feed-container">
+                    <div id="feed-container" data-owner=Mito"feed-container">
                         <section class="feed-container-data">
-                            <h2 class="container-tittle">:nome</h2><button id='salvar_post_:indice' class=':salvar_selecionado'>Salvar</button><br>
+                            <h2 class="container-tittle" id="title_:indice">:nome</h2><button id='salvar_post_:indice' class=':salvar_selecionado'>Salvar</button><br>
                             <p class="container-type-user">Tipo: :tipo</p></br>
                             <p class="container-type-user">Usuário: :usuario (:cargo)</p></br>
                             <p class="container-date">Data de postagem: 20/06/2026</p></br>
@@ -265,7 +273,7 @@ function gerarPosts() {
         postDivAtual = postDivAtual.replace(':tipo', postagemAtual.tipo);
         postDivAtual = postDivAtual.replace(':usuario', postagemAtual.usuario);
         postDivAtual = postDivAtual.replace(':cargo', postagemAtual.cargo);
-        postDivAtual = postDivAtual.replace(':indice', i);
+        postDivAtual = postDivAtual.replaceAll(':indice', i);
         if (postagemAtual.salvo) postDivAtual = postDivAtual.replace(':salvar_selecionado', 'selecionado');
         postDivAtual = postDivAtual.replace(':classificacoes', classificacoesString);
 
@@ -309,6 +317,17 @@ function gerarPosts() {
             gerarSalvos();
             gerarPosts();
         });
+        const botaoTitulo = $id('title_'+i);
+        botaoTitulo.addEventListener('click', function() {
+            const tipoAtual = postagemAtual.tipo;
+            switch (tipoAtual) {
+                case 'Questão':
+                    carregarPagina(0, paginaQuestao);
+                    break;
+                case 'Prova':
+                    carregarPagina(0, paginaProva);
+            }
+        })
     }
 }
 

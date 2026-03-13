@@ -49,19 +49,17 @@
             font-size: 1.3rem;
         }
 
-
-
         li {
             margin-left: 30px;
         }
     </style>
 </head>
-<body>
-    <div class="pagina0 grid grid-cols-12 grid-rows-20 gap-1">
-        <div class="col-span-12 row-span-1 text-center text-[30px]">
-            <b>Rede Social de Estudos</b>
-        </div>
-        <div class="col-span-3 row-span-20">
+<body style="height: 100vh">
+    <div class="col-span-12 row-span-1 text-center text-[30px]">
+        <b>Rede Social de Estudos</b>
+    </div>
+    <div class="pagina0 grid grid-cols-12 grid-rows-5 gap-1">
+        <div class="col-span-3 row-span-5">
             <div>
                 <!-- <button id="MEUS-CURSOS">meus cursos</button>
                 <button id="MINHAS-ATIVIDADES">minhas atividades</button>
@@ -82,7 +80,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-span-6 row-span-20">
+        <div class="col-span-6 row-span-5" style="overflow: scroll;">
             <div>
                 <header id="feed-header">
                     <div id="material-buttons flex d">
@@ -147,7 +145,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-span-3 row-span-20">
+        <div class="col-span-3 row-span-5">
             <div class="text-[2rem]"><b>Classificações</b></div>
             <div id="checklist_classificacoes">
                 <input type="checkbox">
@@ -157,16 +155,46 @@
         </div>
     </div>
     
-    <div class="pagina1"> <!-- Questão -->
+    <div class="pagina0"> <!-- Questão -->
+        <div>
+            Pressione ESC para voltar ao feed
+        </div>
+        <div class="question" type="question" question-type="select">
+            <h1 class="question-number">Questao 1.</h1>
+            <p>texto aleatorio pra encher linguica com nada de importante
+            texto aleatorio pra encher linguica com nada de importante
+            texto aleatorio pra encher linguica com nada de importante
+            texto aleatorio pra encher linguica com nada de importante
+            texto aleatorio pra encher linguica com nada de importante
+            texto aleatorio pra encher linguica com nada de importante</p>
+
+            <div class="options">
+                <div class="option">
+                    <input type="radio" name="question1" id="option1">
+                    <label for="option1">A)</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="question1" id="option2">
+                    <label for="option2">B)</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="question1" id="option3">
+                    <label for="option3">C)</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="question1" id="option4">
+                    <label for="option4">D)</label>
+                </div>
+
+        </div>
+    </div>
+    <div class="pagina0"> <!-- Prova -->
 
     </div>
-    <div class="pagina2"> <!-- Prova -->
+    <div class="pagina0"> <!-- Artigo -->
 
     </div>
-    <div class="pagina1"> <!-- Artigo -->
-
-    </div>
-    <div class="pagina1"> <!-- Post Social -->
+    <div class="pagina0"> <!-- Post Social -->
 
     </div>
     
