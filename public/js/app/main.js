@@ -1,0 +1,1 @@
+import '/web-estudos/public/js/app/router.js'
