@@ -1,1 +1,1 @@
-import '/web-estudos/public/js/app/router.js'
+import '/KnowledgeHub/public/js/app/router.js'

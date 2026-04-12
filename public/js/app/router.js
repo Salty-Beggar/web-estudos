@@ -1,8 +1,8 @@
-import { LoadHomePage } from '/web-estudos/public/js/pages/home.js'; 
+import { LoadHomePage } from '/KnowledgeHub/public/js/pages/home.js'; 
 
 async function LoadHtmlPage(namePageHtml){
     const root = document.getElementById('root');    
-    const resposta = await fetch(`/web-estudos/public/pages/${namePageHtml}.html`);
+    const resposta = await fetch(`/KnowledgeHub/public/pages/${namePageHtml}.html`);
     const dados = await resposta.text();
     root.innerHTML = dados;
 }
@@ -14,7 +14,7 @@ function LoadCssPage(namePageCss){
     const newCss = document.createElement("link");
     newCss.id = 'cssPage';
     newCss.rel = "stylesheet";
-    newCss.href = `/web-estudos/public/css/${namePageCss}.css`
+    newCss.href = `/KnowledgeHub/public/css/${namePageCss}.css`
     head.appendChild(newCss);
 }
 
@@ -34,14 +34,14 @@ async function LoadFuncPage(page, param){
 
 class Rotas {
     rotas = [];
-
     constructor(){
         this.rotas = [
             {regex : /^\/Home$/, page: "home"}, 
         ]
     }
+    
     async executar(){
-        const url = window.location.pathname.replace("/EstudosWeb", "");
+        const url = window.location.pathname.replace("/KnowledgeHub", "");
         const urlFormatada = decodeURIComponent(url);
         for (const rota of this.rotas) {
             if(rota.regex.test(urlFormatada)){
@@ -50,7 +50,7 @@ class Rotas {
                 return;
             }
         }
-        history.pushState(null,null,"/EstudosWeb/Home");
+        history.pushState(null,null,"Home");
         await LoadFuncPage('home',null);
     }
 }

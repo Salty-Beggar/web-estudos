@@ -1,3 +1,97 @@
-h1{
-    color: blue;
+/* === Header === */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    padding: 0 24px;
+    background-color: #3e2723;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Nav (menu + home) */
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* === Buttons === */
+.btn-header {
+    height: 36px;
+    padding: 0 16px;
+    border: none;
+    border-radius: 20px;
+    background-color: #6d4c41;
+    color: #fdf6ec;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-header:hover {
+    background-color: #8d6e63;
+}
+
+.btn-header:active {
+    background-color: #4e342e;
+    transform: scale(0.96);
+}
+
+.btn-menu {
+    font-size: 1.1rem;
+    padding: 0 12px;
+}
+
+/* === Search === */
+.header-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    max-width: 720px;
+    margin: 0 24px;
+}
+
+.search-input {
+    flex: 1;
+    height: 36px;
+    padding: 0 14px;
+    border: none;
+    border-radius: 20px;
+    background-color: #f5ebe0;
+    color: #3e2723;
+    font-size: 0.85rem;
+    outline: none;
+    transition: box-shadow 0.2s;
+}
+
+.search-input::placeholder {
+    color: #8d6e63;
+}
+
+.search-input:focus {
+    box-shadow: 0 0 0 2px #a1887f;
+}
+
+/* === User === */
+.header-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-name {
+    color: #fdf6ec;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #8d6e63;
 }
