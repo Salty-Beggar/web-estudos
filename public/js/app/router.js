@@ -1,35 +1,35 @@
-import { LoadHomePage } from '/KnowledgeHub/public/js/pages/home.js'; 
+import { load_home_page } from '/KnowledgeHub/public/js/pages/home.js'; 
+const root = document.getElementById('root');    
 
-async function LoadHtmlPage(namePageHtml){
-    const root = document.getElementById('root');    
-    const resposta = await fetch(`/KnowledgeHub/public/pages/${namePageHtml}.html`);
-    const dados = await resposta.text();
-    root.innerHTML = dados;
+async function load_html_page(name_page_html){
+    const response = await fetch(`/KnowledgeHub/public/pages/${name_page_html}.html`);
+    const data = await response.text();
+    root.innerHTML = data;
 }
 
-function LoadCssPage(namePageCss){
-    const oldCss = document.getElementById('cssPage');
-    if(oldCss) oldCss.remove();
+function load_css_page(name_page_css){
+    const old_css = document.getElementById('cssPage');
+    if(old_css) old_css.remove();
     const head = document.querySelector("head");
-    const newCss = document.createElement("link");
-    newCss.id = 'cssPage';
-    newCss.rel = "stylesheet";
-    newCss.href = `/KnowledgeHub/public/css/${namePageCss}.css`
-    head.appendChild(newCss);
+    const new_css = document.createElement("link");
+    new_css.id = 'cssPage';
+    new_css.rel = "stylesheet";
+    new_css.href = `/KnowledgeHub/public/css/${name_page_css}.css`
+    head.appendChild(new_css);
 }
 
-async function LoadFuncPage(page, param){
-    const relacoes = {
+async function load_func_page(page, param){
+    const relations = {
         home : {
-            css: (page) => LoadCssPage(page), 
-            html: (page) => LoadHtmlPage(page), 
-            func: (param) => LoadHomePage(param)
+            css: (page) => load_css_page(page), 
+            html: (page) => load_html_page(page), 
+            func: (param) => load_home_page(param)
         }
     }
-    const dataPage = relacoes[page];
-    dataPage.css(page);
-    await dataPage.html(page);
-    dataPage.func(param);
+    const data_page = relations[page];
+    data_page.css(page);
+    await data_page.html(page);
+    data_page.func(param);
 }
 
 class Rotas {
@@ -42,16 +42,16 @@ class Rotas {
     
     async executar(){
         const url = window.location.pathname.replace("/KnowledgeHub", "");
-        const urlFormatada = decodeURIComponent(url);
-        for (const rota of this.rotas) {
-            if(rota.regex.test(urlFormatada)){
-                const params = urlFormatada.match(rota.regex)
-                await LoadFuncPage(rota.page, params);
+        const url_formatada = decodeURIComponent(url);
+        for (const route of this.rotas) {
+            if(route.regex.test(url_formatada)){
+                const params = url_formatada.match(route.regex)
+                await load_func_page(route.page, params);
                 return;
             }
         }
         history.pushState(null,null,"Home");
-        await LoadFuncPage('home',null);
+        await load_func_page('home',null);
     }
 }
 const routes = new Rotas();
