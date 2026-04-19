@@ -1,6 +1,6 @@
 services:
   web:
-    image: saltybeggar/web-estudos
+    image: saltybeggar/web-estudos:latest
     ports:
       - "8000:80"
     volumes:
