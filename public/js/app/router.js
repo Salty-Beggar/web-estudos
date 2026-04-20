@@ -1,4 +1,4 @@
-import { load_home_page } from '/KnowledgeHub/public/js/pages/home.js'; 
+import { load_home_page } from "/KnowledgeHub/public/js/pages/home.js"; 
 const root = document.getElementById('root');    
 
 async function load_html_page(name_page_html){
@@ -14,10 +14,10 @@ function load_css_page(name_page_css){
     const new_css = document.createElement("link");
     new_css.id = 'cssPage';
     new_css.rel = "stylesheet";
-    new_css.href = `/KnowledgeHub/public/css/${name_page_css}.css`
+    new_css.href = `/KnowledgeHub/public/css/${name_page_css}.css`;
     head.appendChild(new_css);
 }
-
+// console.log("oi")
 async function load_func_page(page, param){
     const relations = {
         home : {
@@ -43,6 +43,7 @@ class Rotas {
     async executar(){
         const url = window.location.pathname.replace("/KnowledgeHub", "");
         const url_formatada = decodeURIComponent(url);
+        // console.log(url_formatada)
         for (const route of this.rotas) {
             if(route.regex.test(url_formatada)){
                 const params = url_formatada.match(route.regex)
