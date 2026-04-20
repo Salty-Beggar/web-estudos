@@ -8,7 +8,18 @@ CREATE TABLE usuarios (
 
 CREATE TABLE usuarios_posts (
     id bigint unique auto_increment,
-    
+
+);
+
+CREATE TABLE usuarios_posts_categorias (
+    id bigint unique auto_increment,
+    usuario_id bigint not null,
+    post_id bigint not null,
+    categoria_id bigint not null,
+    voto int null,
+    foreign key (usuario_id) references (usuarios.id),
+    foreign key (post_id) references (posts.id),
+    foreign key (categoria_d) references (categorias.id)
 );
 
 CREATE TABLE posts (
@@ -35,9 +46,20 @@ CREATE TABLE artigos (
     corpo text not null
 );
 
+CREATE TABLE posts_categorias(
+    id bigint auto_increment unique,
+    post_id bigint not null,
+    categoria_id bigint not null,
+    votos bigint not null,
+    foreign key (post_id) references (posts.id),
+    foreign key (categoria_id) references (categorias.id),
+    primary key (post_id, categoria_id)
+);
+
 CREATE TABLE categorias (
     id bigint not null,
     nome varchar(200) not null,
+    descricao text not null
 );
 
 CREATE TABLE categorias_categorias (
