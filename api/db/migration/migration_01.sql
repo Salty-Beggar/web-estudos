@@ -8,6 +8,13 @@ CREATE TABLE usuarios (
 
 CREATE TABLE usuarios_posts (
     id bigint unique auto_increment,
+    usuario_id bigint not null,
+    post_id bigint not null,
+    foreign key (usuario_id) references (usuarios.id),
+    foreign key (post_id) references (posts.id),
+    primary key (usuario_id, post_id),
+
+    favorito boolean not null,
 
 );
 
@@ -16,23 +23,30 @@ CREATE TABLE usuarios_posts_categorias (
     usuario_id bigint not null,
     post_id bigint not null,
     categoria_id bigint not null,
-    voto int null,
     foreign key (usuario_id) references (usuarios.id),
     foreign key (post_id) references (posts.id),
-    foreign key (categoria_d) references (categorias.id)
+    foreign key (categoria_id) references (categorias.id),
+    primary key (usuario_id, post_id, categoria_id),
+
+    voto int null,
 );
 
 CREATE TABLE posts (
     id bigint auto_increment primary key,
-    titulo varchar(200) null
+
+    titulo varchar(200) null,
+    data_criacao date not null,
+    nivel_publicidade enum('publico', 'privado') -- Não ideal fazer isso!
 );
 
-CREATE TABLE posts_mensagens (
+CREATE TABLE posts_comentarios (
     id bigint auto_increment primary key,
     post_id bigint not null,
     usuario_id bigint not null,
     foreign key (post_id) references (posts.id),
-    foreign key (usuario_id) references (usuarios.id)
+    foreign key (usuario_id) references (usuarios.id),
+
+    data_criacao date not null,
 );
 
 CREATE TABLE cursos (
@@ -71,5 +85,9 @@ CREATE TABLE categorias_categorias (
     primary key (categoria_id, subcategoria_id)
 );
 
-
+CREATE TABLE feeds (
+    id bigint not null unique,
+    usuario_id bigint not null,
+    foreign key (usuario_id) references (usuarios.id),
+);
 
