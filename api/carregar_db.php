@@ -18,6 +18,12 @@ class DB {
         $comando->setFetchMode(PDO::FETCH_CLASS, $model);
         $comando->execute();
         return $comando->fetchAll();
+    public static function raw(string $sql, Array $params, ?string $model) {
+        $comando = self::$pdo->prepare($sql, $params);
+        if (!empty($model)) $comando->setFetchMode(PDO::FETCH_CLASS, $model);
+        $comando->execute();
+        if (!empty($model)) return $comando->fetchAll();
+        return true;
     }
 }
 
