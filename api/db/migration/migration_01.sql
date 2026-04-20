@@ -6,6 +6,11 @@ CREATE TABLE usuarios (
     foto varchar(200) not null
 );
 
+CREATE TABLE usuarios_posts (
+    id bigint unique auto_increment,
+    
+);
+
 CREATE TABLE posts (
     id bigint auto_increment primary key,
     titulo varchar(200) null
@@ -35,7 +40,7 @@ CREATE TABLE categorias (
     nome varchar(200) not null,
 );
 
-CREATE TABLE categoras_categorias (
+CREATE TABLE categorias_categorias (
     id bigint not null unique,
     categoria_id bigint not null,
     subcategoria_id bigint not null,
