@@ -7,12 +7,17 @@ class DB {
         self::$pdo = new PDO("mariadb:host=localhost;dbname=web_estudos", "root", "");
     }
 
-    public static function raw(string $sql, Array $params, ?string $model) {
+    public static function executar(string $sql, Array $params) {
         $comando = self::$pdo->prepare($sql, $params);
-        if (!empty($model)) $comando->setFetchMode(PDO::FETCH_CLASS, $model);
         $comando->execute();
-        if (!empty($model)) return $comando->fetchAll();
-        return true;
+        return $comando;
+    }
+
+    public static function query(string $sql, Array $params, string $model) {
+        $comando = self::$pdo->prepare($sql, $params);
+        $comando->setFetchMode(PDO::FETCH_CLASS, $model);
+        $comando->execute();
+        return $comando->fetchAll();
     }
 }
 
