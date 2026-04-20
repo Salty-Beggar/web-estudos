@@ -10,14 +10,14 @@
 }
 
 /* Nav (menu + home) */
-.header-nav {
+.header_nav {
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
 /* === Buttons === */
-.btn-header {
+.btn_header {
     height: 36px;
     padding: 0 16px;
     border: none;
@@ -30,22 +30,22 @@
     transition: background-color 0.2s, transform 0.1s;
 }
 
-.btn-header:hover {
+.btn_header:hover {
     background-color: #8d6e63;
 }
 
-.btn-header:active {
+.btn_header:active {
     background-color: #4e342e;
     transform: scale(0.96);
 }
 
-.btn-menu {
+.btn_menu {
     font-size: 1.1rem;
     padding: 0 12px;
 }
 
 /* === Search === */
-.header-search {
+.header_search {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -54,7 +54,7 @@
     margin: 0 24px;
 }
 
-.search-input {
+.search_input {
     flex: 1;
     height: 36px;
     padding: 0 14px;
@@ -67,28 +67,28 @@
     transition: box-shadow 0.2s;
 }
 
-.search-input::placeholder {
+.search_input::placeholder {
     color: #8d6e63;
 }
 
-.search-input:focus {
+.search_input:focus {
     box-shadow: 0 0 0 2px #a1887f;
 }
 
 /* === User === */
-.header-user {
+.header_user {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.user-name {
+.user_name {
     color: #fdf6ec;
     font-size: 0.9rem;
     font-weight: 500;
 }
 
-.user-avatar {
+.user_avatar {
     width: 36px;
     height: 36px;
     border-radius: 50%;
