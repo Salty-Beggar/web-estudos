@@ -1,2 +1,4 @@
-**/Dockerfile
-**.md
+*/Dockerfile
+Dockerfile
+*.md
+*/*.md
