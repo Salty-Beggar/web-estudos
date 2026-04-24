@@ -1,6 +1,5 @@
 <?php
 
-<<<<<<< HEAD
 class DB {
     private static $pdo;
 
@@ -20,17 +19,10 @@ class DB {
         $comando->execute();
         return $comando->fetchAll();
     }
-}
 
-DB::conectarBanco();
-=======
-public static class DB {
-    public static $pdo;
-    static function connect() {
-        self::$pdo = new PDO('host=localhost;db=', '');
-    }
     static function tabelaColunas($tabela) {
 
     }
 }
->>>>>>> 7d4a158 (Parallel changes)
+
+DB::conectarBanco();

@@ -7,7 +7,6 @@ CREATE TABLE usuarios (
     biografia text null
 );
 
-<<<<<<< HEAD
 CREATE TABLE usuarios_posts (
     id bigint unique auto_increment,
     usuario_id bigint not null,
@@ -17,13 +16,13 @@ CREATE TABLE usuarios_posts (
     primary key (usuario_id, post_id),
 
     favorito boolean not null,
+);
 
-=======
 CREATE TABLE posts (
     id bigint auto_increment primary key,
     titulo varchar(200) null,
     data_criacao date not null,
->>>>>>> 7d4a158 (Parallel changes)
+    nivel_publicidade enum('publico', 'privado') -- Não ideal fazer isso!
 );
 
 CREATE TABLE usuarios_posts_categorias (
@@ -39,34 +38,15 @@ CREATE TABLE usuarios_posts_categorias (
     voto int null,
 );
 
-CREATE TABLE posts (
-    id bigint auto_increment primary key,
-
-    titulo varchar(200) null,
-    data_criacao date not null,
-    nivel_publicidade enum('publico', 'privado') -- Não ideal fazer isso!
-);
-
 CREATE TABLE posts_comentarios (
     id bigint auto_increment primary key,
     post_id bigint not null,
     usuario_id bigint not null,
     foreign key (post_id) references (posts.id),
     foreign key (usuario_id) references (usuarios.id),
-<<<<<<< HEAD
 
     data_criacao date not null,
-=======
     primary key (post_id, usuario_id)
-);
-
-CREATE TABLE posts_categorias (
-    id bigint auto_increment unique not null,
-    post_id bigint not null,
-    categoria_id bigint not null,
-    votos_total int not null,
-    dificuldade int not null
->>>>>>> 7d4a158 (Parallel changes)
 );
 
 CREATE TABLE cursos (
@@ -97,11 +77,8 @@ CREATE TABLE categorias (
 );
 
 CREATE TABLE categorias_categorias (
-<<<<<<< HEAD
     id bigint not null unique,
-=======
     id bigint auto_increment not null unique,
->>>>>>> 7d4a158 (Parallel changes)
     categoria_id bigint not null,
     subcategoria_id bigint not null,
     votos bigint not null,
@@ -109,13 +86,11 @@ CREATE TABLE categorias_categorias (
     primary key (categoria_id, subcategoria_id)
 );
 
-<<<<<<< HEAD
 CREATE TABLE feeds (
     id bigint not null unique,
     usuario_id bigint not null,
     foreign key (usuario_id) references (usuarios.id),
 );
-=======
 CREATE TABLE usuarios_posts (
     id bigint auto_increment not null unique,
     usuario_id bigint not null,
@@ -128,6 +103,5 @@ CREATE TABLE usuarios_posts_categorias (
     post_id bigint not null,
     categoria_id bigint not null,
     voto int null,
->>>>>>> 7d4a158 (Parallel changes)
 
 );
