@@ -1,8 +1,9 @@
 <?php
 
-<<<<<<< HEAD
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+
 require_once "carregar_db.php";
 require_once "carregar_router.php";
-=======
-require_once './carregar_db.php';
->>>>>>> 7d4a158 (Parallel changes)
+
+echo "TESTING";

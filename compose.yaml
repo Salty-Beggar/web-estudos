@@ -1,9 +1,22 @@
 services:
   web:
-    build: ./public/
+    build: ./public
     ports:
       - "8000:80"
     volumes:
       - type: bind
-        source: .
+        source: ./public
         target: /var/www/html
+  api:
+    build: ./api
+    ports:
+      - "8010:80"
+    volumes:
+      - type: bind
+        source: ./api
+        target: /var/www/html
+  db:
+    image: mariadb:latest
+    ports:
+      - "3306:3306"
+    
