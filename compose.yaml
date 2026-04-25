@@ -16,7 +16,11 @@ services:
         source: ./api
         target: /var/www/html
   db:
-    image: mariadb:latest
-    ports:
-      - "3306:3306"
+    build: ./api/db
+    volumes:
+      - type: volume
+        source: db-data
+        target: /var/lib/mysql
+volumes:
+  db-data:
     

@@ -2,6 +2,10 @@
 
 class Router {
 
+    private function criarRota(String $method, ) {
+
+    }
+
     public function get() {
 
     }
