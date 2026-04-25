@@ -1,0 +1,3 @@
+- Decidir se o sistema de migrations será feito em Python.
+- Usar o Redis.
+- PARA_AGORA: Desenvolver o sistema de migrations, e depois concluir a rota de carregar o feed.

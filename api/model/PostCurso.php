@@ -2,6 +2,6 @@
 
 require_once './Post.php';
 
-public class PostCurso extends Post {
+class PostCurso extends Post {
     
 }
