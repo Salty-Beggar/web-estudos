@@ -62,3 +62,9 @@ a senha deve conter no minimo 8 caracteres, uma letra maiuscula, uma letra minus
 - genero_servidor_voto
 - genero_arquivo_voto
 - genero_video_voto
+
+### 22/04/2026 07:41
+
+primeiro objetivo
+
+- objetivo: criar pagina de login.
