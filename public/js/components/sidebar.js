@@ -1,4 +1,4 @@
-export async function create_sidebar(user_id){
+export async function render_sidebar(user_id){
     const sidebar = document.createElement("aside");
     const data_objects = await Promise.all([ 
         fetch_servers(user_id), 
@@ -7,6 +7,7 @@ export async function create_sidebar(user_id){
         fetch_groups(user_id), 
         fetch_chats(user_id)
     ]);
+    await fetch_dados_user()
 
     const relation = {
         "Servidores" : "/servers/",
@@ -70,15 +71,13 @@ export async function create_sidebar(user_id){
     return sidebar;
 }
 
-async function fetch_servers(user_id){
+async function fetch_dados_user(){
     // const data = await fetch(`/KnowledgeHub/api/servers/${user_id}`);  
     // const response = await data.json();
-    const object = {
-        data : response ?? [],
-        tittle : "Servidores",
-        empty_message : "Voce nao esta participando de nenhum servidor"
-    };
-    return object;
+    const usuario = localStorage.getItem("usuario")
+    const id = usuario.id;
+    const dados = await fetch(`/KnowledgeHub/backend_merda/usuario/${id}`)
+    console.log(JSON.parse(dados))
 }
 
 async function fetch_courses(user_id){

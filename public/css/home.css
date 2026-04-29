@@ -5,7 +5,7 @@
     justify-content: space-between;
     height: 64px;
     padding: 0 24px;
-    background-color: #3e2723;
+    background-color: #585858;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
@@ -22,7 +22,7 @@
     padding: 0 16px;
     border: none;
     border-radius: 20px;
-    background-color: #6d4c41;
+    background-color: #454545;
     color: #fdf6ec;
     font-size: 0.85rem;
     font-weight: 500;
@@ -31,11 +31,11 @@
 }
 
 .btn_header:hover {
-    background-color: #8d6e63;
+    background-color: #b3b3b3;
 }
 
 .btn_header:active {
-    background-color: #4e342e;
+    background-color: #1e1e1e;
     transform: scale(0.96);
 }
 

@@ -50,19 +50,25 @@ class Rotas {
         const url = window.location.pathname.replace("/KnowledgeHub/public", "");
         const url_formatada = decodeURIComponent(url);
         for (const route of this.rotas) {
-            // console.log(route.regex)
             if(route.regex.test(url_formatada)){
-                // console.log(url_formatada)
                 const params = url_formatada.match(route.regex)
                 await load_func_page(route.page, params);
                 return;
             }
         }
 
-        history.pushState(null,null,"Home");
-        await load_func_page('home',null);
+        history.pushState(null,null,"Login");
+        await load_func_page('login',null);
     }
 }
-const routes = new Rotas();
+export const routes = new Rotas();
 window.addEventListener('popstate', () =>  routes.executar());
 window.addEventListener("load", () =>  routes.executar());
+window.addEventListener("keydown", async (evento) => {
+    //limpar o localStorage para teste tecla K + I
+    if(evento.key === "i" && evento.key === "k"){
+        localStorage.clear();
+        history.pushState(null,null,"Login");
+        await routes.executar();
+    }
+})

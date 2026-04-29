@@ -12,7 +12,7 @@ export function render_header(user){
         </form>
 
         <div class="header_user">
-            <span class="user_name">${user.name}</span>
+            <span class="user_name">${user.nome}</span>
             <img class="user_avatar" src="${user.img}" alt="Avatar do usuário">
         </div>
     </header>`;

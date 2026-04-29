@@ -1,3 +1,74 @@
-#login_caixa{
-    height: 50vh;
+#root{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+#containder_de_login{
+    height: auto;
+    color: white;
+    width: 30vw;
+    min-width: 300px;
+    max-width: 350px;
+    background-color: #4c4c4c;
+    border-radius: 20px;
+    padding: 10px;
+    gap:5px;
+    display: flex;
+    flex-direction: column;
+}
+h1, h2{
+    text-align: center;
+}
+#botao_de_logar{
+    margin-top: 5px;
+}
+#formulario_de_login{
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    height: 100%;
+    width: 100%;
+    gap: 5px;
+}
+.campo_de_login{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    height: 60px;
+}
+input{
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    background-color: #e7e7e7;
+    text-align: center;
+}
+p{
+    text-align: center;
+    font-size: 12px;
+    margin: 5px;
+}
+.botao_padrao{
+    height: 35px;
+    border-radius: 10px;
+    border: none;
+    background-color: #a2a2a2;
+    width: 100%;
+}
+.botao_padrao:hover{
+    background-color: #d3d3d3;
+    cursor: pointer;
+    transform: scale(1.01);
+}
+/* #opcoes_login{
+    display: flex;
+    gap: 5px;
+    flex-direction: row;
+} */
+#campo_mostrar_senha{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
