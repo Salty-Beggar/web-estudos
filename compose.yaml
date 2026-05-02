@@ -1,6 +1,7 @@
 services:
   web:
     build: ./public
+    build: ./public
     ports:
       - "8000:80"
     volumes:
