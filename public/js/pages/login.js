@@ -1,4 +1,4 @@
-import {routes} from "/KnowledgeHub/public/js/app/router.js";
+import {routes} from "/js/app/router.js";
 
 export async function load_login_page(param){
     const form_login = document.getElementById("formulario_de_login");
@@ -13,7 +13,7 @@ async function buscar_usuario(evento){//nao foi verificada ainda e nao esta func
     const formulario = evento.target;
     const senha = formulario.usuario_senha.value;
     const email = formulario.usuario_email.value;
-    const resposta = await fetch("http://localhost:3000/backend_merda/usuario",{ //isso esta comentado por que ainda nao ha backend ent so causaria erro deixar assim sera usado um json por enquanto
+    const resposta = await fetch("http://localhost:3000/usuario",{ //isso esta comentado por que ainda nao ha backend ent so causaria erro deixar assim sera usado um json por enquanto
         method:"POST",headers: {"Content-Type":"application/json"},body: JSON.stringify({email, senha})
     })
     

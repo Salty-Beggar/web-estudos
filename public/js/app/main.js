@@ -1,2 +1,2 @@
 // console.log("oi")
-import "/KnowledgeHub/public/js/app/router.js";
+import "/js/app/router.js";

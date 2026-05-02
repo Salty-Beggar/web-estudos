@@ -1,125 +1,114 @@
-export async function render_sidebar(user_id){
-    const sidebar = document.createElement("aside");
-    const data_objects = await Promise.all([ 
-        fetch_servers(user_id), 
-        fetch_courses(user_id), 
-        fetch_friends(user_id), 
-        fetch_groups(user_id), 
-        fetch_chats(user_id)
-    ]);
-    await fetch_dados_user()
+export async function render_barra_lateral(){
+    const dados_usuario = await fetch_dados_user()
+    return criar_barra_lateral(dados_usuario);
+}
+function criar_barra_lateral(dados_usuario){
+    const barra_lateral = document.createElement("aside")
+    barra_lateral.setAttribute("id","barra_lateral")
 
-    const relation = {
-        "Servidores" : "/servers/",
-        "Cursos" : "/courses/",
-        "Amigos" : "/friends/",
-        "Grupos" : "/groups/",
-        "Chats" : "/chats/"
-    };
+    Object.entries(dados_usuario).forEach(([index,valores]) => {
+        const sessao_item = document.createElement("section")
+        sessao_item.classList.add("sessao_barra_lateral")
 
-    data_objects.forEach((object) => {
-        if(object.data.length == 0){
-            const section = document.createElement("section"); 
-            const sub_tittle = document.createElement("h2"); 
-            const paragraph = document.createElement("p");
-            
-            section.classList.add("sidebar-section");
-            sub_tittle.classList.add("sidebar-section-tittle");
-            paragraph.classList.add("sidebar-section-paragraph");
-            
-            sub_tittle.innerText = object.tittle;
-            paragraph.innerText = object.empty_message;
-            
-            section.appendChild(sub_tittle);
-            section.appendChild(paragraph);
-            sidebar.appendChild(section);
-        }else{
-            const section = document.createElement("section"); 
-            const sub_tittle = document.createElement("h2"); 
-            
-            sidebar.appendChild(section);
-            section.appendChild(sub_tittle);
+        const titulo_sessao = document.createElement("h2")
+        titulo_sessao.classList.add("titulo_sessao")
+        
+        const corpo_sessao = document.createElement("div")
+        corpo_sessao.classList.add("corpo_sessao")
 
-            section.classList.add("sidebar-section");
-            sub_tittle.classList.add("sidebar-section-tittle");
-            sub_tittle.innerText = object.tittle;
-            for(let item of object.data){
-                const item_div = document.createElement("div");
-                const item_img = document.createElement("img");
-                const item_tittle = document.createElement("p");
+        barra_lateral.appendChild(sessao_item);
+        sessao_item.appendChild(titulo_sessao);
+        sessao_item.appendChild(corpo_sessao);
 
-                item_img.src = item.path_picture;
-                item_tittle.innerText = item.name;
-
-                item_div.appendChild(item_img);
-                item_div.appendChild(item_tittle);
-                section.appendChild(item_div);
-
-                item_div.classList.add("sidebar-item");
-                item_img.classList.add("sidebar-item-img");
-                item_tittle.classList.add("sidebar-item-tittle");
-
-                item_div.addEventListener("click", () => {
-                    if(object.tittle in relation){
-                        history.pushState(null, null, `/KnowledgeHub${relation[object.tittle]}${item.id}`);
-                    }
-                });
-
-            }
-        }
+        sessao_item.setAttribute("id",`sessao_${index}`)
+        titulo_sessao.innerText = index
+        inserir_dados(corpo_sessao, [index,valores])
     });
-    return sidebar;
+    return barra_lateral;
 }
+function inserir_dados(corpo_sessao, itens){
+    itens[1].forEach(item => {
+        const amigo = document.createElement("div")
+        amigo.classList.add("item_barra_lateral")
 
+        const avatar = document.createElement("img")
+        avatar.classList.add("imagem_item_barra_lateral")
+
+        const nome = document.createElement("p")
+        nome.classList.add("nome_item_barra_lateral")
+
+        corpo_sessao.appendChild(amigo)
+        amigo.appendChild(avatar)
+        amigo.appendChild(nome)
+
+        nome.innerText = item.nome
+        avatar.src = item.img            
+    });
+}
 async function fetch_dados_user(){
-    // const data = await fetch(`/KnowledgeHub/api/servers/${user_id}`);  
-    // const response = await data.json();
-    const usuario = localStorage.getItem("usuario")
-    const id = usuario.id;
-    const dados = await fetch(`/KnowledgeHub/backend_merda/usuario/${id}`)
-    console.log(JSON.parse(dados))
-}
+    const usuario_storage = JSON.parse(localStorage.getItem("usuario"))
+    const id = usuario_storage.id;
+    const resposta = await fetch(`http://localhost:3000/usuario/${id}`)
+    const dados = await resposta.json();
+    const usuario = dados.usuario;
 
-async function fetch_courses(user_id){
-    // const data = await fetch(`/KnowledgeHub/api/courses/${user_id}`);  
-    // const response = await data.json(); 
-    const object = {
-        data : response ?? [],
-        tittle : "Cursos",
-        empty_message : "Voce nao esta participando de nenhum curso"
-    };
-    return object;
+    const dados_usuario = {
+        "amigos" : usuario.amigos,
+        "grupos" : usuario.servidores[0].grupos,
+        "cursos" : usuario.servidores[0].cursos,
+        "servidores" : usuario.servidores
+    }
+    return dados_usuario
 }
+ // data_objects.forEach((object) => {
+    //     if(object.data.length == 0){
+    //         const section = document.createElement("section"); 
+    //         const sub_tittle = document.createElement("h2"); 
+    //         const paragraph = document.createElement("p");
+            
+    //         section.classList.add("sidebar-section");
+    //         sub_tittle.classList.add("sidebar-section-tittle");
+    //         paragraph.classList.add("sidebar-section-paragraph");
+            
+    //         sub_tittle.innerText = object.tittle;
+    //         paragraph.innerText = object.empty_message;
+            
+    //         section.appendChild(sub_tittle);
+    //         section.appendChild(paragraph);
+    //         sidebar.appendChild(section);
+    //     }else{
+    //         const section = document.createElement("section"); 
+    //         const sub_tittle = document.createElement("h2"); 
+            
+    //         sidebar.appendChild(section);
+    //         section.appendChild(sub_tittle);
 
-async function fetch_friends(user_id){
-    // const data = await fetch(`/KnowledgeHub/api/friends/${user_id}`);  
-    // const response = await data.json(); 
-    const object = {
-        data : response ?? [],
-        tittle : "Amigos",
-        empty_message : "Voce nao tem nenhum amigo"
-    };
-    return object;
-}
+    //         section.classList.add("sidebar-section");
+    //         sub_tittle.classList.add("sidebar-section-tittle");
+    //         sub_tittle.innerText = object.tittle;
+    //         for(let item of object.data){
+    //             const item_div = document.createElement("div");
+    //             const item_img = document.createElement("img");
+    //             const item_tittle = document.createElement("p");
 
-async function fetch_groups(user_id){
-    // const data = await fetch(`/KnowledgeHub/api/groups/${user_id}`);  
-    // const response = await data.json(); 
-    const object = {
-        data : response ?? [],
-        tittle : "Grupos",
-        empty_message : "Voce nao esta participando de nenhum grupo"
-    };
-    return object;
-}
+    //             item_img.src = item.path_picture;
+    //             item_tittle.innerText = item.name;
 
-async function fetch_chats(user_id){
-    // const data = await fetch(`/KnowledgeHub/api/chats/${user_id}`);  
-    // const response = await data.json(); 
-    const object = {
-        data : response ?? [],
-        tittle : "Chats",
-        empty_message : "Voce nao esta participando de nenhum chat"
-    };
-    return object;
-}
+    //             item_div.appendChild(item_img);
+    //             item_div.appendChild(item_tittle);
+    //             section.appendChild(item_div);
+
+    //             item_div.classList.add("sidebar-item");
+    //             item_img.classList.add("sidebar-item-img");
+    //             item_tittle.classList.add("sidebar-item-tittle");
+
+    //             item_div.addEventListener("click", () => {
+    //                 if(object.tittle in relation){
+    //                     history.pushState(null, null, `/KnowledgeHub${relation[object.tittle]}${item.id}`);
+    //                 }
+    //             });
+
+    //         }
+    //     }
+    // });
+    // return sidebar;

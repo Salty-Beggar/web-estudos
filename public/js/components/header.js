@@ -1,20 +1,19 @@
-export function render_header(user){
-    return  `<header class="header">
-        <nav class="header_nav">
-            <button class="btn_header btn_menu" aria_label="Menu">☰</button>
-            <button class="btn_header btn_home">Home</button>
+export function renderizar_cabecalho(user){
+    return  `
+        <nav class="cabecalho_navegacao">
+            <button class="botao_cabecalho" id="botao_menu" aria_label="Menu">☰</button>
+            <button class="botao_cabecalho botao_home">Home</button>
         </nav>
 
-        <form class="header_search" action="#">
-            <input class="search_input" type="text" placeholder="Pesquisar...">
-            <button class="btn_header btn_search" type="submit">Pesquisar</button>
-            <button class="btn_header btn_filter" type="button">Filtrar</button>
+        <form class="cabecalho_pesquisa" action="#">
+            <input class="input_pesquisa" type="text" placeholder="Pesquisar...">
+            <button class="botao_cabecalho botao_pesquisa" type="submit">Pesquisar</button>
+            <button class="botao_cabecalho botao_filtro" type="button">Filtrar</button>
         </form>
 
-        <div class="header_user">
-            <span class="user_name">${user.nome}</span>
-            <img class="user_avatar" src="${user.img}" alt="Avatar do usuário">
-        </div>
-    </header>`;
+        <div class="cabecalho_usuario">
+            <span class="nome_usuario">${user.nome}</span>
+            <img class="avatar_usuario" src="${user.img}" alt="Avatar do usuário">
+        </div>`;
 
 }

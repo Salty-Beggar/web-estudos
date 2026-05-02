@@ -1,9 +1,9 @@
-import { load_home_page } from "/KnowledgeHub/public/js/pages/home.js"; 
-import { load_login_page } from "/KnowledgeHub/public/js/pages/login.js"; 
+import { load_home_page } from "/js/pages/home.js"; 
+import { load_login_page } from "/js/pages/login.js"; 
 const root = document.getElementById('root');    
 
 async function load_html_page(name_page_html){
-    const response = await fetch(`/KnowledgeHub/public/pages/${name_page_html}.html`);
+    const response = await fetch(`/pages/${name_page_html}.html`);
     const data = await response.text();
     root.innerHTML = data;
 }
@@ -15,7 +15,7 @@ function load_css_page(name_page_css){
     const new_css = document.createElement("link");
     new_css.id = 'cssPage';
     new_css.rel = "stylesheet";
-    new_css.href = `/KnowledgeHub/public/css/${name_page_css}.css`;
+    new_css.href = `/css/${name_page_css}.css`;
     head.appendChild(new_css);
 }
 async function load_func_page(page, param){
@@ -47,7 +47,7 @@ class Rotas {
     }
     
     async executar(){
-        const url = window.location.pathname.replace("/KnowledgeHub/public", "");
+        const url = window.location.pathname
         const url_formatada = decodeURIComponent(url);
         for (const route of this.rotas) {
             if(route.regex.test(url_formatada)){
@@ -66,7 +66,7 @@ window.addEventListener('popstate', () =>  routes.executar());
 window.addEventListener("load", () =>  routes.executar());
 window.addEventListener("keydown", async (evento) => {
     //limpar o localStorage para teste tecla K + I
-    if(evento.key === "i" && evento.key === "k"){
+    if(evento.key === "i" && evento.ctrlKey){
         localStorage.clear();
         history.pushState(null,null,"Login");
         await routes.executar();
