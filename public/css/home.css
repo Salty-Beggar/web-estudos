@@ -181,3 +181,216 @@ header {
     border: 2px solid #444;
     background-color: #ccc;
 }
+/* ============ conteudo ============ */
+#corpo_container {
+    grid-area: corpo;
+    padding: 20px;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    height: calc(100vh - 80px);
+    justify-content: center;
+    overflow-y:scroll;
+}
+/* ============ posts ============ */
+.post_container {
+    width: 18vw;
+    min-width: 240px;
+    background-color: rgb(32, 32, 32);
+    border: 1px solid rgb(70, 70, 70);
+    border-radius: 14px;
+    padding: 12px;
+    color: rgb(230, 230, 230);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+}
+
+/* Dados do autor */
+
+.autor_dados {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgb(60, 60, 60);
+}
+
+.img_autor {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: rgb(80, 80, 80);
+    border: 2px solid rgb(90, 90, 90);
+}
+
+.nome_autor {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: rgb(240, 240, 240);
+}
+
+/* Dados principais do post */
+
+.post_dados {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.img_post {
+    width: 100%;
+    max-height: 320px;
+    object-fit: cover;
+    border-radius: 14px;
+    background-color: rgb(65, 65, 65);
+    border: 1px solid rgb(75, 75, 75);
+}
+
+.titulo_post {
+    margin: 4px 0 0 0;
+    font-size: 1.45rem;
+    line-height: 1.25;
+    color: rgb(245, 245, 245);
+}
+
+.tipo_post {
+    width: fit-content;
+    margin: 0;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background-color: rgb(70, 70, 70);
+    color: rgb(230, 230, 230);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.descricao_post {
+    margin: 0;
+    color: rgb(200, 200, 200);
+    font-size: 0.98rem;
+    line-height: 1.5;
+}
+
+.postado_quando_post {
+    margin: 0;
+    color: rgb(150, 150, 150);
+    font-size: 0.85rem;
+}
+
+/* Gêneros */
+
+.generos_post {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+.genero_container {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    background-color: rgb(42, 42, 42);
+    border: 1px solid rgb(65, 65, 65);
+    border-radius: 12px;
+}
+
+.nome_genero {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: rgb(235, 235, 235);
+}
+
+.pontos_genero {
+    margin: 0;
+    min-width: 54px;
+    text-align: center;
+    padding: 5px 8px;
+    border-radius: 999px;
+    background-color: rgb(60, 60, 60);
+    color: rgb(210, 210, 210);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* Botões */
+
+.up_vote,
+.down_vote {
+    border: none;
+    border-radius: 8px;
+    padding: 7px 10px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    background-color: rgb(75, 75, 75);
+    color: rgb(235, 235, 235);
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.up_vote:hover {
+    background-color: rgb(90, 120, 90);
+    transform: translateY(-1px);
+}
+
+.down_vote:hover {
+    background-color: rgb(130, 80, 80);
+    transform: translateY(-1px);
+}
+
+.up_vote:active,
+.down_vote:active {
+    transform: scale(0.96);
+}
+
+/* Responsivo */
+
+@media (max-width: 600px) {
+    .post_container {
+        max-width: 100%;
+        padding: 14px;
+        border-radius: 14px;
+    }
+
+    .titulo_post {
+        font-size: 1.2rem;
+    }
+
+    .genero_container {
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+            "nome pontos"
+            "up down";
+    }
+
+    .nome_genero {
+        grid-area: nome;
+    }
+
+    .pontos_genero {
+        grid-area: pontos;
+    }
+
+    .up_vote {
+        grid-area: up;
+    }
+
+    .down_vote {
+        grid-area: down;
+    }
+
+    .up_vote,
+    .down_vote {
+        width: 100%;
+    }
+}
