@@ -1,5 +1,5 @@
 export function criar_post(objeto_post){
-    console.log(objeto_post)
+    // console.log(objeto_post)
     const post = document.createElement("div")//nome foto cargo
     post.classList.add("post_container")
     const autor_dados = document.createElement("div")//nome foto cargo

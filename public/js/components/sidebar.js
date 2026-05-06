@@ -1,3 +1,5 @@
+// import { routes } from "/js/app/router";
+
 export async function render_barra_lateral(){
     const dados_usuario = await fetch_dados_user()
     return criar_barra_lateral(dados_usuario);
@@ -30,6 +32,11 @@ function inserir_dados(corpo_sessao, itens){
     itens[1].forEach(item => {
         const amigo = document.createElement("div")
         amigo.classList.add("item_barra_lateral")
+        amigo.addEventListener("click", async (e) => {
+            console.log(corpo_sessao, item, itens)
+            history.pushState(null, null, `/KnowledgeHub/${itens[0]}/${item.id}`);
+            await routes.executar();
+        })
 
         const avatar = document.createElement("img")
         avatar.classList.add("imagem_item_barra_lateral")
@@ -60,55 +67,3 @@ async function fetch_dados_user(){
     }
     return dados_usuario
 }
- // data_objects.forEach((object) => {
-    //     if(object.data.length == 0){
-    //         const section = document.createElement("section"); 
-    //         const sub_tittle = document.createElement("h2"); 
-    //         const paragraph = document.createElement("p");
-            
-    //         section.classList.add("sidebar-section");
-    //         sub_tittle.classList.add("sidebar-section-tittle");
-    //         paragraph.classList.add("sidebar-section-paragraph");
-            
-    //         sub_tittle.innerText = object.tittle;
-    //         paragraph.innerText = object.empty_message;
-            
-    //         section.appendChild(sub_tittle);
-    //         section.appendChild(paragraph);
-    //         sidebar.appendChild(section);
-    //     }else{
-    //         const section = document.createElement("section"); 
-    //         const sub_tittle = document.createElement("h2"); 
-            
-    //         sidebar.appendChild(section);
-    //         section.appendChild(sub_tittle);
-
-    //         section.classList.add("sidebar-section");
-    //         sub_tittle.classList.add("sidebar-section-tittle");
-    //         sub_tittle.innerText = object.tittle;
-    //         for(let item of object.data){
-    //             const item_div = document.createElement("div");
-    //             const item_img = document.createElement("img");
-    //             const item_tittle = document.createElement("p");
-
-    //             item_img.src = item.path_picture;
-    //             item_tittle.innerText = item.name;
-
-    //             item_div.appendChild(item_img);
-    //             item_div.appendChild(item_tittle);
-    //             section.appendChild(item_div);
-
-    //             item_div.classList.add("sidebar-item");
-    //             item_img.classList.add("sidebar-item-img");
-    //             item_tittle.classList.add("sidebar-item-tittle");
-
-    //             item_div.addEventListener("click", () => {
-    //                 if(object.tittle in relation){
-    //                     history.pushState(null, null, `/KnowledgeHub${relation[object.tittle]}${item.id}`);
-    //                 }
-    //             });
-
-    //         }
-    //     }
-    // });
-    // return sidebar;
