@@ -14,13 +14,18 @@ abstract class Model implements \JsonSerializable {
         }
     }
 
-    public function jsonSerialize() {
-
+    public function jsonSerialize(): mixed {
+        $json = [];
+        foreach (static::$atributos as $atributo) {
+            $json[$atributo] = $this->$atributo;
+        }
+        return $json;
     }
 
     public static function fetch() {
         if (empty(static::$nome)) static::$nome = substr(static::$tabela, -1);
         static::$atributos = DB::tabelaColunas(static::$tabela);
+        var_dump(static::$atributos);
     }
 
     #region DB functions

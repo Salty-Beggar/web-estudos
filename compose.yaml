@@ -21,6 +21,9 @@ services:
       - type: volume
         source: db-data
         target: /var/lib/mysql
+      - type: bind
+        source: ./api/db/events
+        target: /srv/events
 volumes:
   db-data:
     

@@ -19,14 +19,31 @@ class DB {
     }
 
     public static function query(string $sql, Array $params, string $model) {
-        $comando = self::$pdo->prepare($sql, $params);
+        // $comando = self::$pdo->prepare($sql);
+        // $comando->setFetchMode(PDO::FETCH_CLASS, $model);
+        // $comando->execute($params);
+
+        $comando = self::$pdo->prepare('SELECT * FROM posts');
         $comando->setFetchMode(PDO::FETCH_CLASS, $model);
         $comando->execute();
+        
         return $comando->fetchAll();
     }
 
     static function tabelaColunas($tabela) {
+        $comando = self::$pdo->prepare('
+            SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.columns
+            WHERE TABLE_NAME = ?
+        ');
+        $comando->setFetchMode(PDO::FETCH_ASSOC);
+        $comando->execute([$tabela]);
+        $colunas = $comando->fetchAll();
 
+        foreach ($colunas as &$coluna) {
+            $coluna = $coluna['COLUMN_NAME'];
+        }
+
+        return $colunas;
     }
 }
 
