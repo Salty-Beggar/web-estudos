@@ -3,6 +3,6 @@
 
 require_once 'Model.php';
 
-abstract class Post extends Model {
+class Post extends Model {
     static protected $tabela = 'posts';
 }
