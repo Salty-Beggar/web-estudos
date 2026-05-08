@@ -60,20 +60,21 @@ CREATE TABLE artigos (
     corpo text not null
 );
 
-CREATE TABLE posts_categorias(
-    id bigint auto_increment unique,
-    post_id bigint not null,
-    categoria_id bigint not null,
-    votos bigint not null,
-    foreign key (post_id) references (posts.id),
-    foreign key (categoria_id) references (categorias.id),
-    primary key (post_id, categoria_id)
-);
-
 CREATE TABLE categorias (
-    id bigint not null,
+    id bigint not null primary key,
     nome varchar(200) not null,
     descricao text not null
+);
+
+CREATE TABLE posts_categorias(
+    id bigint auto_increment,
+    post_id bigint not null,
+    categoria_id bigint not null,
+    votos bigint not null default 0,
+    foreign key (post_id) references posts(id),
+    foreign key (categoria_id) references categorias(id),
+    primary key (post_id, categoria_id),
+    unique key (id)
 );
 
 CREATE TABLE categorias_categorias (

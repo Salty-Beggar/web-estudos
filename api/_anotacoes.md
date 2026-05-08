@@ -1,2 +1,6 @@
 - Usar o Redis.
-- PARA_AGORA: Desenvolver o sistema de migrations, e depois concluir a rota de carregar o feed.
+- PARA_AGORA: Criar relações e heranças automáticas.
+    - Herança/Composição
+    - Muitos para Muitos
+    - Um para Muitos
+    - Muitos para Um

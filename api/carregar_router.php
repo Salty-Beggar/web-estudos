@@ -63,11 +63,10 @@ class Router {
             fetchController($controllerNome);
             $controllerNamespace = $controllerNome;
             $controller = new $controllerNamespace();
-            $controller->{$funcao[1]}(...$parametros);
-            return true;
+            
+            die($controller->{$funcao[1]}(...$parametros));
         }
-        http_response_code('404');
-        return false;
+        die(resposta('Rota não encontrada!', 404));
     }
 
     public function get(String $rota, Array $funcao) {

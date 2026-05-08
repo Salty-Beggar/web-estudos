@@ -5,6 +5,9 @@ fetchModel('Post');
 class FeedController {
     public function carregarFeed($config = []) {
         $posts = Post::select();
-        echo json_encode($posts);
+        foreach ($posts as &$post) {
+            $post->loadRelation('categorias');
+        }
+        return resposta($posts);
     }
 }
