@@ -17,8 +17,9 @@ body{
 /* ============ filtros ============= */
 /* ================================== */
 
-.filtro_container{
+#filtro_container{
     grid-area: filtros_feed;
+    color: #f4f4f4;
     background-color: rgb(31, 31, 31);
 }
 
@@ -27,7 +28,7 @@ body{
 /* ============ conteudo ============ */
 /* ================================== */
 
-#corpo_container {
+#feed_container {
     grid-area: corpo;
     display: grid;
     grid-template-rows: auto minmax(0, 1fr);
@@ -41,7 +42,7 @@ body{
     display: grid;
     gap: 16px;
 }
-#feeds_usuario{
+#header_feed{
     padding: 20px;
     background-color: #f4f4f4;
     display: flex;
@@ -52,7 +53,7 @@ body{
     border-bottom: 1px solid #cfcfcf;
 }
 
-.feed_usuario{
+.item_header_feed{
     background-color: rgb(39, 39, 39);
     border-radius: 10px;
     padding: 10px 20px;
@@ -61,24 +62,27 @@ body{
     transition: 0.1s;
 }
 
-.feed_usuario:hover{
+.item_header_feed:hover{
     transform:scale(1.01);
-    background-color: rgb(19, 19, 19);
-
+    /* background-color: rgb(19, 19, 19); */
+    cursor:pointer;
 }
 
 #botao_adicionar_feed{
     background-color: rgb(255, 255, 255);
     border-radius: 10px;
-    padding: 10px 20px;
+    padding: 9px 19px;
     color: rgb(12, 12, 12);
     border: solid 1px rgb(12, 12, 12);
     transition: 0.2s;
 }
 
 #botao_adicionar_feed:hover{
-    transform: scale(1.02);
-    background-color: rgb(230, 230, 230);
-    color: black;
+    transform: scale(1.01);
+    cursor: pointer;
 }
 
+.ativo{
+    background-color: rgb(87, 87, 87);
+    color: rgb(255, 255, 255);
+}

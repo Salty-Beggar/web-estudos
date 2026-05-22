@@ -1,6 +1,6 @@
 // import { routes } from "/js/app/router";
 
-export async function render_barra_lateral(){
+export async function renderizar_barra_lateral(){
     const dados_usuario = await fetch_dados_user()
     return criar_barra_lateral(dados_usuario);
 }
@@ -14,10 +14,15 @@ function criar_barra_lateral(dados_usuario){
 
         const titulo_sessao = document.createElement("h2")
         titulo_sessao.classList.add("titulo_sessao")
+       
         
         const corpo_sessao = document.createElement("div")
         corpo_sessao.classList.add("corpo_sessao")
-
+        titulo_sessao.addEventListener("click",(e) => {
+            var display = corpo_sessao.style.display
+            if(display != "flex" )corpo_sessao.style.display = "flex"    
+            else if(display == "flex")corpo_sessao.style.display = "none"
+        })
         barra_lateral.appendChild(sessao_item);
         sessao_item.appendChild(titulo_sessao);
         sessao_item.appendChild(corpo_sessao);
@@ -26,16 +31,17 @@ function criar_barra_lateral(dados_usuario){
         titulo_sessao.innerText = index
         inserir_dados(corpo_sessao, [index,valores])
     });
-    return barra_lateral;
+    // const root = document.getElementById("root")
+    root.appendChild(barra_lateral)
 }
 function inserir_dados(corpo_sessao, itens){
     itens[1].forEach(item => {
         const amigo = document.createElement("div")
         amigo.classList.add("item_barra_lateral")
         amigo.addEventListener("click", async (e) => {
-            console.log(corpo_sessao, item, itens)
-            history.pushState(null, null, `/KnowledgeHub/${itens[0]}/${item.id}`);
-            await routes.executar();
+            // console.log(corpo_sessao, item, itens)
+            history.pushState(null, null, `/${itens[0]}/${item.id}`);
+            // await routes.executar();
         })
 
         const avatar = document.createElement("img")
