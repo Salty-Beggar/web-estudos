@@ -6,3 +6,5 @@ class Comentario extends Model {
         ['Post', 'post_id']
     ];
 }
+
+Comentario::fetch();

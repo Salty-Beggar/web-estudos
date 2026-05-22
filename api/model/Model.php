@@ -1,14 +1,18 @@
 <?php
 
-
-
 abstract class Model implements \JsonSerializable {
     protected static $nome;
     protected static $tabela;
-    protected static $relManyToMany;
-    protected static $relOneToMany;
-    protected static $relManyToOne;
+    protected static $manyToMany;
+    protected static $oneToMany;
+    protected static $manyToOne;
     protected static $atributos;
+    protected $atributosExtras;
+
+    public function __construct(Array $atributosExtras)
+    {
+        $this->atributosExtras = $atributosExtras;
+    }
 
     public function fill($data) {
         foreach ($data as $key => $value) {
@@ -21,23 +25,37 @@ abstract class Model implements \JsonSerializable {
         foreach (static::$atributos as $atributo) {
             $json[$atributo] = $this->$atributo;
         }
+        foreach ($this->atributosExtras as $atributo) {
+            $json[$atributo] = $this->$atributo;
+        }
+        foreach (static::$manyToMany as $relName => $relation) {
+            $json[$relName] = [];
+            $json[$relName] = $this->$relName;
+        }
         return $json;
     }
 
     public static function fetch() {
         if (empty(static::$nome)) static::$nome = substr(static::$tabela, -1);
-        echo 'Modelell:';
-        echo static::class;
         static::$atributos = DB::tabelaColunas(static::$tabela);
+
     }
 
     #region DB functions
 
-    static public function select(string|Array $atributos = '*', String $sqlExtra = '', Array $params = []) {
+    /**
+    * @returns {Post}
+    */
+    static public function select(
+            string|Array $atributos = '*', 
+            String $sqlExtra = '', 
+            Array $params = [],
+            Array $atributosExtras = []
+        ) {
         if (is_array($atributos)) $atributos = implode(', ', $atributos);
-        $sql = "SELECT ? FROM ? {$sqlExtra}";
-        $paramsFinal = [$atributos, static::$tabela, ...$params];
-        return DB::query($sql, $paramsFinal, static::class);
+        $tabela = static::$tabela;
+        $sql = "SELECT {$atributos} FROM {$tabela} {$sqlExtra}";
+        return DB::query($sql, $params, static::class, $atributosExtras);
     }
 
     static public function insert(Array $atributos, string $sqlExtra, Array $params) {
@@ -76,20 +94,23 @@ abstract class Model implements \JsonSerializable {
             $selfFKey = $curRel[2];
             $otherFKey = $curRel[3];
 
-            // var_dump($curRel);
+            $pivotAttributes = array_diff(DB::tabelaColunas($pivotTable), ['id', $selfFKey, $otherFKey]);
+            // $pivotAttributes[] = $pivotTable.'.id';
+            $pivotAttributes = array_map(function($attribute) use ($pivotTable) {
+                return $attribute;
+            }, $pivotAttributes);
 
-            // die;
-
-            fetchModel($model);
-
+            // var_dump($model::select());
             $this->$relation = $model::select(
-                $model::$tabela.'.*',
-                'LEFT JOIN ? ON ?.id = ?.? WHERE ? = ?',
-                [
-                    $pivotTable,
-                    $model::$tabela, $pivotTable, $otherFKey,
-                    $selfFKey, $this->id
-                ]
+                [$model::$tabela.'.*', ...$pivotAttributes],
+                "
+                    JOIN {$pivotTable}
+                    ON {$pivotTable}.{$otherFKey} 
+                        = {$model::$tabela}.id
+                    WHERE {$pivotTable}.{$selfFKey} = ?
+                ",
+                [$this->id],
+                $pivotAttributes
             );  
         }
         

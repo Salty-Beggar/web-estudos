@@ -61,7 +61,7 @@ CREATE TABLE artigos (
 );
 
 CREATE TABLE categorias (
-    id bigint not null primary key,
+    id bigint not null primary key auto_increment,
     nome varchar(200) not null,
     descricao text not null
 );

@@ -1,9 +1,17 @@
 <?php
 
 require_once 'Model.php';
+require_once 'Categoria.php';
+
+enum PostTipoEnum {
+    case Artigo;
+    case Atividade;
+    case Questionario;
+}
 
 class Post extends Model {
     static protected $tabela = 'posts';
+    static protected $atributos = [];
     static protected $oneToMany = [
         'comentarios' => ['Comentario', 'post_id']
     ];
@@ -11,3 +19,5 @@ class Post extends Model {
         'categorias' => ['Categoria', 'posts_categorias', 'post_id', 'categoria_id']
     ];
 }
+
+Post::fetch();

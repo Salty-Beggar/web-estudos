@@ -21,7 +21,7 @@ class Router {
         foreach ($rotaSegmentos as $segmento) {
             if (empty($segmento)) continue;
             $parametroAtual = preg_match('/^{.*}/', $segmento);
-            echo $segmento;
+            // echo $segmento;
             if (!empty($parametroAtual)) {
                 if (!empty($segmentoAnterior['PARAM'])) {
                     $segmentoAnterior['PARAM'] = [];
@@ -55,7 +55,7 @@ class Router {
                 $segmentoAnterior = $segmentoAnterior[$segmento];
             }
         }
-        // var_dump($this->rotaMapa);
+
         if (!empty($segmentoAnterior['ROUTE'])) {
             $funcao = $segmentoAnterior['ROUTE'];
             $controllerNome = $funcao[0];
