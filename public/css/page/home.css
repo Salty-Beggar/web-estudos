@@ -1,0 +1,84 @@
+body{
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+#root{
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 400px minmax(0, 1fr) 500px;
+    grid-template-rows: 75px minmax(0, 1fr);
+    grid-template-areas: 
+        "cabecalho cabecalho cabecalho"
+        "barra_lateral corpo filtros_feed";
+}
+
+/* ================================== */
+/* ============ filtros ============= */
+/* ================================== */
+
+.filtro_container{
+    grid-area: filtros_feed;
+    background-color: rgb(31, 31, 31);
+}
+
+
+/* ================================== */
+/* ============ conteudo ============ */
+/* ================================== */
+
+#corpo_container {
+    grid-area: corpo;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+}
+#corpo_feed{
+      min-height: 0;
+    overflow-y: auto;
+
+    padding: 16px;
+
+    display: grid;
+    gap: 16px;
+}
+#feeds_usuario{
+    padding: 20px;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    border-bottom: 1px solid #cfcfcf;
+}
+
+.feed_usuario{
+    background-color: rgb(39, 39, 39);
+    border-radius: 10px;
+    padding: 10px 20px;
+    color: white;
+    border: none;
+    transition: 0.1s;
+}
+
+.feed_usuario:hover{
+    transform:scale(1.01);
+    background-color: rgb(19, 19, 19);
+
+}
+
+#botao_adicionar_feed{
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    padding: 10px 20px;
+    color: rgb(12, 12, 12);
+    border: solid 1px rgb(12, 12, 12);
+    transition: 0.2s;
+}
+
+#botao_adicionar_feed:hover{
+    transform: scale(1.02);
+    background-color: rgb(230, 230, 230);
+    color: black;
+}
+

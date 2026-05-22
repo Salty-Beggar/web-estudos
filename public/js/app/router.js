@@ -1,40 +1,35 @@
-import { load_home_page } from "/KnowledgeHub/public/js/pages/home.js"; 
-import { load_login_page } from "/KnowledgeHub/public/js/pages/login.js"; 
+import { pages } from '/js/pages/registro_paginas.js'
 const root = document.getElementById('root');    
 
 async function load_html_page(name_page_html){
-    const response = await fetch(`/KnowledgeHub/public/pages/${name_page_html}.html`);
+    const response = await fetch(`/pages/${name_page_html}.html`);
     const data = await response.text();
     root.innerHTML = data;
 }
-
-function load_css_page(name_page_css){
-    const old_css = document.getElementById('cssPage');
-    if(old_css) old_css.remove();
+function load_css_page(CSSs){
+    const CSSs_antigos = document.querySelectorAll(".pagina_css");
+    CSSs_antigos.forEach(css => css.remove());
     const head = document.querySelector("head");
-    const new_css = document.createElement("link");
-    new_css.id = 'cssPage';
-    new_css.rel = "stylesheet";
-    new_css.href = `/KnowledgeHub/public/css/${name_page_css}.css`;
-    head.appendChild(new_css);
+
+    const pagina_css = document.createElement("link")
+    pagina_css.classList.add("pagina_css");
+    pagina_css.rel = "stylesheet";
+    pagina_css.href = `/css/page/${CSSs.page}.css`;
+    head.appendChild(pagina_css);
+    
+    CSSs.components.forEach((value, index) => {
+        const componente_css = document.createElement("link")
+        componente_css.classList.add("pagina_css")
+        componente_css.rel = "stylesheet";
+        componente_css.href = `/css/components/${value}.css`;
+        head.appendChild(componente_css);
+    })
 }
 async function load_func_page(page, param){
-    const relations = {
-        home : {
-            css: (page) => load_css_page(page), 
-            html: (page) => load_html_page(page), 
-            func: (param) => load_home_page(param)
-        },
-        login : {
-            css: (page) => load_css_page(page), 
-            html: (page) => load_html_page(page), 
-            func: (param) => load_login_page(param)
-        },
-    }
-    const data_page = relations[page];
-    data_page.css(page);
-    await data_page.html(page);
-    data_page.func(param);
+    const dados_pagina = pages[page];
+    load_css_page(dados_pagina.css);
+    await load_html_page(page);
+    dados_pagina.func(param);
 }
 
 class Rotas {
@@ -43,26 +38,32 @@ class Rotas {
         this.rotas = [
             {regex : /^\/Home$/, page: "home"}, 
             {regex : /^\/Login$/, page: "login"}, 
+            {regex : /^\/Cadastre-se$/, page: "cadastro"},
         ]
     }
     
     async executar(){
-        const url = window.location.pathname.replace("/KnowledgeHub/public", "");
+        const url = window.location.pathname
         const url_formatada = decodeURIComponent(url);
         for (const route of this.rotas) {
-            // console.log(route.regex)
             if(route.regex.test(url_formatada)){
-                // console.log(url_formatada)
                 const params = url_formatada.match(route.regex)
                 await load_func_page(route.page, params);
                 return;
             }
         }
 
-        history.pushState(null,null,"Home");
-        await load_func_page('home',null);
+        history.pushState(null,null,"/Login");
+        await load_func_page('login',null);
     }
 }
-const routes = new Rotas();
+export const routes = new Rotas();
 window.addEventListener('popstate', () =>  routes.executar());
 window.addEventListener("load", () =>  routes.executar());
+window.addEventListener("keydown", async (evento) => {
+    if(evento.key === "i" && evento.ctrlKey){
+        localStorage.clear();
+        history.pushState(null,null,"Login");
+        await routes.executar();
+    }
+})

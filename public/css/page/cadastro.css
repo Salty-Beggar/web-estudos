@@ -1,0 +1,89 @@
+#root{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    height: 100%;
+    width: 100%;
+    background: rgb(106, 106, 106);
+}
+#container_cadastro{
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    border-radius: 40px;
+    overflow: hidden;
+}
+.cadastro_sessao{
+    height: 900px;
+    width: 700px;
+    border: none;
+}
+#informacoes_sessao{
+    position: relative;
+    width: 600px;
+    display: flex;
+    flex-direction:column;
+    gap: 50px;
+    background-color: black;
+    background: 
+        radial-gradient(circle at 10% 5%, rgba(59, 59, 59, 0.58), transparent 30%),
+        radial-gradient(circle at 90% 50%, rgb(26, 26, 26), transparent 40%),
+        radial-gradient(circle at 5% 90%, rgb(19, 19, 19), transparent 60%),
+        linear-gradient(135deg,black,rgb(12, 12, 12));
+
+    padding: 90px 70px;
+}
+#informacoes_sessao::after{
+    content: "";
+    position: absolute;
+    top: -111px;
+    left: -110px;
+    height: 380px;
+    width: 380px;
+    background-color: rgba(240, 248, 255, 0.01);
+    filter: blur(30px);
+    clip-path: polygon(50% 0%, 100% 35%, 80% 100%, 20% 100%, 0% 35%);
+}
+#informacoes_sessao::before{
+    content: "";
+    position: absolute;
+    top: -111px;
+    left: -110px;
+    height: 580px;
+    width: 580px;
+    background-color: rgba(240, 248, 255, 0.01);
+    filter: blur(30px);
+    clip-path: polygon(50% 0%, 100% 35%, 80% 100%, 20% 100%, 0% 35%);
+}
+#titulo_informacoes{
+    color: rgb(2, 2, 2);
+    text-transform: capitalize;
+    background-color: rgb(232, 232, 232);
+    padding: 15px;
+    font-size: 20px;
+    width: fit-content;
+    border-radius: 10px;
+}
+#paragrafo{
+    color: rgb(232, 232, 232);
+    margin-top: 20px;
+    font-size: 18px;
+    border-left: solid 3px white;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    margin-bottom:auto;
+
+}
+#derecionar_login{
+    background-color: transparent;
+    border: solid 2px rgb(232, 232, 232);
+    color: rgb(232, 232, 232);
+    font-size: 50px;
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    letter-spacing: 2px;
+    border-radius: 10px;
+    cursor: pointer;
+}
