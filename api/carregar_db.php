@@ -18,14 +18,10 @@ class DB {
         return $comando;
     }
 
-    public static function query(string $sql, Array $params, string $model) {
-        // $comando = self::$pdo->prepare($sql);
-        // $comando->setFetchMode(PDO::FETCH_CLASS, $model);
-        // $comando->execute($params);
-
-        $comando = self::$pdo->prepare('SELECT * FROM posts');
-        $comando->setFetchMode(PDO::FETCH_CLASS, $model);
-        $comando->execute();
+    public static function query(string $sql, Array $params, string $model, Array $atributosExtras) {
+        $comando = self::$pdo->prepare($sql);
+        $comando->setFetchMode(PDO::FETCH_CLASS, $model, ['atributosExtras' => $atributosExtras]);
+        $comando->execute($params);
         
         return $comando->fetchAll();
     }
