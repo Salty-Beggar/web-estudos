@@ -1,0 +1,7 @@
+{
+    "containers": {
+        "db": "ad8",
+        "api": "cad",
+        "web": "f30"
+    }
+}
