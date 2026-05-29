@@ -1,6 +1,6 @@
-import { load_home_page } from "/js/pages/home.js"; 
-import { load_login_page } from "/js/pages/login.js"; 
-import { load_cadastro_page } from "/js/pages/cadastro.js"; 
+import { load_home_page } from "/js/pages/home/home.js"; 
+import { load_login_page } from "/js/pages/login/login.js"; 
+import { load_cadastro_page } from "/js/pages/cadastro/cadastro.js"; 
 
 export const pages = {
     "home": { 

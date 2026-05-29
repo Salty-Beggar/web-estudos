@@ -20,23 +20,33 @@ aside{
 }
 .titulo_sessao{
     text-align: center;
-    color: rgb(197, 197, 197);
-    background-color: rgb(14, 14, 14);
+    color: rgb(13, 13, 13);
+    background-color: rgb(232, 232, 232);
     text-transform: capitalize;
     font-weight: 900;
     font-size: 20px;
     width: 100%;
     padding: 5px;
+    cursor: pointer;
+
+}
+.titulo_sessao:hover{
+    background-color: rgb(45, 45, 45);
+    color: rgb(234, 234, 234);
+    border: 1px solid rgb(72, 72, 72);
+    border-radius: 10px;
+    padding: 4px;
+
 }
 .corpo_sessao{
     text-align: center;
-    color: rgb(195, 195, 195);
+    color: rgb(247, 247, 247);
     gap: 5px;
     width: 100%;
     padding: 5px;
-    background-color: rgb(66, 66, 66);
+    background-color: rgb(187, 187, 187);
     min-height: 40px;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -50,7 +60,7 @@ aside{
 
     padding: 8px;
 
-    background-color: rgb(38, 38, 38);
+    background-color: rgb(26, 26, 26);
     border: 1px solid rgb(52, 52, 52);
     border-radius: 10px;
 
@@ -61,6 +71,7 @@ aside{
 .item_barra_lateral:hover {
     background-color: rgb(50, 50, 50);
     transform: translateX(1px);
+    
 }
 
 .imagem_item_barra_lateral {

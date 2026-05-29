@@ -13,12 +13,21 @@ async function buscar_usuario(evento){//nao foi verificada ainda e nao esta func
     const formulario = evento.target;
     const senha = formulario.usuario_senha.value;
     const email = formulario.usuario_email.value;
+
     const resposta = await fetch("http://localhost:3000/usuario",{ //isso esta comentado por que ainda nao ha backend ent so causaria erro deixar assim sera usado um json por enquanto
-        method:"POST",headers: {"Content-Type":"application/json"},body: JSON.stringify({email, senha})
+        method:"POST",
+        headers: {
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify({
+            email,
+            senha
+        })
     })
-    
     const dados = await resposta.json();
+
     if(dados.sucesso){
+        console.log(dados)
         const usuario = JSON.stringify(dados.usuario);
         localStorage.setItem("token",dados.token);
         localStorage.setItem("usuario",usuario);
