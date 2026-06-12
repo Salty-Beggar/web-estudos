@@ -9,7 +9,8 @@ $output = null;
 
 switch ($comando) {
     case 'migrate':
-        exec("docker exec -it {$config->containers->db} php /srv/beninifas.php migrate", $output, $status);
+        $comandoComOpcoes = implode(' ', array_slice($argv, 1));
+        exec("docker exec -it {$config->containers->db} php /srv/beninifas.php {$comandoComOpcoes}", $output, $status);
         $output = implode("\n", $output);
         break;
     default:
