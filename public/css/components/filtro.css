@@ -1,0 +1,29 @@
+#section_generos > button{
+    background-color: rgb(39, 39, 39);
+    border-radius: 10px;
+    border: solid 1px #cfcfcf;
+    padding: 10px 20px;
+    color: white;
+    transition: 0.1s;
+    width: fit-content;
+    white-space:nowrap;
+}
+#section_generos > button:hover{
+    background-color: rgb(255, 255, 255);
+    color: black;
+    cursor:pointer;
+}
+#section_generos{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+}
+#filtro_container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    align-items: center ;
+    padding:20px;
+}

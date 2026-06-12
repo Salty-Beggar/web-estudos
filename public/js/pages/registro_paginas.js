@@ -4,7 +4,7 @@ import { load_cadastro_page } from "/js/pages/cadastro/cadastro.js";
 
 export const pages = {
     "home": { 
-        "css" :{ "page" : "home", "components" : ["header","sidebar","post"]},
+        "css" :{ "page" : "home", "components" : ["header","sidebar","post","filtro"]},
         "func": (param) => load_home_page(param)
     },
     "login": { 
