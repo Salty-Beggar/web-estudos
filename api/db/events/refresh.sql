@@ -1,0 +1,13 @@
+-- DROP TABLE IF EXISTS questionarios;  
+DROP TABLE IF EXISTS atividades;
+DROP TABLE IF EXISTS artigos;
+DROP TABLE IF EXISTS cursos;
+DROP TABLE IF EXISTS artigos;
+DROP TABLE IF EXISTS comentarios;
+DROP TABLE IF EXISTS usuarios_posts_categorias;
+DROP TABLE IF EXISTS posts_categorias;
+DROP TABLE IF EXISTS categorias_categorias;
+DROP TABLE IF EXISTS categorias;
+DROP TABLE IF EXISTS usuarios_posts;
+DROP TABLE IF EXISTS posts;
+DROP TABLE IF EXISTS usuarios;

@@ -1,8 +1,7 @@
-FROM debian:latest
+FROM debian:trixie-backports
 RUN apt-get update
-RUN apt install -y mariadb-server mariadb-client
+RUN apt install -y mariadb-server mariadb-client php-cli php-common php-mysql
 WORKDIR /var/lib/mysql
-COPY ./database.sql ./
+COPY ./database.sql /srv
 COPY ./my.cnf /etc/mysql
-RUN service mariadb start && mariadb < ./database.sql
-CMD service mariadb start && tail -f /dev/null
+CMD service mariadb start && mariadb < /srv/database.sql && tail -f /dev/null

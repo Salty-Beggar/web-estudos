@@ -1,0 +1,7 @@
+{
+    "containers": {
+        "db": "5f5",
+        "api": "ea5",
+        "web": "3b7"
+    }
+}
