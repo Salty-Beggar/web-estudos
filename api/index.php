@@ -52,9 +52,19 @@ require_once "carregar_router.php";
 
 $router = new Router();
 
-#region Feed
-$router->get('/', ['FeedController', 'carregarFeed']);
+#region Autenticação
+
 #endregion
+
+#region Feed
+$router->get('/feed', ['FeedController', 'carregarFeed']);
+#endregion
+
+#region Post
+$router->put('/post/vote', []); // TODO
+#endregion
+
+// PARA_AGORA: Fazer outras rotas, e integrar com o front.
 
 $router->lerRota($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
 

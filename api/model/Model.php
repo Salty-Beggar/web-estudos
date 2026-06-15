@@ -44,9 +44,9 @@ abstract class Model implements \JsonSerializable {
     #region DB functions
 
     /**
-    * @returns {Post}
+    * @return {Post}
     */
-    static public function select(
+    public static function select(
             string|Array $atributos = '*', 
             String $sqlExtra = '', 
             Array $params = [],
