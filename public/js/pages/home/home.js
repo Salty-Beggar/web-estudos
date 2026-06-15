@@ -3,6 +3,7 @@ import { renderizar_cabecalho } from '/js/components/header.js';
 import { get_current_user } from '/js/app/usuario_atual.js';
 import { criar_post } from '/js/pages/home/components/post.js';
 import { criar_filtro } from '/js/pages/home/components/filtro.js';
+import { carregar_feed_filtro } from '/js/pages/home/components/filtro.js';
 import '/js/app/usuario_atual.js';
 
 export async function load_home_page(param){
@@ -61,21 +62,19 @@ async function carregar_feed_header(){
             item_header_feed.innerText = feed.titulo
             item_header_feed.setAttribute("feed-id",feed.id)
             header_feeds.appendChild(item_header_feed)
+            item_header_feed.addEventListener("click",() => carregar_feed_filtro(feed))
 
             if(feed.ultimo_feed_ativo){
+                console.log(feed)
                 item_header_feed.classList.add("ativo")
-                const filtro_container = document.getElementById("filtro_container")
-
-                const titulo = document.createElement("h1")
-                titulo.innerText = feed.titulo
-                filtro_container.appendChild(titulo)
+                carregar_feed_filtro(feed)
             }
+
             header_feeds.addEventListener("click", (evento) => {
                 const item_clicado = evento.target.closest(".item_header_feed")
                 const antigo_clicado = header_feeds.querySelector(".item_header_feed.ativo")
                 if(antigo_clicado)antigo_clicado.classList.remove("ativo")
                 if(item_clicado)item_clicado.classList.add("ativo")
-                
             })
         });
     }

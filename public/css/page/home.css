@@ -51,6 +51,7 @@ body{
     gap: 10px;
     width: 100%;
     border-bottom: 1px solid #cfcfcf;
+    overflow-y:auto;
 }
 
 .item_header_feed{
@@ -60,6 +61,8 @@ body{
     color: white;
     border: none;
     transition: 0.1s;
+    width: fit-content;
+    white-space:nowrap;
 }
 
 .item_header_feed:hover{
@@ -75,8 +78,8 @@ body{
     color: rgb(12, 12, 12);
     border: solid 1px rgb(12, 12, 12);
     transition: 0.2s;
+    white-space: nowrap;
 }
-
 #botao_adicionar_feed:hover{
     transform: scale(1.01);
     cursor: pointer;
