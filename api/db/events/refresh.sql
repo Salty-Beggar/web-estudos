@@ -1,4 +1,4 @@
--- DROP TABLE IF EXISTS questionarios;  
+-- DROP TABLE IF EXISTS questionarios;
 DROP TABLE IF EXISTS atividades;
 DROP TABLE IF EXISTS artigos;
 DROP TABLE IF EXISTS cursos;
