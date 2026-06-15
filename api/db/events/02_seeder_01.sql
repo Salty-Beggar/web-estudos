@@ -11,8 +11,8 @@ INSERT INTO categorias (nome, descricao) VALUES
     ('Gramática', ''),
     ('Literatura', '');
 
-INSERT INTO posts_categorias (post_id, categoria_id) VALUES
-    (
-        (SELECT id FROM posts WHERE titulo='As viagens de Brás Cubas'),
-        (SELECT id FROM categorias WHERE nome='Literatura'),
-    );
+-- INSERT INTO posts_categorias (post_id, categoria_id) VALUES
+--     (
+--         (SELECT id FROM posts WHERE titulo='As viagens de Brás Cubas'),
+--         (SELECT id FROM categorias WHERE nome='Literatura'),
+--     );

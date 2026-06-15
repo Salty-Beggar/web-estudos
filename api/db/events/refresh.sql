@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS atividades;
 DROP TABLE IF EXISTS artigos;
 DROP TABLE IF EXISTS cursos;
 DROP TABLE IF EXISTS artigos;
-DROP TABLE IF EXISTS posts_comentarios;
+DROP TABLE IF EXISTS comentarios;
 DROP TABLE IF EXISTS usuarios_posts_categorias;
 DROP TABLE IF EXISTS posts_categorias;
 DROP TABLE IF EXISTS categorias_categorias;

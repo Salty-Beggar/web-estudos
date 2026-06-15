@@ -32,12 +32,12 @@ CREATE TABLE categorias (
 );
 
 CREATE TABLE categorias_categorias (
-    id bigint not null unique,
     id bigint auto_increment not null unique,
     categoria_id bigint not null,
     subcategoria_id bigint not null,
     votos bigint not null,
-    foreign key (categoria_id, subcategoria_id) references categorias(id),
+    foreign key (categoria_id) references categorias(id),
+    foreign key (subcategoria_id) references categorias(id),
     primary key (categoria_id, subcategoria_id)
 );
 
@@ -62,18 +62,19 @@ CREATE TABLE usuarios_posts_categorias (
     foreign key (categoria_id) references categorias(id),
     primary key (usuario_id, post_id, categoria_id),
 
-    voto int null,
+    voto int null
 );
 
-CREATE TABLE posts_comentarios (
-    id bigint auto_increment primary key,
+CREATE TABLE comentarios (
+    id bigint auto_increment,
     post_id bigint not null,
     usuario_id bigint not null,
-    foreign key (post_id) references posts(id),
     foreign key (usuario_id) references usuarios(id),
+    foreign key (post_id) references posts(id),
 
     data_criacao date not null,
-    primary key (post_id, usuario_id)
+    primary key (post_id, usuario_id),
+    unique key (id)
 );
 
 -- Tipos de post
@@ -92,11 +93,3 @@ CREATE TABLE artigos (
 CREATE TABLE atividades (
     post_id bigint not null
 );
-
-CREATE TABLE questionarios ();
-
--- CREATE TABLE feeds (
---     id bigint not null unique,
---     usuario_id bigint not null,
---     foreign key (usuario_id) references usuarios(id),
--- );
