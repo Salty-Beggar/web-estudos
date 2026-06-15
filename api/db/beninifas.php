@@ -3,6 +3,7 @@
 <?php
 
 $pdo = new PDO("mysql:host=db;dbname=web_estudos", "root", "1234");
+$pdo->setAttribute(PDO::ATTR_AUTOCOMMIT, false);
 $comando = $argv[1];
 $opcoes = array_slice($argv, 2);
 $status = null;
@@ -16,11 +17,13 @@ switch ($comando) {
 
         $lastMigration = 0;
         if (!$options['fresh']) {
+            $pdo->beginTransaction();
             $sql = $pdo->prepare('SELECT max(id) as max_id FROM events;');
             $sql->execute();
             $sql->setFetchMode(PDO::FETCH_ASSOC);
             $lastMigration = $sql->fetch()['max_id'] ?? 0;
             $sql->closeCursor();
+            $pdo->commit();
         }
         $directory = scandir('/srv/events');
         array_splice($directory, 0, 2);
@@ -54,13 +57,22 @@ switch ($comando) {
                 : 1
             );
         });
-        var_dump($directory);
+        $pdo->beginTransaction();
         foreach ($directory as $migrationFile) {
             $migrationSQL = file_get_contents("/srv/events/{$migrationFile['file']}");
             if (empty($migrationSQL)) continue;
-            $command = $pdo->prepare($migrationSQL);
-            $command->execute();
+            try {
+                $command = $pdo->prepare($migrationSQL);
+                $command->execute();
+                $command->closeCursor();
+            }catch (Exception $e) {
+                echo "Houve a seguinte falha em rodar a migration {$migrationFile['file']}
+                \n{$e->getMessage()}";
+                if ($pdo->inTransaction()) $pdo->rollBack();
+                return 1;
+            }
         }
+        $pdo->commit();
         $migrationAmount = sizeof($directory) - $options['fresh'];
         $updateMigration = $pdo->prepare("INSERT INTO events (id) VALUES ({$migrationAmount});");
         $updateMigration->execute();
@@ -69,6 +81,10 @@ switch ($comando) {
             echo "Migrations rodadas com sucesso!
             \nAs migrações foram revertidas conforme o arquivo refresh.sql,
             \ne as {$migrationAmount} migrations foram rodadas novamente!";
+            break;
+        }
+        if ($lastMigration == $migrationAmount) {
+            echo "Todas migrations já foram rodadas!";
             break;
         }
         echo "Migrations rodadas com sucesso!
