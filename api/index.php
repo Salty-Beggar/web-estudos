@@ -9,10 +9,11 @@ ini_set('default_encoding', 'utf-8');
 
 #region Respostas
 
-function resposta(mixed $mensagem, $http_codigo = 200) {
+function resposta(mixed $mensagem, $http_codigo = 200, $success = true) {
     http_response_code($http_codigo);
     return json_encode([
-        'mensagem' => $mensagem
+        'mensagem' => $mensagem,
+        'success' => $success
     ]);
 }
 
@@ -53,15 +54,31 @@ require_once "carregar_router.php";
 $router = new Router();
 
 #region Autenticação
-
+$router->post('/auth/criarConta', ['AuthController', 'criarConta']);
+$router->post('/auth/login', ['AuthController', 'fazerLogin'])
 #endregion
 
 #region Feed
-$router->get('/feed', ['FeedController', 'carregarFeed']);
+$router->get('/feed/{config}', ['FeedController', 'carregarFeed']);
+/*
+Padrão 
+{
+    pesquisa: string,
+    feed_id: number
+}
+*/
+$router->post('/feed/add', ['FeedController', 'add']);
+$router->put('/feed/update', ['FeedController', 'update']);
+$router->delete('/feed/delete', ['FeedController', 'delete']);
 #endregion
 
 #region Post
-$router->put('/post/vote', []); // TODO
+$router->put('/post/vote', ['PostController', 'usuarioVotar']);
+#endregion
+
+#region Categoria
+$router->get('/categoria/selectMany', ['CategoriaController', 'selectMany']);
+$router->post('/categoria/add', ['CategoriaController', 'add']);
 #endregion
 
 // PARA_AGORA: Fazer outras rotas, e integrar com o front.

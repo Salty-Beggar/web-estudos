@@ -38,6 +38,11 @@ class Router {
     }
 
     public function lerRota(String $method, String $rota) {
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+        header("Access-Control-Allow-Headers: Content-Type, Authorization");
+        header("Content-Type: application/json; charset=UTF-8");
+
         $rotaSegmentos = explode($rota, '/');
         $segmentoAnterior = $this->rotaMapa[$method];
         $parametros = [];
