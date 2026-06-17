@@ -3,11 +3,10 @@
 require_once 'model/Usuario.php';
 
 class UsuarioController {
-    public function add() {
-        $json = null; // OBS: Botar o post do php aqui.
+    public function add($body) {
         $usuario = new Usuario();
-        $usuario->fill($json);
-        $usuario->insert();
+        $usuario->fill($body);
+        $usuario->insertSelf();
 
         return resposta($usuario);
     }

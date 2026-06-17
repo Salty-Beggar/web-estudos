@@ -9,7 +9,7 @@ abstract class Model implements \JsonSerializable {
     protected static $atributos;
     protected $atributosExtras;
 
-    public function __construct(Array $atributosExtras)
+    public function __construct(Array $atributosExtras = [])
     {
         $this->atributosExtras = $atributosExtras;
     }
@@ -20,8 +20,8 @@ abstract class Model implements \JsonSerializable {
         }
     }
 
-    public function insert() {
-        static::insert(self->converterJson(false, false));
+    public function insertSelf() {
+        static::insert($this->converterJson(false, false));
     }
 
     public function jsonSerialize(): mixed {

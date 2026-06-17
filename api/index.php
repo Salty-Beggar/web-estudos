@@ -1,6 +1,7 @@
 <?php
 
-$mostrarErros = false;
+
+$mostrarErros = true;
 
 // ini_set('display_warnings', 0);
 ini_set('display_errors', $mostrarErros ? '1' : 0);
@@ -77,12 +78,11 @@ $router->put('/post/vote', ['PostController', 'usuarioVotar']);
 #endregion
 
 #region Categoria
-$router->get('/categoria/selectMany', ['CategoriaController', 'selectMany']);
-$router->post('/categoria/add', ['CategoriaController', 'add']);
+// $router->get('/categoria/selectMany', ['CategoriaController', 'selectMany']);
+// $router->post('/categoria/add', ['CategoriaController', 'add']);
 #endregion
 
 // PARA_AGORA: Fazer outras rotas, e integrar com o front.
-
 $router->lerRota($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
 
 #endregion

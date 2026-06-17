@@ -16,22 +16,21 @@ class Router {
     }
 
     private function criarRota(String $method, String $rota, Array $funcao) {
-        $rotaSegmentos = explode($rota, '/');
+        $rotaSegmentos = explode('/', $rota);
         $segmentoAnterior = &$this->rotaMapa[$method];
         foreach ($rotaSegmentos as $segmento) {
             if (empty($segmento)) continue;
             $parametroAtual = preg_match('/^{.*}/', $segmento);
-            // echo $segmento;
             if (!empty($parametroAtual)) {
                 if (!empty($segmentoAnterior['PARAM'])) {
                     $segmentoAnterior['PARAM'] = [];
                 }
-                $segmentoAnterior = &$segmentoAnterior['PARAM'];
+                $segmentoAnterior =& $segmentoAnterior['PARAM'];
             }else {
-                if (!empty($segmentoAnterior[$segmento])) {
+                if (!empty($segmentoAnterior[$segmento]) && sizeof($segmentoAnterior[$segmento]) == 0) {
                     $segmentoAnterior[$segmento] = [];
                 }
-                $segmentoAnterior = &$segmentoAnterior[$segmento];
+                $segmentoAnterior =& $segmentoAnterior[$segmento];
             }
         }
         $segmentoAnterior['ROUTE'] = $funcao;
@@ -43,7 +42,7 @@ class Router {
         header("Access-Control-Allow-Headers: Content-Type, Authorization");
         header("Content-Type: application/json; charset=UTF-8");
 
-        $rotaSegmentos = explode($rota, '/');
+        $rotaSegmentos = explode('/', $rota);
         $segmentoAnterior = $this->rotaMapa[$method];
         $parametros = [];
         foreach ($rotaSegmentos as $segmento) {
@@ -68,7 +67,11 @@ class Router {
             fetchController($controllerNome);
             $controllerNamespace = $controllerNome;
             $controller = new $controllerNamespace();
-            
+
+            // var_dump($controller);
+            // echo '<br>';
+            // die;
+            if ($method === 'POST') $parametros = [json_decode(file_get_contents('php://input')), ...$parametros];
             die($controller->{$funcao[1]}(...$parametros));
         }
         die(resposta('Rota não encontrada!', 404));
