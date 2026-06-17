@@ -20,17 +20,29 @@ abstract class Model implements \JsonSerializable {
         }
     }
 
+    public function insert() {
+        static::insert(self->converterJson(false, false));
+    }
+
     public function jsonSerialize(): mixed {
+        return $this->converterJson();
+    }
+
+    public function converterJson($includeExtra = true, $includeRelations = true): mixed {
         $json = [];
         foreach (static::$atributos as $atributo) {
             $json[$atributo] = $this->$atributo;
         }
-        foreach ($this->atributosExtras as $atributo) {
-            $json[$atributo] = $this->$atributo;
+        if ($includeExtra) {
+            foreach ($this->atributosExtras as $atributo) {
+                $json[$atributo] = $this->$atributo;
+            }
         }
-        foreach (static::$manyToMany as $relName => $relation) {
-            $json[$relName] = [];
-            $json[$relName] = $this->$relName;
+        if ($includeRelations) {
+            foreach (static::$manyToMany as $relName => $relation) {
+                $json[$relName] = [];
+                $json[$relName] = $this->$relName;
+            }
         }
         return $json;
     }
@@ -58,15 +70,15 @@ abstract class Model implements \JsonSerializable {
         return DB::query($sql, $params, static::class, $atributosExtras);
     }
 
-    static public function insert(Array $atributos, string $sqlExtra, Array $params) {
+    static public function insert(Array $atributos, string $sqlExtra = '', Array $params = []) {
         $insertString = '';
         $valuesString = '';
-        foreach ($atributos as $chave => $valor) {
+        foreach ($atributos as $chave => $valor) { // OBS: Refazer isso aqui usando o implode e key_of_arrays e tals.
             $insertString .= $chave.',';
             $valuesString .= $valor.',';
         }
-        $sql = "INSERT INTO ? (?) VALUES (?) {$sqlExtra}";
-        $paramsFinal = [static::$tabela, $insertString, $valuesString, ...$params];
+        $sql = "INSERT INTO {static::$tabela} ({$insertString}) VALUES ({$valuesString}) {$sqlExtra}";
+        $paramsFinal = [...$params];
         return DB::executar($sql, $paramsFinal);
     }
 

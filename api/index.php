@@ -54,8 +54,8 @@ require_once "carregar_router.php";
 $router = new Router();
 
 #region Autenticação
-$router->post('/auth/criarConta', ['AuthController', 'criarConta']);
-$router->post('/auth/login', ['AuthController', 'fazerLogin'])
+$router->post('/auth/criarConta', ['UsuarioController', 'add']);
+$router->post('/auth/login', ['AuthController', 'fazerLogin']);
 #endregion
 
 #region Feed
