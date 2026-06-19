@@ -20,7 +20,7 @@ class Router {
             if (empty($segmento)) continue;
             $parametroAtual = preg_match('/^{.*}/', $segmento);
             if (!empty($parametroAtual)) {
-                if (!empty($segmentoAnterior['PARAM'])) {
+                if (!empty($segmentoAnterior['PARAM']) && sizeof($segmentoAnterior['PARAM']) == 0) {
                     $segmentoAnterior['PARAM'] = [];
                 }
                 $segmentoAnterior =& $segmentoAnterior['PARAM'];

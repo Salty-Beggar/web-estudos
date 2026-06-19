@@ -1,6 +1,6 @@
 <?php
 
-$mostrarErros = false;
+// $mostrarErros = true;
 
 // ini_set('display_warnings', 0);
 ini_set('display_errors', $mostrarErros ? '1' : 0);
@@ -54,20 +54,16 @@ require_once "carregar_router.php";
 $router = new Router();
 
 #region Autenticação
-$router->post('/auth/criarConta', ['UsuarioController', 'add'], false);
-$router->post('/auth/login', ['AuthController', 'fazerLogin'], false);
+$router->post('/auth/criarConta', ['UsuarioController', 'add'], false); // Funcionando
+$router->post('/auth/login', ['AuthController', 'fazerLogin'], false); // Funcionando
 #endregion
 
 #region Feed
-$router->get('/feed/{feedID}/{pesquisa}', ['FeedController', 'carregarFeed']);
-/*
-Padrão 
-{
-    pesquisa: string,
-    feed_id: number
-}
-*/
-$router->post('/feed/add', ['FeedController', 'add']);
+// Busca
+$router->get('/feed/{feedID}', ['FeedController', 'carregarFeed']); // Funcionando
+$router->get('/feed/{feedID}/{pesquisa}', ['FeedController', 'carregarFeed']); // Funcionando
+// Criação e edição
+$router->post('/feed/add', ['FeedController', 'add']); 
 $router->put('/feed/update', ['FeedController', 'update']);
 $router->delete('/feed/delete', ['FeedController', 'delete']);
 // Categorias
@@ -84,7 +80,6 @@ $router->put('/post/vote', ['PostController', 'usuarioVotar']);
 // $router->post('/categoria/add', ['CategoriaController', 'add']);
 #endregion
 
-// PARA_AGORA: Fazer outras rotas, e integrar com o front.
 $router->lerRota($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
 
 #endregion

@@ -4,7 +4,7 @@ require_once 'model/Post.php';
 require_once 'model/Feed.php';
 
 class FeedController {
-    public function carregarFeed($usuario, $feedID, $pesquisa) {
+    public function carregarFeed($usuario, $feedID, $pesquisa = "") {
         // if (empty($config)) return resposta('Não há as configurações do feed!', 403, false);
         // // $config = json_decode($config);
         // return resposta($config);
@@ -43,5 +43,13 @@ class FeedController {
         });
 
         return resposta($posts);
+    }
+
+    public function add($usuario, $body) {
+        $feed = new Feed(); // PARA_AGORA: Continuar criando essa rota. Fazer a parte de adicionar categorias.
+        $feed->fill($body);
+        $feed->insertSelf();
+
+        return resposta($feed);
     }
 }

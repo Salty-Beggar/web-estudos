@@ -26,6 +26,14 @@ class DB {
         return $comando->fetchAll();
     }
 
+    public static function queryAssoc(string $sql, Array $params) {
+        $comando = self::$pdo->prepare($sql);
+        $comando->setFetchMode(PDO::FETCH_ASSOC);
+        $comando->execute($params);
+        
+        return $comando->fetchAll();
+    }
+
     static function tabelaColunas($tabela) {
         $comando = self::$pdo->prepare('
             SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.columns

@@ -1,6 +1,0 @@
-- Usar o Redis.
-- PARA_AGORA: Criar relações e heranças automáticas.
-    - Herança/Composição
-    - Muitos para Muitos
-    - Um para Muitos
-    - Muitos para Um
