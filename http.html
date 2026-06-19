@@ -1,0 +1,13 @@
+<br/><b>Notice</b>: AccessingstaticpropertyUsuario: : $nomeasnonstaticin<b>/var/www/html/model/Model.php</b>online<b>19</b><br/><br/><b>Deprecated</b>: CreationofdynamicpropertyUsuario: : $nomeisdeprecatedin<b>/var/www/html/model/Model.php</b>online<b>19</b><br/><br/><b>Warning</b>: Undefinedproperty: Usuario: : $idin<b>/var/www/html/model/Model.php</b>online<b>34</b><br/><br/><b>Notice</b>: AccessingstaticpropertyUsuario: : $nomeasnonstaticin<b>/var/www/html/model/Model.php</b>online<b>34</b><br/><br/><b>Warning</b>: Undefinedproperty: Usuario: : $emailin<b>/var/www/html/model/Model.php</b>online<b>34</b><br/><br/><b>Warning</b>: Undefinedproperty: Usuario: : $senhain<b>/var/www/html/model/Model.php</b>online<b>34</b><br/><br/><b>Fatalerror</b>: UncaughtPDOException: SQLSTATE[
+	42000
+]: Syntaxerrororaccessviolation: 1064YouhaveanerrorinyourSQLsyntax;checkthemanualthatcorrespondstoyourMariaDBserverversionfortherightsyntaxtousenear'&quot;id&quot;,
+&quot;nome&quot;,
+&quot;email&quot;,
+&quot;senha&quot;)VALUES(&quot;id&quot;,
+&quot;nome&quot;,
+&quot;email&quot;,
+&quot;senha&quot;)'atline1in/var/www/html/carregar_db.php: 17Stacktrace: #0/var/www/html/carregar_db.php(17): PDOStatement-&gt;execute()#1/var/www/html/model/Model.php(85): DB: : executar('INSERTINTOusu...',
+Array)#2/var/www/html/model/Model.php(24): Model: : insert(Array)#3/var/www/html/controller/UsuarioController.php(9): Model-&gt;insertSelf()#4/var/www/html/carregar_router.php(75): UsuarioController-&gt;add(Object(stdClass))#5/var/www/html/index.php(86): Router-&gt;lerRota('POST',
+'/auth/criarCont...')#6{
+	main
+}thrownin<b>/var/www/html/carregar_db.php</b>online<b>17</b><br/>

@@ -2,15 +2,24 @@ CREATE TABLE usuarios (
     id bigint auto_increment primary key,
     nome varchar(200) not null,
     email varchar(200) not null,
-    senha varchar(200) not null,
+    senha varchar(200) not null
     -- foto varchar(200) not null,
     -- biografia text
+);
+
+CREATE TABLE feeds (
+    id bigint auto_increment primary key,
+    usuario_id bigint not null,
+    titulo varchar(200) not null,
+    descricao text null,
+    foreign key usuario_id references usuarios(id)
 );
 
 CREATE TABLE posts (
     id bigint auto_increment primary key,
     titulo varchar(200) null,
     data_criacao date not null,
+    tipo smallint not null
     -- nivel_publicidade enum('publico', 'privado') -- Não ideal fazer isso!
 );
 
@@ -20,14 +29,14 @@ CREATE TABLE usuarios_posts (
     post_id bigint not null,
     foreign key (usuario_id) references usuarios(id),
     foreign key (post_id) references posts(id),
-    primary key (usuario_id, post_id),
+    primary key (usuario_id, post_id)
 
     -- favorito boolean not null
 );
 
 CREATE TABLE categorias (
     id bigint auto_increment primary key,
-    nome varchar(200) not null,
+    nome varchar(200) not null
     -- descricao text not null
 );
 
@@ -40,6 +49,16 @@ CREATE TABLE categorias (
 --     foreign key (subcategoria_id) references categorias(id),
 --     primary key (categoria_id, subcategoria_id)
 -- );
+
+CREATE TABLE feeds_categorias(
+    id bigint auto_increment,
+    post_id bigint not null,
+    categoria_id bigint not null,
+    foreign key (post_id) references posts(id),
+    foreign key (categoria_id) references categorias(id),
+    primary key (post_id, categoria_id),
+    unique key (id)
+);
 
 CREATE TABLE posts_categorias(
     id bigint auto_increment,
@@ -86,22 +105,25 @@ CREATE TABLE usuarios_posts_categorias (
 -- );  
 
 CREATE TABLE artigos (
-    post_id bigint not null,
+    post_id bigint not null primary key,
+    foreign key (post_id) references posts(id),
     corpo text not null
 );
 
-CREATE TABLE atividades (
-    post_id bigint not null
+CREATE TABLE questionarios (
+    post_id bigint not null primary key,
+    foreign key (post_id) references posts(id)
 );
 
-CREATE TABLE questoes (
-    id bigint auto_increment primary key,
+CREATE TABLE atividades (
+    post_id bigint not null primary key,
+    foreign key (post_id) references posts(id),
     enunciado text not null,
-    resposta_certa int not null,
+    resposta_certa int not null
 );
 
 CREATE TABLE opcoes(
-    id  bigint auto_increment primary key,
+    id bigint auto_increment primary key,
     ordem int not null,
     questao_id bigint not null,
     texto varchar(200) not null,

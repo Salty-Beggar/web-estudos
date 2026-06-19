@@ -9,7 +9,7 @@ abstract class Model implements \JsonSerializable {
     protected static $atributos;
     protected $atributosExtras;
 
-    public function __construct(Array $atributosExtras)
+    public function __construct(Array $atributosExtras = [])
     {
         $this->atributosExtras = $atributosExtras;
     }
@@ -20,17 +20,29 @@ abstract class Model implements \JsonSerializable {
         }
     }
 
+    public function insertSelf() {
+        static::insert($this->converterJson(false, false));
+    }
+
     public function jsonSerialize(): mixed {
+        return $this->converterJson();
+    }
+
+    public function converterJson($includeExtra = true, $includeRelations = true): mixed {
         $json = [];
         foreach (static::$atributos as $atributo) {
             $json[$atributo] = $this->$atributo;
         }
-        foreach ($this->atributosExtras as $atributo) {
-            $json[$atributo] = $this->$atributo;
+        if ($includeExtra) {
+            foreach ($this->atributosExtras as $atributo) {
+                $json[$atributo] = $this->$atributo;
+            }
         }
-        foreach (static::$manyToMany as $relName => $relation) {
-            $json[$relName] = [];
-            $json[$relName] = $this->$relName;
+        if ($includeRelations) {
+            foreach (static::$manyToMany as $relName => $relation) {
+                $json[$relName] = [];
+                $json[$relName] = $this->$relName;
+            }
         }
         return $json;
     }
@@ -38,15 +50,17 @@ abstract class Model implements \JsonSerializable {
     public static function fetch() {
         if (empty(static::$nome)) static::$nome = substr(static::$tabela, -1);
         static::$atributos = DB::tabelaColunas(static::$tabela);
-
+        foreach (static::$manyToMany as &$relation) {
+            $relation->pivotAttributes = array_diff(DB::tabelaColunas($relation[1]), [$relation[2], $relation[3]]);
+        }
     }
 
     #region DB functions
 
     /**
-    * @returns {Post}
+    * @return {Post}
     */
-    static public function select(
+    public static function select(
             string|Array $atributos = '*', 
             String $sqlExtra = '', 
             Array $params = [],
@@ -58,16 +72,28 @@ abstract class Model implements \JsonSerializable {
         return DB::query($sql, $params, static::class, $atributosExtras);
     }
 
-    static public function insert(Array $atributos, string $sqlExtra, Array $params) {
-        $insertString = '';
-        $valuesString = '';
-        foreach ($atributos as $chave => $valor) {
-            $insertString .= $chave.',';
-            $valuesString .= $valor.',';
-        }
-        $sql = "INSERT INTO ? (?) VALUES (?) {$sqlExtra}";
-        $paramsFinal = [static::$tabela, $insertString, $valuesString, ...$params];
+    public static function insert(Array $atributos, string $sqlExtra = '', Array $params = []) {
+        $insertString = implode(',',array_keys($atributos));
+        $valuesString = implode(',', array_map(function($value) {
+            return !empty($value) ?"\"{$value}\"" : 'null';
+        }, array_values($atributos)));
+
+        $tabela = static::$tabela;
+        $sql = "INSERT INTO {$tabela} ({$insertString}) VALUES ({$valuesString}) {$sqlExtra}";
+        $paramsFinal = [...$params];
         return DB::executar($sql, $paramsFinal);
+    }
+
+    public static function update(Array $atributos, string $sqlExtra = '', Array $params = []) {
+        $tabela = static::$tabela;
+        $updatedValues = array_filter($atributos, function($value) {
+            return !empty($value);
+        });
+        $updatedValuesStr = implode(',', array_map(function ($key, $value) {
+            return "{$key} = {$value}";
+        }, $updatedValues));
+        $sql = "UPDATE FROM {$tabela} VALUES {$updatedValuesStr} WHERE id = {$atributos['id']}";
+        return DB::executar($sql, []);
     }
 
     #endregion
@@ -113,6 +139,14 @@ abstract class Model implements \JsonSerializable {
                 $pivotAttributes
             );  
         }
+        
+    }
+
+    public function putRelation(String $relation, int $relatedID, Array $pivotAttributes) { // Somente para many to many
+        
+    }
+
+    public function saveRelations(String $relation) { // Somente para many to many
         
     }
 
