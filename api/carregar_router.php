@@ -1,8 +1,6 @@
 <?php
 
-
-
-use WebEstudos\Controller\FeedController;
+require_once './controller/AuthController.php';
 
 class Router {
 
@@ -61,9 +59,14 @@ class Router {
         if (!empty($segmentoAnterior['ROUTE'])) {
             $funcao = $segmentoAnterior['ROUTE'][0];
             $protegido = $segmentoAnterior['ROUTE'][1];
+            
             if ($protegido) {
                 $headers = apache_request_headers();
-                
+                if (empty($headers['Authorization'])) die(
+                    resposta('É necessário fazer login!', 403, false)
+                );
+                $token = explode(' ', $headers['Authorization']);
+                $usuario = AuthController::lerToken($token[1]);
                 // $authorization = get_headers();
             }
             $controllerNome = $funcao[0];
@@ -75,25 +78,28 @@ class Router {
             // var_dump($controller);
             // echo '<br>';
             // die;
-            if ($method === 'POST') $parametros = [json_decode(file_get_contents('php://input')), ...$parametros];
+            $parametrosAdicionais = [];
+            if ($protegido) $parametrosAdicionais[] = $usuario;
+            if ($method === 'POST') $parametrosAdicionais[] = json_decode(file_get_contents('php://input'));
+            $parametros = [...$parametrosAdicionais, ...$parametros];
             die($controller->{$funcao[1]}(...$parametros));
         }
         die(resposta('Rota não encontrada!', 404));
     }
 
     public function get(String $rota, Array $funcao, bool $protected = true) {
-        $this->criarRota('GET', $rota, $funcao);
+        $this->criarRota('GET', $rota, $funcao, $protected);
     }
 
     public function post(String $rota, Array $funcao, bool $protected = true) {
-        $this->criarRota('POST', $rota, $funcao);
+        $this->criarRota('POST', $rota, $funcao, $protected);
     }
 
     public function put(String $rota, Array $funcao, bool $protected = true) {
-        $this->criarRota('PUT', $rota, $funcao);
+        $this->criarRota('PUT', $rota, $funcao, $protected);
     }
 
     public function delete(String $rota, Array $funcao, bool $protected = true) {
-        $this->criarRota('DELETE', $rota, $funcao);
+        $this->criarRota('DELETE', $rota, $funcao, $protected);
     }
 }

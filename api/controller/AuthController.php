@@ -10,6 +10,21 @@ class AuthController {
         return base64_encode($token);
     }
 
+    public static function lerToken(string $token) {
+        $token = base64_decode($token);
+        [$senha, $usuarioID] = explode(' ', $token);
+        if ($senha != AuthController::$senha) return [
+            'success' => false,
+            'message' => 'Token inválido! Sem gracinhas!'
+        ];
+        $usuario = Usuario::select('*', " WHERE id = {$usuarioID}")[0];
+        $usuario->senha = '';
+        return [
+            'success' => true,
+            'message' => $usuario
+        ];
+    }
+
     public function fazerLogin($body) {
         $senha = base64_encode($body->senha);
         $usuario = Usuario::select(['id', 'senha'], " WHERE nome = \"{$body->nome}\"");

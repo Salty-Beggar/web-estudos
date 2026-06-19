@@ -54,12 +54,12 @@ require_once "carregar_router.php";
 $router = new Router();
 
 #region Autenticação
-$router->post('/auth/criarConta', ['UsuarioController', 'add']);
-$router->post('/auth/login', ['AuthController', 'fazerLogin']);
+$router->post('/auth/criarConta', ['UsuarioController', 'add'], false);
+$router->post('/auth/login', ['AuthController', 'fazerLogin'], false);
 #endregion
 
 #region Feed
-$router->get('/feed/{config}', ['FeedController', 'carregarFeed']);
+$router->get('/feed/{feedID}/{pesquisa}', ['FeedController', 'carregarFeed']);
 /*
 Padrão 
 {

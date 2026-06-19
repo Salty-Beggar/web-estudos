@@ -114,7 +114,7 @@ abstract class Model implements \JsonSerializable {
                 params: [$curRel[1], $this->id]
             );
         }
-
+        
         else if (array_key_exists($relation, static::$manyToMany)) {
             $curRel = static::$manyToMany[$relation];
             $model = $curRel[0];
