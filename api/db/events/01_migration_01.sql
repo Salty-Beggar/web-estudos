@@ -12,7 +12,7 @@ CREATE TABLE feeds (
     usuario_id bigint not null,
     titulo varchar(200) not null,
     descricao text null,
-    foreign key usuario_id references usuarios(id)
+    foreign key (usuario_id) references usuarios(id)
 );
 
 CREATE TABLE posts (
@@ -125,7 +125,7 @@ CREATE TABLE atividades (
 CREATE TABLE opcoes(
     id bigint auto_increment primary key,
     ordem int not null,
-    questao_id bigint not null,
+    atividade_id bigint not null,
     texto varchar(200) not null,
-    foreign key (questao_id) references questoes(id)
+    foreign key (atividade_id) references atividades(post_id)
 );

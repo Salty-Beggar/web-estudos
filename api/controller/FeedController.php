@@ -1,21 +1,47 @@
 <?php
 
 require_once 'model/Post.php';
+require_once 'model/Feed.php';
 
 class FeedController {
-    public function carregarFeed($config = []) {
-
-        $posts = Post::select();
-
-        // echo '<br>';
-        // echo '<br>';
+    public function carregarFeed($usuario, $feedID, $pesquisa) {
+        // if (empty($config)) return resposta('Não há as configurações do feed!', 403, false);
+        // // $config = json_decode($config);
+        // return resposta($config);
+        
+        // $pesquisa = $config['pesquisa'];
+        // $feedID = $config['feed_id'];
+        $feed = Feed::select('*', " WHERE id = {$feedID}");
+        if (empty($feed)) return resposta('Feed inválido!', 403, false);
+        $feed = $feed[0];
+        $feed->loadRelation('categorias');
+        $categorias = $feed->categorias;
+        
+        
+        $pesquisa = '%'.$pesquisa.'%';
+        $posts = Post::select('*', " WHERE titulo LIKE ?", [$pesquisa]);
         foreach ($posts as &$post) {
             $post->loadRelation('categorias');
         }
 
-        // echo '<br>';
-        // echo '<br>';
-        // var_dump($posts);
+        $feedCategorias = array_map(function($categoria) {
+            return $categoria->id;
+        }, $categorias);
+        
+        usort($posts, function($a, $b)use ($feedCategorias) {
+            $aProduct = 1;
+            foreach ($a->categorias as $categoria) {
+                if (!in_array($categoria->id, $feedCategorias)) continue;
+                $aProduct *= $categoria->votos;
+            }
+            $bProduct = 1;
+            foreach ($b->categorias as $categoria) {
+                if (!in_array($categoria->id, $feedCategorias)) continue;
+                $bProduct *= $categoria->votos;
+            }
+            return $aProduct < $bProduct;
+        });
+
         return resposta($posts);
     }
 }
