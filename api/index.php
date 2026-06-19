@@ -1,5 +1,6 @@
 <?php
 
+$mostrarErros = false;
 
 $mostrarErros = false;
 
