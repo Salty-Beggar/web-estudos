@@ -142,11 +142,11 @@ abstract class Model implements \JsonSerializable {
         
     }
 
-    public function insertRelation(String $relation, int $relatedID, Array $pivotAttributes) {
+    public function putRelation(String $relation, int $relatedID, Array $pivotAttributes) {
 
     }
 
-    public function updateRelation(String $relation, int $relatedID, Array $pivotAttributes) {
+    public function saveRelations(String $relation) {
         
     }
 
