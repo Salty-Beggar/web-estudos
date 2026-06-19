@@ -7,6 +7,14 @@ CREATE TABLE usuarios (
     -- biografia text
 );
 
+CREATE TABLE feeds (
+    id bigint auto_increment primary key,
+    usuario_id bigint not null,
+    titulo varchar(200) not null,
+    descricao text null,
+    foreign key usuario_id references usuarios(id)
+);
+
 CREATE TABLE posts (
     id bigint auto_increment primary key,
     titulo varchar(200) null,
@@ -41,6 +49,16 @@ CREATE TABLE categorias (
 --     foreign key (subcategoria_id) references categorias(id),
 --     primary key (categoria_id, subcategoria_id)
 -- );
+
+CREATE TABLE feeds_categorias(
+    id bigint auto_increment,
+    post_id bigint not null,
+    categoria_id bigint not null,
+    foreign key (post_id) references posts(id),
+    foreign key (categoria_id) references categorias(id),
+    primary key (post_id, categoria_id),
+    unique key (id)
+);
 
 CREATE TABLE posts_categorias(
     id bigint auto_increment,

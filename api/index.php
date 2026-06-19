@@ -1,7 +1,7 @@
 <?php
 
 
-$mostrarErros = true;
+$mostrarErros = false;
 
 // ini_set('display_warnings', 0);
 ini_set('display_errors', $mostrarErros ? '1' : 0);
@@ -71,6 +71,9 @@ Padrão
 $router->post('/feed/add', ['FeedController', 'add']);
 $router->put('/feed/update', ['FeedController', 'update']);
 $router->delete('/feed/delete', ['FeedController', 'delete']);
+// Categorias
+$router->put('/feed/categoria/add', ['FeedController', 'addCategoria']);
+$router->delete('/feed/categoria/delete', ['FeedController', 'deleteCategoria']);
 #endregion
 
 #region Post
