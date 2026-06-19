@@ -9,7 +9,10 @@ class Usuario extends Model {
         'feeds' => ['Feed', 'usuario_id']
     ];
     static protected $manyToMany = [
-        'categorias' => ['Categoria', 'posts_categorias', 'feed_id', 'categoria_id']
+        // 'categorias' => ['Categoria', 'posts_categorias', 'feed_id', 'categoria_id']
+    ];
+    static protected $nonFillable = [
+        // 'senha'
     ];
 }
 

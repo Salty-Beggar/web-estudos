@@ -15,7 +15,7 @@ class Router {
         $this->rotaMapa['DELETE'] = [];
     }
 
-    private function criarRota(String $method, String $rota, Array $funcao) {
+    private function criarRota(String $method, String $rota, Array $funcao, bool $protected = true) {
         $rotaSegmentos = explode('/', $rota);
         $segmentoAnterior = &$this->rotaMapa[$method];
         foreach ($rotaSegmentos as $segmento) {
@@ -33,7 +33,7 @@ class Router {
                 $segmentoAnterior =& $segmentoAnterior[$segmento];
             }
         }
-        $segmentoAnterior['ROUTE'] = $funcao;
+        $segmentoAnterior['ROUTE'] = [$funcao, $protected];
     }
 
     public function lerRota(String $method, String $rota) {
@@ -47,13 +47,11 @@ class Router {
         $parametros = [];
         foreach ($rotaSegmentos as $segmento) {
             if (empty($segmento)) continue;
-            $parametroAtual = preg_match('/^{.*}/', $segmento);
-            if (!empty($parametroAtual)) {
+            if (!in_array($segmento, array_keys($segmentoAnterior))) {
                 if (empty($segmentoAnterior['PARAM'])) {
-                    http_response_code(404);
-                    return false;
+                    die(resposta('Rota não encontrada!', 404));
                 }
-                $parametros[] = $parametroAtual;
+                $parametros[] = $segmento;
                 $segmentoAnterior = $segmentoAnterior['PARAM'];
             }else {
                 $segmentoAnterior = $segmentoAnterior[$segmento];
@@ -61,7 +59,13 @@ class Router {
         }
 
         if (!empty($segmentoAnterior['ROUTE'])) {
-            $funcao = $segmentoAnterior['ROUTE'];
+            $funcao = $segmentoAnterior['ROUTE'][0];
+            $protegido = $segmentoAnterior['ROUTE'][1];
+            if ($protegido) {
+                $headers = apache_request_headers();
+                
+                // $authorization = get_headers();
+            }
             $controllerNome = $funcao[0];
             // echo "./controller/{$controllerNome}.php";
             fetchController($controllerNome);
@@ -77,19 +81,19 @@ class Router {
         die(resposta('Rota não encontrada!', 404));
     }
 
-    public function get(String $rota, Array $funcao) {
+    public function get(String $rota, Array $funcao, bool $protected = true) {
         $this->criarRota('GET', $rota, $funcao);
     }
 
-    public function post(String $rota, Array $funcao) {
+    public function post(String $rota, Array $funcao, bool $protected = true) {
         $this->criarRota('POST', $rota, $funcao);
     }
 
-    public function put(String $rota, Array $funcao) {
+    public function put(String $rota, Array $funcao, bool $protected = true) {
         $this->criarRota('PUT', $rota, $funcao);
     }
 
-    public function delete(String $rota, Array $funcao) {
+    public function delete(String $rota, Array $funcao, bool $protected = true) {
         $this->criarRota('DELETE', $rota, $funcao);
     }
 }

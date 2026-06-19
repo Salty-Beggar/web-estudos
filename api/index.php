@@ -2,8 +2,6 @@
 
 $mostrarErros = false;
 
-$mostrarErros = false;
-
 // ini_set('display_warnings', 0);
 ini_set('display_errors', $mostrarErros ? '1' : 0);
 ini_set('display_startup_errors', $mostrarErros ? '1' : 0);

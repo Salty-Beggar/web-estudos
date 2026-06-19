@@ -7,6 +7,7 @@ abstract class Model implements \JsonSerializable {
     protected static $oneToMany;
     protected static $manyToOne;
     protected static $atributos;
+    protected static $nonFillable = [];
     protected $atributosExtras;
 
     public function __construct(Array $atributosExtras = [])
@@ -16,6 +17,7 @@ abstract class Model implements \JsonSerializable {
 
     public function fill($data) {
         foreach ($data as $key => $value) {
+            if (in_array($key, static::$nonFillable)) continue;
             $this->$key = $value;
         }
     }
@@ -51,7 +53,7 @@ abstract class Model implements \JsonSerializable {
         if (empty(static::$nome)) static::$nome = substr(static::$tabela, -1);
         static::$atributos = DB::tabelaColunas(static::$tabela);
         foreach (static::$manyToMany as &$relation) {
-            $relation->pivotAttributes = array_diff(DB::tabelaColunas($relation[1]), [$relation[2], $relation[3]]);
+            $relation["pivotAttributes"] = array_diff(DB::tabelaColunas($relation[1]), [$relation[2], $relation[3]]);
         }
     }
 
