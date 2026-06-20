@@ -27,7 +27,7 @@ abstract class Model implements \JsonSerializable {
         foreach ($data as $relName => $relations) {
             if (!array_key_exists($relName, static::$manyToMany)) continue;
             $this->$relName = [];
-            foreach ($relations as $relationID) { // PARA_AGORA: Fazer o fillRelations funcionar no formato certo
+            foreach ($relations as $relationID) { // PARA_AGORA: Testar para ver se o fillRelations está corretamente funcionando.
                 $this->putRelation($relName, $relationID, []);
             }
         }

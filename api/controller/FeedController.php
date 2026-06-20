@@ -54,7 +54,7 @@ class FeedController {
     }
 
     public function add($usuario, $body) {
-        $feed = new Feed(); // PARA_AGORA: Continuar criando essa rota. Fazer a parte de adicionar categorias.
+        $feed = new Feed();
         $feed->fill($body);
         $feed->fillRelations($body);
         return resposta($feed);
