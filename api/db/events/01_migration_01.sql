@@ -52,11 +52,11 @@ CREATE TABLE categorias (
 
 CREATE TABLE feeds_categorias(
     id bigint auto_increment,
-    post_id bigint not null,
+    feed_id bigint not null,
     categoria_id bigint not null,
-    foreign key (post_id) references posts(id),
+    foreign key (feed_id) references feeds(id),
     foreign key (categoria_id) references categorias(id),
-    primary key (post_id, categoria_id),
+    primary key (feed_id, categoria_id),
     unique key (id)
 );
 

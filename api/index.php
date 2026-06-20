@@ -1,6 +1,6 @@
 <?php
 
-// $mostrarErros = true;
+$mostrarErros = true;
 
 // ini_set('display_warnings', 0);
 ini_set('display_errors', $mostrarErros ? '1' : 0);
@@ -63,7 +63,14 @@ $router->post('/auth/login', ['AuthController', 'fazerLogin'], false); // Funcio
 $router->get('/feed/{feedID}', ['FeedController', 'carregarFeed']); // Funcionando
 $router->get('/feed/{feedID}/{pesquisa}', ['FeedController', 'carregarFeed']); // Funcionando
 // Criação e edição
+$router->get('/feed', ['FeedController', 'select']);
+/**
+ * Essa rota deve retornar somente os feeds do usuário atual!
+ */
 $router->post('/feed/add', ['FeedController', 'add']); 
+/**
+ * O feed deve ser adicionado com o usuário sendo inferido automaticamente a partir do login
+ */
 $router->put('/feed/update', ['FeedController', 'update']);
 $router->delete('/feed/delete', ['FeedController', 'delete']);
 // Categorias
@@ -73,6 +80,16 @@ $router->delete('/feed/categoria/delete', ['FeedController', 'deleteCategoria'])
 
 #region Post
 $router->put('/post/vote', ['PostController', 'usuarioVotar']);
+$router->put('/post/save', ['PostController', 'usuarioSalvar']); // Salva o post no curso padrão, principal.
+/**
+ * Adicionar coluna no banco de dados para flaggar o curso padrão do usuário.
+*/
+$router->get('/curso/{id}', ['PostController', 'curso_selectOne']);
+$router->get('/artigo/{id}', ['PostController', 'artigo_selectOne']);
+$router->get('/atividade/{id}', ['PostController', 'ativdade_selectOne']);
+#region Curso
+$router->get('/curso/usuario', ['PostController', 'curso_selectUsuario']);
+#endregion
 #endregion
 
 #region Categoria

@@ -45,11 +45,20 @@ class FeedController {
         return resposta($posts);
     }
 
+    public function select() {
+        $feeds = Feed::select();
+        foreach ($feeds as &$feed) {
+            $feed->loadRelation('categorias');
+        }
+        return resposta($feeds);
+    }
+
     public function add($usuario, $body) {
         $feed = new Feed(); // PARA_AGORA: Continuar criando essa rota. Fazer a parte de adicionar categorias.
         $feed->fill($body);
-        $feed->insertSelf();
-
+        $feed->fillRelations($body);
         return resposta($feed);
+        $feed->insertSelf();
+        $feed->saveRelations('categorias');
     }
 }
