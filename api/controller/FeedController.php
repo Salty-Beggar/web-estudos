@@ -45,8 +45,8 @@ class FeedController {
         return resposta($posts);
     }
 
-    public function select() {
-        $feeds = Feed::select();
+    public function select($usuario) {
+        $feeds = Feed::select('*', " WHERE usuario_id = ?", [$usuario->id]);
         foreach ($feeds as &$feed) {
             $feed->loadRelation('categorias');
         }
@@ -56,9 +56,18 @@ class FeedController {
     public function add($usuario, $body) {
         $feed = new Feed();
         $feed->fill($body);
+        $feed->usuario_id = $usuario->id;
         $feed->fillRelations($body);
-        return resposta($feed);
         $feed->insertSelf();
         $feed->saveRelations('categorias');
+        return resposta($feed);
+    }
+
+    public function addCategoria($usuario, $body, $id, $categoriaID) {
+        $feed = Feed::select('*', " WHERE id = {$id}")[0];
+        $feed->loadRelation('categorias');
+        $feed->putRelation('categorias', $categoriaID, []);
+        $feed->saveRelations('categorias');
+        return resposta($feed);
     }
 }

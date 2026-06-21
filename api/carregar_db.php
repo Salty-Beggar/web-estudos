@@ -13,8 +13,8 @@ class DB {
     }
 
     public static function executar(string $sql, Array $params) {
-        $comando = self::$pdo->prepare($sql, $params);
-        $comando->execute();
+        $comando = self::$pdo->prepare($sql);
+        $comando->execute($params);
         return $comando;
     }
 

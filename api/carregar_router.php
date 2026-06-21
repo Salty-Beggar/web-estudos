@@ -40,6 +40,7 @@ class Router {
         header("Access-Control-Allow-Headers: Content-Type, Authorization");
         header("Content-Type: application/json; charset=UTF-8");
 
+        // var_dump($this->rotaMapa);
         $rotaSegmentos = explode('/', $rota);
         $segmentoAnterior = $this->rotaMapa[$method];
         $parametros = [];
@@ -66,7 +67,7 @@ class Router {
                     resposta('É necessário fazer login!', 403, false)
                 );
                 $token = explode(' ', $headers['Authorization']);
-                $usuario = AuthController::lerToken($token[1]);
+                $usuario = AuthController::lerToken($token[1])['message'];
                 // $authorization = get_headers();
             }
             $controllerNome = $funcao[0];
@@ -80,9 +81,13 @@ class Router {
             // die;
             $parametrosAdicionais = [];
             if ($protegido) $parametrosAdicionais[] = $usuario;
-            if ($method === 'POST') $parametrosAdicionais[] = json_decode(file_get_contents('php://input'));
+            if ($method === 'POST' || $method === 'PUT') $parametrosAdicionais[] = json_decode(file_get_contents('php://input'));
             $parametros = [...$parametrosAdicionais, ...$parametros];
-            die($controller->{$funcao[1]}(...$parametros));
+            try {
+                die($controller->{$funcao[1]}(...$parametros));
+            }catch (\Throwable $e) {
+                die(resposta([$e->getMessage(), $e->getTrace()], 200, false));
+            }
         }
         die(resposta('Rota não encontrada!', 404));
     }

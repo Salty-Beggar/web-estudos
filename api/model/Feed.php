@@ -11,6 +11,9 @@ class Feed extends Model {
     static protected $manyToMany = [
         'categorias' => ['Categoria', 'feeds_categorias', 'feed_id', 'categoria_id', 'pivotAttributes' => []]
     ];
+    static protected $nonFillable = [
+        'usuario_id'
+    ];
 }
 
 Feed::fetch();

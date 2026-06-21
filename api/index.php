@@ -63,18 +63,12 @@ $router->post('/auth/login', ['AuthController', 'fazerLogin'], false); // Funcio
 $router->get('/feed/{feedID}', ['FeedController', 'carregarFeed']); // Funcionando
 $router->get('/feed/{feedID}/{pesquisa}', ['FeedController', 'carregarFeed']); // Funcionando
 // Criação e edição
-$router->get('/feed', ['FeedController', 'select']);
-/**
- * Essa rota deve retornar somente os feeds do usuário atual!
- */
-$router->post('/feed/add', ['FeedController', 'add']); 
-/**
- * O feed deve ser adicionado com o usuário sendo inferido automaticamente a partir do login
- */
+$router->get('/feed', ['FeedController', 'select']); // Funcionando
+$router->post('/feed/add', ['FeedController', 'add']); // Funcionando
 $router->put('/feed/update', ['FeedController', 'update']);
 $router->delete('/feed/delete', ['FeedController', 'delete']);
 // Categorias
-$router->put('/feed/categoria/add', ['FeedController', 'addCategoria']);
+$router->put('/feed/categoria/add/{id}/{categoriaID}', ['FeedController', 'addCategoria']);
 $router->delete('/feed/categoria/delete', ['FeedController', 'deleteCategoria']);
 #endregion
 
@@ -86,7 +80,7 @@ $router->put('/post/save', ['PostController', 'usuarioSalvar']); // Salva o post
 */
 $router->get('/curso/{id}', ['PostController', 'curso_selectOne']);
 $router->get('/artigo/{id}', ['PostController', 'artigo_selectOne']);
-$router->get('/atividade/{id}', ['PostController', 'ativdade_selectOne']);
+$router->get('/atividade/{id}', ['PostController', 'atividade_selectOne']);
 #region Curso
 $router->get('/curso/usuario', ['PostController', 'curso_selectUsuario']);
 #endregion

@@ -27,7 +27,7 @@ abstract class Model implements \JsonSerializable {
         foreach ($data as $relName => $relations) {
             if (!array_key_exists($relName, static::$manyToMany)) continue;
             $this->$relName = [];
-            foreach ($relations as $relationID) { // PARA_AGORA: Testar para ver se o fillRelations está corretamente funcionando.
+            foreach ($relations as $relationID) {
                 $this->putRelation($relName, $relationID, []);
             }
         }
@@ -85,6 +85,10 @@ abstract class Model implements \JsonSerializable {
         $sql = "SELECT {$atributos} FROM {$tabela} {$sqlExtra}";
         return DB::query($sql, $params, static::class, $atributosExtras);
     }
+
+    // public static function get($id) {
+
+    // }
 
     public static function insert(Array $atributos, string $sqlExtra = '', Array $params = []) {
         $insertString = implode(',',array_keys($atributos));
@@ -165,12 +169,13 @@ abstract class Model implements \JsonSerializable {
         $model = $curRel[0];
         $related = $model::select('*', " WHERE id = {$relatedID}")[0];
         $this->$relation[] = [
-            ...$related,
+            ...$related->jsonSerialize(),
             ...$pivotAttributes
         ];
     }
 
     public function saveRelations(String $relation) { // Somente para many to many
+        // die(resposta($relation));
         if (empty($this->id)) {
             die(resposta('Tentativa de salvar relações de model sem id!', 401, false));
         }
@@ -180,13 +185,15 @@ abstract class Model implements \JsonSerializable {
         $selfID = $relationInfo[2];
         $otherID = $relationInfo[3];
         foreach ($relatedArr as $related) {
-            echo 'Tentativa:\n';
-            var_dump($relatedArr);
-            echo "SELECT * FROM {$pivotTable} WHERE {$selfID} = {$this->id} AND {$otherID} = {$related->id}";
-            if (empty(DB::queryAssoc("SELECT * FROM {$pivotTable} WHERE {$selfID} = {$this->id} AND {$otherID} = {$related->id}", [])))
-                DB::executar("INSERT INTO {$pivotTable} ({$selfID}, {$otherID}) VALUES (?, ?)", [$this->id, $related->id]);
+            // echo 'Tentativa:\n';
+            // echo "SELECT * FROM {$pivotTable} WHERE {$selfID} = {$this->id} AND {$otherID} = {$related['id']}";
+            $related = (array)$related;
+            $existing = DB::queryAssoc("SELECT * FROM {$pivotTable} WHERE {$selfID} = {$this->id} AND {$otherID} = {$related['id']}", []);
+            // PARA_AGORA: Fazer com que atributos pivô possam ser atualizados.
+            if (empty($existing))
+                DB::executar("INSERT INTO {$pivotTable} ({$selfID}, {$otherID}) VALUES (?, ?)", [$this->id, $related['id']]);
             else
-                DB::executar("UPDATE FROM {$pivotTable} SET {$selfID} = ?, {$otherID} = ?", [$this->id, $related->id]);
+                DB::executar("UPDATE FROM {$pivotTable} SET {$selfID} = ?, {$otherID} = ?", [$this->id, $related['id']]);
         }
     }
 
