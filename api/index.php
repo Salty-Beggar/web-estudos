@@ -65,6 +65,15 @@ $router->get('/feed/{feedID}/{pesquisa}', ['FeedController', 'carregarFeed']); /
 // Criação e edição
 $router->get('/feed', ['FeedController', 'select']); // Funcionando
 $router->post('/feed/add', ['FeedController', 'add']); // Funcionando
+/** Exemplo de body
+{
+	"titulo": "As buredas",
+	"descricao": "fds",
+	"categorias": [
+        5, 6 // id's das categorias
+	]
+}
+ */
 $router->put('/feed/update', ['FeedController', 'update']);
 $router->delete('/feed/delete', ['FeedController', 'delete']);
 // Categorias
