@@ -65,7 +65,6 @@ async function carregar_feed_header(){
             item_header_feed.addEventListener("click",() => carregar_feed_filtro(feed))
 
             if(feed.ultimo_feed_ativo){
-                console.log(feed)
                 item_header_feed.classList.add("ativo")
                 carregar_feed_filtro(feed)
             }
@@ -84,21 +83,12 @@ async function carregar_feed_header(){
 async function carregar_feeds(){
     const resposta = await fetch("http://localhost:3000/feeds",{ method: "GET"})
     const dados = await resposta.json()
-    // console.log(dados)
     if(!dados.sucesso) return []
     return dados.feeds
 }
 
-
-// function trocar_feed(){
-//     const barra_feed = document.getElementById("header_feed")
-//     barra_feed.addEventListener("click", (evento) => {
-//         const item_clicado = evento.target.closest(".item_header_feed")
-//         const antigo_clicado = barra_feed.querySelector(".item_header_feed.ativo")
-        
-//         if(antigo_clicado)antigo_clicado.classList.remove("ativo")
-//         if(item_clicado)item_clicado.classList.add("ativo")
-
-        
-//     })
-// }
+export function formatar_url(url_normal){
+    return url_normal.toLowerCase()
+        .replace(/\s/g, "_")
+        .replace(/\//g, "-")
+}

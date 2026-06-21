@@ -1,3 +1,5 @@
+import { formatar_url } from "/js/pages/home/home.js"
+
 export function criar_filtro(){
     const filtro_container = document.createElement("section")
     filtro_container.setAttribute("id","filtro_container")
@@ -33,10 +35,9 @@ export function carregar_feed_filtro(feed){
         button.innerText = genero
         section_generos.appendChild(button)
         button.addEventListener('click',(evento) => {
-            const genero_formatado = genero.toLowerCase()
-                .replace(/\s/g, "_")
-                .replace(/\//g, "-")
+            const genero_formatado = formatar_url(genero)
             history.pushState(null,null,`/generos/${genero_formatado}`)
         })
     })
 }
+

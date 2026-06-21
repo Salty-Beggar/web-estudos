@@ -1,0 +1,238 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #0b0b0b;
+    color: #f5f5f5;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#root {
+    min-height: 100vh;
+    padding: 24px;
+}
+
+.post_container {
+    width: min(100%, 1000px);
+    margin: 0 auto;
+    background: #151515;
+    border: 1px solid #2a2a2a;
+    border-radius: 16px;
+    padding: 28px;
+    display: grid;
+    gap: 28px;
+}
+
+.dados {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 28px;
+    align-items: start;
+}
+
+.dados_autor {
+    background: #0f0f0f;
+    border: 1px solid #303030;
+    border-radius: 14px;
+    padding: 18px;
+    display: grid;
+    justify-items: center;
+    gap: 12px;
+    position: sticky;
+    top: 20px;
+}
+
+.img_autor {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #dcdcdc;
+    background: #222;
+}
+
+.nome_autor {
+    margin: 0;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.dados_post {
+    min-width: 0;
+    display: grid;
+    gap: 12px;
+}
+
+.titulo_post {
+    margin: 0;
+    max-width: 760px;
+    color: #fff;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.12;
+    letter-spacing: 0.5px;
+}
+
+.tipo_post {
+    width: fit-content;
+    margin: 0;
+    padding: 6px 14px;
+    background: #f2f2f2;
+    color: #111;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.descricao_post {
+    margin: 0;
+    max-width: 760px;
+    color: #d8d8d8;
+    font-size: 17px;
+    line-height: 1.5;
+}
+
+.postado_quando_post {
+    margin: 0;
+    color: #9c9c9c;
+    font-size: 14px;
+}
+
+.generos_post {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, max-content));
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.genero_container {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    align-items: center;
+    gap: 8px;
+    min-width: 190px;
+    background: #101010;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 8px;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.genero_container:hover {
+    background: #1b1b1b;
+    border-color: #555;
+    transform: translateY(-1px);
+}
+
+.nome_genero {
+    margin: 0;
+    color: #f5f5f5;
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.pontos_genero {
+    margin: 0;
+    min-width: 36px;
+    padding: 4px 8px;
+    background: #050505;
+    border: 1px solid #2f2f2f;
+    border-radius: 999px;
+    color: #dcdcdc;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.up_vote,
+.down_vote {
+    border: 1px solid #444;
+    background: #202020;
+    color: #f5f5f5;
+    border-radius: 8px;
+    padding: 6px 9px;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.up_vote:hover {
+    background: #f5f5f5;
+    color: #111;
+    border-color: #f5f5f5;
+    transform: translateY(-1px);
+}
+
+.down_vote:hover {
+    background: #050505;
+    color: #fff;
+    border-color: #888;
+    transform: translateY(1px);
+}
+
+.up_vote:active,
+.down_vote:active {
+    transform: scale(0.94);
+}
+
+.material_post {
+    min-height: 260px;
+    background: #0f0f0f;
+    border: 1px solid #303030;
+    border-radius: 14px;
+    padding: 28px;
+    color: #e8e8e8;
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+.corpo_post {
+    margin: 0;
+    white-space: pre-line;
+}
+
+@media (max-width: 760px) {
+    #root {
+        padding: 14px;
+    }
+
+    .post_container {
+        padding: 18px;
+        gap: 22px;
+    }
+
+    .dados {
+        grid-template-columns: 1fr;
+    }
+
+    .dados_autor {
+        position: static;
+        display: flex;
+        justify-content: flex-start;
+        text-align: left;
+    }
+
+    .img_autor {
+        width: 58px;
+        height: 58px;
+    }
+
+    .generos_post {
+        grid-template-columns: 1fr;
+    }
+
+    .genero_container {
+        grid-template-columns: 1fr auto auto auto;
+        width: 100%;
+    }
+
+    .material_post {
+        padding: 18px;
+    }
+}

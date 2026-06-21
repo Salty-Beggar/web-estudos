@@ -1,25 +1,30 @@
+// import { formatar_url } from "/js/pages/home/home.js"
+
+
 export function criar_post(objeto_post){
     // console.log(objeto_post)
     const post = document.createElement("div")//nome foto cargo
-    post.classList.add("post_container")
     const autor_dados = document.createElement("div")//nome foto cargo
-    autor_dados.classList.add("autor_dados")
     const img_autor = document.createElement("img")
-    img_autor.classList.add("img_autor")
     const nome_autor = document.createElement("p")
+
+    post.classList.add("post_container")
+    autor_dados.classList.add("autor_dados")
+    img_autor.classList.add("img_autor")
     nome_autor.classList.add("nome_autor")
 
     const post_dados = document.createElement("div")
-    post_dados.classList.add("post_dados")
     const titulo_post = document.createElement("h2")
-    titulo_post.classList.add("titulo_post")
     const tipo_post = document.createElement("p")
-    tipo_post.classList.add("tipo_post")
     const descricao_post = document.createElement("p")
-    descricao_post.classList.add("descricao_post")
     const postado_quando_post = document.createElement("p")
-    postado_quando_post.classList.add("postado_quando_post")
     const generos_post = document.createElement("div")
+
+    post_dados.classList.add("post_dados")
+    titulo_post.classList.add("titulo_post")
+    tipo_post.classList.add("tipo_post")
+    descricao_post.classList.add("descricao_post")
+    postado_quando_post.classList.add("postado_quando_post")
     generos_post.classList.add("generos_post")
 
     post.appendChild(autor_dados)
@@ -41,6 +46,13 @@ export function criar_post(objeto_post){
     tipo_post.innerText = objeto_post.tipo
     descricao_post.innerText = objeto_post.descricao
     postado_quando_post.innerText = calcular_tempo(objeto_post.data_criacao)//quano tempo desde o post
+    
+     titulo_post.addEventListener("click", async () => {
+        history.pushState(null, null, `/Post/${objeto_post.id}`)
+        const { routes } = await import("/js/app/router.js")
+        routes.executar()
+    })
+    
     objeto_post.generos.forEach(genero => {
         const genero_container = document.createElement("div")
         genero_container.classList.add("genero_container")
@@ -64,9 +76,40 @@ export function criar_post(objeto_post){
         pontos_genero.innerText = genero.pontos
         up_vote.innerText = "UP"
         down_vote.innerText = "DOWN"
+        genero_container.addEventListener("click", (evento) => clique_no_voto(evento, genero_container))
     })
+   
     return post
 }
+
+
+function clique_no_voto(evento, container){
+    const up_vote = container.querySelector(".up_vote")
+    const down_vote = container.querySelector(".down_vote")
+    const votos = container.querySelector(".pontos_genero")
+
+    if(evento.target === up_vote){
+        if(!up_vote.classList.contains("up_vote_checked")){
+            up_vote.classList.add("up_vote_checked")
+            down_vote.classList.remove("down_vote_checked")
+            votos.innerText = parseInt(votos.innerText) + 3
+        }else if(up_vote.classList.contains("up_vote_checked")){
+            up_vote.classList.remove("up_vote_checked")
+            votos.innerText = parseInt(votos.innerText) - 3
+        }
+    }
+    else if(evento.target === down_vote){
+        if(!down_vote.classList.contains("down_vote_checked")){
+            down_vote.classList.add("down_vote_checked")
+            up_vote.classList.remove("up_vote_checked")
+            votos.innerText = parseInt(votos.innerText) - 3
+        }else if(down_vote.classList.contains("down_vote_checked")){
+            down_vote.classList.remove("down_vote_checked")
+            votos.innerText = parseInt(votos.innerText) + 3
+        }
+    }
+}
+
 function calcular_tempo(tempo){//nao fiz essa porra, peguei na internet, se quiserem melhorar fiquem a vontade
     const agora = new Date();
     const postado_em = new Date(tempo);

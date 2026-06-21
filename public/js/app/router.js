@@ -35,10 +35,12 @@ async function load_func_page(page, param){
 class Rotas {
     rotas = [];
     constructor(){
-        this.rotas = [
+       this.rotas = [
             {regex : /^\/Home$/, page: "home"}, 
             {regex : /^\/Login$/, page: "login"}, 
             {regex : /^\/Cadastre-se$/, page: "cadastro"},
+            {regex : /^\/Post\/([\p{L}\p{N}_-]+)$/u, page: "post"},
+            {regex :/^\/Generos\/([\p{L}\p{N}_-]+)$/u, page: "generos"},
         ]
     }
     

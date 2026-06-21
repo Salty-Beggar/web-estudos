@@ -17,8 +17,13 @@
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
 }
 
+/* .t */
 /* Dados do autor */
-
+.titulo_post:hover {
+    color: rgb(255, 255, 255);
+    background-color: rgb(50, 50, 50);
+    cursor: pointer;
+}
 .autor_dados {
     display: flex;
     align-items: center;
@@ -65,6 +70,9 @@
     font-size: 1.45rem;
     line-height: 1.25;
     color: rgb(245, 245, 245);
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: background-color 0.1s ease, color 0.1s ease;
 }
 
 .tipo_post {
@@ -156,7 +164,12 @@
     background-color: rgb(130, 80, 80);
     transform: translateY(-1px);
 }
-
+.down_vote_checked {
+    background-color: rgb(150, 50, 50) !important;
+}
+.up_vote_checked {
+    background-color: rgb(100, 150, 100) !important;
+}
 .up_vote:active,
 .down_vote:active {
     transform: scale(0.96);

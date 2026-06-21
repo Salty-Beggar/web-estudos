@@ -53,7 +53,9 @@ function carregar_conteudo_feed(feeds){
 
 async function carregar_feeds(){
     const resposta = await fetch("http://localhost:3000/feeds",{ method: "GET"})
+    // const resposta = await fetch("http://api:8010/",{ method: "GET"})
     const dados = await resposta.json()
     if(!dados.sucesso) return []
-    return dados.feeds
+    console.log(dados.feeds)
+    // return dados.feeds
 }
