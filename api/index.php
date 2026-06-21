@@ -1,6 +1,6 @@
 <?php
 
-$mostrarErros = true;
+$mostrarErros = false;
 
 // ini_set('display_warnings', 0);
 ini_set('display_errors', $mostrarErros ? '1' : 0);
@@ -68,27 +68,26 @@ $router->post('/feed/add', ['FeedController', 'add']); // Funcionando
 $router->put('/feed/update', ['FeedController', 'update']);
 $router->delete('/feed/delete', ['FeedController', 'delete']);
 // Categorias
-$router->put('/feed/categoria/add/{id}/{categoriaID}', ['FeedController', 'addCategoria']);
+$router->put('/feed/categoria/add/{id}/{categoriaID}', ['FeedController', 'addCategoria']); // Funcionando
 $router->delete('/feed/categoria/delete', ['FeedController', 'deleteCategoria']);
 #endregion
 
 #region Post
-$router->put('/post/vote', ['PostController', 'usuarioVotar']);
-$router->put('/post/save', ['PostController', 'usuarioSalvar']); // Salva o post no curso padrão, principal.
+$router->put('/post/vote', ['PostController', 'usuarioVotar']); // TODO
 /**
  * Adicionar coluna no banco de dados para flaggar o curso padrão do usuário.
 */
-$router->get('/curso/{id}', ['PostController', 'curso_selectOne']);
-$router->get('/artigo/{id}', ['PostController', 'artigo_selectOne']);
+$router->get('/curso/{id}', ['PostController', 'curso_selectOne']); // TODO
+$router->post('/curso/add', ['PostController', 'curso_criar']); // TODO
+$router->post('/curso/post/add', ['PostController', 'curso_addPost']); // TODO
+$router->get('/curso/usuario', ['PostController', 'curso_selectUsuario']); // TODO
+$router->get('/artigo/{id}', ['PostController', 'artigo_selectOne']); // TODO
+$router->post('/artigo/add', ['PostController', 'artigo_criar']); // TODO
 $router->get('/atividade/{id}', ['PostController', 'atividade_selectOne']);
-#region Curso
-$router->get('/curso/usuario', ['PostController', 'curso_selectUsuario']);
-#endregion
 #endregion
 
 #region Categoria
-// $router->get('/categoria/selectMany', ['CategoriaController', 'selectMany']);
-// $router->post('/categoria/add', ['CategoriaController', 'add']);
+$router->post('/categoria/add', ['CategoriaController', 'add']); // TODO
 #endregion
 
 $router->lerRota($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
