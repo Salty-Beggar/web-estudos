@@ -17,13 +17,25 @@ abstract class Model implements \JsonSerializable {
 
     public function fill($data) {
         foreach ($data as $key => $value) {
+            if (!in_array($key, static::$atributos)) continue;
             if (in_array($key, static::$nonFillable)) continue;
             $this->$key = $value;
         }
     }
 
+    public function fillRelations($data) {
+        foreach ($data as $relName => $relations) {
+            if (!array_key_exists($relName, static::$manyToMany)) continue;
+            $this->$relName = [];
+            foreach ($relations as $relationID) {
+                $this->putRelation($relName, $relationID, []);
+            }
+        }
+    }
+
     public function insertSelf() {
-        static::insert($this->converterJson(false, false));
+        $newID = static::insert($this->converterJson(false, false));
+        if (in_array('id', static::$atributos)) $this->id = $newID;
     }
 
     public function jsonSerialize(): mixed {
@@ -74,6 +86,10 @@ abstract class Model implements \JsonSerializable {
         return DB::query($sql, $params, static::class, $atributosExtras);
     }
 
+    // public static function get($id) {
+
+    // }
+
     public static function insert(Array $atributos, string $sqlExtra = '', Array $params = []) {
         $insertString = implode(',',array_keys($atributos));
         $valuesString = implode(',', array_map(function($value) {
@@ -83,7 +99,10 @@ abstract class Model implements \JsonSerializable {
         $tabela = static::$tabela;
         $sql = "INSERT INTO {$tabela} ({$insertString}) VALUES ({$valuesString}) {$sqlExtra}";
         $paramsFinal = [...$params];
-        return DB::executar($sql, $paramsFinal);
+        DB::executar($sql, $paramsFinal);
+        if (in_array('id', static::$atributos))
+            return DB::queryAssoc("SELECT max(id) as id FROM {$tabela}", [])[0]['id'];
+        return -1;
     }
 
     public static function update(Array $atributos, string $sqlExtra = '', Array $params = []) {
@@ -145,11 +164,37 @@ abstract class Model implements \JsonSerializable {
     }
 
     public function putRelation(String $relation, int $relatedID, Array $pivotAttributes) { // Somente para many to many
-        
+        if (empty($this->$relation)) $this->$relation = [];
+        $curRel = static::$manyToMany[$relation];
+        $model = $curRel[0];
+        $related = $model::select('*', " WHERE id = {$relatedID}")[0];
+        $this->$relation[] = [
+            ...$related->jsonSerialize(),
+            ...$pivotAttributes
+        ];
     }
 
     public function saveRelations(String $relation) { // Somente para many to many
-        
+        // die(resposta($relation));
+        if (empty($this->id)) {
+            die(resposta('Tentativa de salvar relações de model sem id!', 401, false));
+        }
+        $relationInfo = static::$manyToMany[$relation];
+        $relatedArr = $this->$relation;
+        $pivotTable = $relationInfo[1];
+        $selfID = $relationInfo[2];
+        $otherID = $relationInfo[3];
+        foreach ($relatedArr as $related) {
+            // echo 'Tentativa:\n';
+            // echo "SELECT * FROM {$pivotTable} WHERE {$selfID} = {$this->id} AND {$otherID} = {$related['id']}";
+            $related = (array)$related;
+            $existing = DB::queryAssoc("SELECT * FROM {$pivotTable} WHERE {$selfID} = {$this->id} AND {$otherID} = {$related['id']}", []);
+            // PARA_AGORA: Fazer com que atributos pivô possam ser atualizados.
+            if (empty($existing))
+                DB::executar("INSERT INTO {$pivotTable} ({$selfID}, {$otherID}) VALUES (?, ?)", [$this->id, $related['id']]);
+            else
+                DB::executar("UPDATE FROM {$pivotTable} SET {$selfID} = ?, {$otherID} = ?", [$this->id, $related['id']]);
+        }
     }
 
     #endregion

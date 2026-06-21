@@ -13,14 +13,22 @@ class DB {
     }
 
     public static function executar(string $sql, Array $params) {
-        $comando = self::$pdo->prepare($sql, $params);
-        $comando->execute();
+        $comando = self::$pdo->prepare($sql);
+        $comando->execute($params);
         return $comando;
     }
 
     public static function query(string $sql, Array $params, string $model, Array $atributosExtras) {
         $comando = self::$pdo->prepare($sql);
         $comando->setFetchMode(PDO::FETCH_CLASS, $model, ['atributosExtras' => $atributosExtras]);
+        $comando->execute($params);
+        
+        return $comando->fetchAll();
+    }
+
+    public static function queryAssoc(string $sql, Array $params) {
+        $comando = self::$pdo->prepare($sql);
+        $comando->setFetchMode(PDO::FETCH_ASSOC);
         $comando->execute($params);
         
         return $comando->fetchAll();

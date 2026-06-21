@@ -9,7 +9,10 @@ class Feed extends Model {
     static protected $oneToMany = [
     ];
     static protected $manyToMany = [
-        'categorias' => ['Categoria', 'feeds_categorias', 'post_id', 'categoria_id', 'pivotAttributes' => []]
+        'categorias' => ['Categoria', 'feeds_categorias', 'feed_id', 'categoria_id', 'pivotAttributes' => []]
+    ];
+    static protected $nonFillable = [
+        'usuario_id'
     ];
 }
 

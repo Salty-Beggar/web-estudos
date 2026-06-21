@@ -4,7 +4,7 @@ require_once 'model/Post.php';
 require_once 'model/Feed.php';
 
 class FeedController {
-    public function carregarFeed($usuario, $feedID, $pesquisa) {
+    public function carregarFeed($usuario, $feedID, $pesquisa = "") {
         // if (empty($config)) return resposta('Não há as configurações do feed!', 403, false);
         // // $config = json_decode($config);
         // return resposta($config);
@@ -43,5 +43,31 @@ class FeedController {
         });
 
         return resposta($posts);
+    }
+
+    public function select($usuario) {
+        $feeds = Feed::select('*', " WHERE usuario_id = ?", [$usuario->id]);
+        foreach ($feeds as &$feed) {
+            $feed->loadRelation('categorias');
+        }
+        return resposta($feeds);
+    }
+
+    public function add($usuario, $body) {
+        $feed = new Feed();
+        $feed->fill($body);
+        $feed->usuario_id = $usuario->id;
+        $feed->fillRelations($body);
+        $feed->insertSelf();
+        $feed->saveRelations('categorias');
+        return resposta($feed);
+    }
+
+    public function addCategoria($usuario, $body, $id, $categoriaID) {
+        $feed = Feed::select('*', " WHERE id = {$id}")[0];
+        $feed->loadRelation('categorias');
+        $feed->putRelation('categorias', $categoriaID, []);
+        $feed->saveRelations('categorias');
+        return resposta($feed);
     }
 }

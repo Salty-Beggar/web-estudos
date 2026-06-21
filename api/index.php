@@ -54,37 +54,42 @@ require_once "carregar_router.php";
 $router = new Router();
 
 #region Autenticação
-$router->post('/auth/criarConta', ['UsuarioController', 'add'], false);
-$router->post('/auth/login', ['AuthController', 'fazerLogin'], false);
+$router->post('/auth/criarConta', ['UsuarioController', 'add'], false); // Funcionando
+$router->post('/auth/login', ['AuthController', 'fazerLogin'], false); // Funcionando
 #endregion
 
 #region Feed
-$router->get('/feed/{feedID}/{pesquisa}', ['FeedController', 'carregarFeed']);
-/*
-Padrão 
-{
-    pesquisa: string,
-    feed_id: number
-}
-*/
-$router->post('/feed/add', ['FeedController', 'add']);
+// Busca
+$router->get('/feed/{feedID}', ['FeedController', 'carregarFeed']); // Funcionando
+$router->get('/feed/{feedID}/{pesquisa}', ['FeedController', 'carregarFeed']); // Funcionando
+// Criação e edição
+$router->get('/feed', ['FeedController', 'select']); // Funcionando
+$router->post('/feed/add', ['FeedController', 'add']); // Funcionando
 $router->put('/feed/update', ['FeedController', 'update']);
 $router->delete('/feed/delete', ['FeedController', 'delete']);
 // Categorias
-$router->put('/feed/categoria/add', ['FeedController', 'addCategoria']);
+$router->put('/feed/categoria/add/{id}/{categoriaID}', ['FeedController', 'addCategoria']); // Funcionando
 $router->delete('/feed/categoria/delete', ['FeedController', 'deleteCategoria']);
 #endregion
 
 #region Post
-$router->put('/post/vote', ['PostController', 'usuarioVotar']);
+$router->put('/post/vote', ['PostController', 'usuarioVotar']); // TODO
+/**
+ * Adicionar coluna no banco de dados para flaggar o curso padrão do usuário.
+*/
+$router->get('/curso/{id}', ['PostController', 'curso_selectOne']); // TODO
+$router->post('/curso/add', ['PostController', 'curso_criar']); // TODO
+$router->post('/curso/post/add', ['PostController', 'curso_addPost']); // TODO
+$router->get('/curso/usuario', ['PostController', 'curso_selectUsuario']); // TODO
+$router->get('/artigo/{id}', ['PostController', 'artigo_selectOne']); // TODO
+$router->post('/artigo/add', ['PostController', 'artigo_criar']); // TODO
+$router->get('/atividade/{id}', ['PostController', 'atividade_selectOne']);
 #endregion
 
 #region Categoria
-// $router->get('/categoria/selectMany', ['CategoriaController', 'selectMany']);
-// $router->post('/categoria/add', ['CategoriaController', 'add']);
+$router->post('/categoria/add', ['CategoriaController', 'add']); // TODO
 #endregion
 
-// PARA_AGORA: Fazer outras rotas, e integrar com o front.
 $router->lerRota($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
 
 #endregion
