@@ -42,6 +42,20 @@ class FeedController {
             return $aProduct < $bProduct;
         });
 
+        foreach ($posts as &$post) {
+            foreach ($post->categorias as &$categoria) {
+                $voto = DB::queryAssoc("SELECT voto FROM usuarios_posts_categorias WHERE usuario_id = {$usuario->id} AND post_id = ? AND categoria_id = ?", [
+                    $post->id, $categoria->id
+                ]);
+                if (empty($voto)) $voto = 0;
+                else {
+                    $voto = $voto[0]['voto'];
+                }
+                $categoria = $categoria->jsonSerialize();
+                $categoria['voto_usuario'] = $voto;
+            }
+        }
+
         return resposta($posts);
     }
 

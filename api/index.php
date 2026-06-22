@@ -63,10 +63,7 @@ $router->post('/auth/login', ['AuthController', 'fazerLogin'], false); // Funcio
 $router->get('/feed/{feedID}', ['FeedController', 'carregarFeed']); // Funcionando
 $router->get('/feed/{feedID}/{pesquisa}', ['FeedController', 'carregarFeed']); // Funcionando
 // Criação e edição
-$router->get('/feed', ['FeedController', 'select']); // Falta 1 coisa
-/**
-É necessário mostrar os votos do usuário!
- */
+$router->get('/feed', ['FeedController', 'select']); // Funcionando
 $router->post('/feed/add', ['FeedController', 'add']); // Funcionando
 /** Exemplo de body
 {
@@ -85,10 +82,10 @@ $router->delete('/feed/categoria/delete', ['FeedController', 'deleteCategoria'])
 #endregion
 
 #region Post
-$router->put('/post/vote', ['PostController', 'usuarioVotar']); // TODO
+$router->put('/post/vote', ['PostController', 'usuarioVotar']); // Funcionando
 /**
- * Adicionar coluna no banco de dados para flaggar o curso padrão do usuário.
-*/
+ * Vai faltar os votos do usuário nas rotas de select de um post!
+ */
 $router->get('/curso/{id}', ['PostController', 'curso_selectOne']); // TODO
 $router->post('/curso/add', ['PostController', 'curso_criar']); // TODO
 $router->post('/curso/post/add', ['PostController', 'curso_addPost']); // TODO

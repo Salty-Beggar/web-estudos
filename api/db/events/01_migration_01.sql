@@ -98,11 +98,19 @@ CREATE TABLE usuarios_posts_categorias (
 
 -- Tipos de post
 
--- CREATE TABLE cursos (
---     post_id bigint not null,
---     id bigint auto_increment primary key,
---     foreign key (post_id) references posts(id)
--- );  
+CREATE TABLE cursos (
+    post_id bigint not null,
+    id bigint auto_increment primary key,
+    foreign key (post_id) references posts(id)
+);  
+
+CREATE TABLE cursos_posts (
+    curso_id bigint not null,
+    post_id bigint not null,
+    foreign key (curso_id) references cursos(post_id),
+    foreign key (post_id) references posts(id),
+    primary key (curso_id, post_id)
+);
 
 CREATE TABLE artigos (
     post_id bigint not null primary key,

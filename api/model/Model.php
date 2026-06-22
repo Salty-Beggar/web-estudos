@@ -189,11 +189,13 @@ abstract class Model implements \JsonSerializable {
             // echo "SELECT * FROM {$pivotTable} WHERE {$selfID} = {$this->id} AND {$otherID} = {$related['id']}";
             $related = (array)$related;
             $existing = DB::queryAssoc("SELECT * FROM {$pivotTable} WHERE {$selfID} = {$this->id} AND {$otherID} = {$related['id']}", []);
-            // PARA_AGORA: Fazer com que atributos pivô possam ser atualizados.
-            if (empty($existing))
+            if (empty($existing)) {
+
                 DB::executar("INSERT INTO {$pivotTable} ({$selfID}, {$otherID}) VALUES (?, ?)", [$this->id, $related['id']]);
-            else
-                DB::executar("UPDATE FROM {$pivotTable} SET {$selfID} = ?, {$otherID} = ?", [$this->id, $related['id']]);
+            } else {
+                // OBS: Isso tá errado.
+                // DB::executar("UPDATE FROM {$pivotTable} SET {$selfID} = ?, {$otherID} = ?", [$this->id, $related['id']]);
+            }
         }
     }
 
