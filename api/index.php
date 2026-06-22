@@ -63,7 +63,10 @@ $router->post('/auth/login', ['AuthController', 'fazerLogin'], false); // Funcio
 $router->get('/feed/{feedID}', ['FeedController', 'carregarFeed']); // Funcionando
 $router->get('/feed/{feedID}/{pesquisa}', ['FeedController', 'carregarFeed']); // Funcionando
 // Criação e edição
-$router->get('/feed', ['FeedController', 'select']); // Funcionando
+$router->get('/feed', ['FeedController', 'select']); // Falta 1 coisa
+/**
+É necessário mostrar os votos do usuário!
+ */
 $router->post('/feed/add', ['FeedController', 'add']); // Funcionando
 /** Exemplo de body
 {
@@ -96,7 +99,9 @@ $router->get('/atividade/{id}', ['PostController', 'atividade_selectOne']);
 #endregion
 
 #region Categoria
-$router->post('/categoria/add', ['CategoriaController', 'add']); // TODO
+$router->get('/categoria', ['CategoriaController', 'select']); // Feito
+$router->get('/categoria/{pesquisa}', ['CategoriaController', 'select']); // Feito
+$router->post('/categoria/add', ['CategoriaController', 'add']); // Feito
 #endregion
 
 $router->lerRota($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
