@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS cursos_posts;
 DROP TABLE IF EXISTS opcoes;
 DROP TABLE IF EXISTS questionarios;
 DROP TABLE IF EXISTS atividades;

@@ -1,6 +1,6 @@
 <?php
 
-$mostrarErros = false;
+$mostrarErros = true;
 
 // ini_set('display_warnings', 0);
 ini_set('display_errors', $mostrarErros ? '1' : 0);
@@ -60,8 +60,8 @@ $router->post('/auth/login', ['AuthController', 'fazerLogin'], false); // Funcio
 
 #region Feed
 // Busca
-$router->get('/feed/{feedID}', ['FeedController', 'carregarFeed']); // Testar!
-$router->get('/feed/{feedID}/{pesquisa}', ['FeedController', 'carregarFeed']); // Testar!
+$router->get('/feed/{feedID}', ['FeedController', 'carregarFeed']); // Funcionando
+$router->get('/feed/{feedID}/{pesquisa}', ['FeedController', 'carregarFeed']); // Funcionando
 // Criação e edição
 $router->get('/feed', ['FeedController', 'select']); // Funcionando
 $router->post('/feed/add', ['FeedController', 'add']); // Funcionando
@@ -86,12 +86,12 @@ $router->put('/post/vote', ['PostController', 'usuarioVotar']); // Funcionando
 /**
  * Vai faltar os votos do usuário nas rotas de select de um post!
  */
-$router->get('/curso/{id}', ['PostController', 'curso_selectOne']); // Testar!
-$router->post('/curso/add', ['PostController', 'curso_criar']); // Testar!
-$router->put('/curso/post/add', ['PostController', 'curso_addPost']); // Testar!
-$router->get('/curso/usuario', ['PostController', 'curso_selectUsuario']); // Testar!
+$router->get('/curso/{id}', ['PostController', 'curso_selectOne']); // Funcionando
+$router->post('/curso/add', ['PostController', 'curso_criar']); // Funcionando
+$router->put('/curso/post/add', ['PostController', 'curso_addPost']); // Funcionando!
+$router->get('/curso/usuario', ['PostController', 'curso_selectUsuario']); // Funcionando
 $router->get('/artigo/{id}', ['PostController', 'artigo_selectOne']); // Funcionando
-$router->post('/artigo/add', ['PostController', 'artigo_criar']); // Testar!
+$router->post('/artigo/add', ['PostController', 'artigo_criar']); // Funcionando
 $router->get('/atividade/{id}', ['PostController', 'atividade_selectOne']);
 #endregion
 

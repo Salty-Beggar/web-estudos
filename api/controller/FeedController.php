@@ -43,9 +43,10 @@ class FeedController {
         });
 
         foreach ($posts as &$post) {
-            $post['usuario'] = Usuario::select('*', " WHERE id = {$post->usuario_id}")[0];
+            $post = $post->jsonSerialize();
+            $post['usuario'] = Usuario::select('*', " WHERE id = {$post['usuario_id']}")[0];
             $post['usuario']->senha = null;
-            foreach ($post->categorias as &$categoria) {
+            foreach ($post['categorias'] as &$categoria) {
                 $voto = DB::queryAssoc("SELECT voto FROM usuarios_posts_categorias WHERE usuario_id = {$usuario->id} AND post_id = ? AND categoria_id = ?", [
                     $post->id, $categoria->id
                 ]);
