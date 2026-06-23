@@ -46,9 +46,70 @@ class PostController {
         return resposta('Voto bem sucedido!');
     }
 
-    function artigo_selectOne($usuario_id, $artigo_id) {
-        $post = Post::select('*', "JOIN artigos ON artigos.post_id = posts.id WHERE id = {$artigo_id}", [], ['corpo'])[0];
+    // Artigo
+    function artigo_selectOne($usuario, $artigo_id) {
+        $post = Post::select('*', " JOIN artigos ON artigos.post_id = posts.id WHERE id = {$artigo_id}", [], ['corpo'])[0];
         $post->loadRelation('categorias');
         return resposta($post);
+    }
+
+    function artigo_criar($usuario, $body) {
+        $post = new Post();
+        $artigo = new Artigo(); // OBS: Criar essa classe!
+        $post->usuario_id = $usuario->id;
+        $post->tipo = 1;
+        $post->fill($body);
+        $artigo->fill($body);
+        DB::beginTransaction(); // OBS: Criar essas funções de transaction e tals
+        try {
+            $post->insertSelf();
+            $artigo->insertSelf();
+            DB::commit();
+        }catch (\Throwable $e) {
+            DB::rollback();
+            throw $e;
+        }
+        return resposta([...$post->jsonSerialize(), ...$artigo->jsonSerialize()]);
+    }
+
+    // Curso
+    function curso_selectOne($usuario, $curso_id) {
+        $curso = Post::select('*', " WHERE id = {$curso_id}")[0];
+        $curso = $curso->jsonSerialize();
+        $curso['posts'] = DB::queryAssoc("SELECT * FROM cursos_posts JOIN posts ON cursos_posts.post_id = posts.id WHERE curso_id = {$curso->id}", []);
+        return resposta($curso);
+    }
+
+    function curso_criar($usuario, $body) {
+        $post = new Post();
+        $curso = new Curso(); // OBS: Criar essa classe!
+        $post->usuario_id = $usuario->id;
+        $post->tipo = 2;
+        $post->fill($body);
+        $curso->fill($body);
+        DB::beginTransaction(); // OBS: Criar essas funções de transaction e tals
+        try {
+            $post->insertSelf();
+            $curso->insertSelf();
+            DB::commit();
+        }catch (\Throwable $e) {
+            DB::rollback();
+            throw $e;
+        }
+        return resposta([...$post->jsonSerialize(), ...$curso->jsonSerialize()]);
+    }
+
+    function curso_addPost($usuario, $body) {
+        $curso_id = $body['curso_id'];
+        $post_id = $body['post_id'];
+        if (empty(DB::queryAssoc("SELECT * FROM cursos_posts WHERE curso_id = {$curso_id} AND post_id = {$post_id}", []))) {
+            DB::executar("INSERT INTO cursos_posts (curso_id, post_id) VALUES ({$curso_id}, {$post_id})", []);
+        }
+        return resposta("Post adicionado ao curso com sucesso!");
+    }
+
+    function curso_selectUsuario($usuario) {
+        $cursos = Post::select('*', " WHERE usuario_id = {$usuario->id} AND tipo = 2");
+        return resposta($cursos);
     }
 }

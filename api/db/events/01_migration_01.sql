@@ -17,6 +17,8 @@ CREATE TABLE feeds (
 
 CREATE TABLE posts (
     id bigint auto_increment primary key,
+    usuario_id bigint not null,
+    foreign key (usuario_id) references usuarios(id),
     titulo varchar(200) null,
     data_criacao date not null,
     tipo smallint not null

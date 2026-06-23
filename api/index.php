@@ -60,8 +60,8 @@ $router->post('/auth/login', ['AuthController', 'fazerLogin'], false); // Funcio
 
 #region Feed
 // Busca
-$router->get('/feed/{feedID}', ['FeedController', 'carregarFeed']); // Funcionando
-$router->get('/feed/{feedID}/{pesquisa}', ['FeedController', 'carregarFeed']); // Funcionando
+$router->get('/feed/{feedID}', ['FeedController', 'carregarFeed']); // Testar!
+$router->get('/feed/{feedID}/{pesquisa}', ['FeedController', 'carregarFeed']); // Testar!
 // Criação e edição
 $router->get('/feed', ['FeedController', 'select']); // Funcionando
 $router->post('/feed/add', ['FeedController', 'add']); // Funcionando
@@ -86,12 +86,12 @@ $router->put('/post/vote', ['PostController', 'usuarioVotar']); // Funcionando
 /**
  * Vai faltar os votos do usuário nas rotas de select de um post!
  */
-$router->get('/curso/{id}', ['PostController', 'curso_selectOne']); // TODO
-$router->post('/curso/add', ['PostController', 'curso_criar']); // TODO
-$router->post('/curso/post/add', ['PostController', 'curso_addPost']); // TODO
-$router->get('/curso/usuario', ['PostController', 'curso_selectUsuario']); // TODO
-$router->get('/artigo/{id}', ['PostController', 'artigo_selectOne']); // TODO
-$router->post('/artigo/add', ['PostController', 'artigo_criar']); // TODO
+$router->get('/curso/{id}', ['PostController', 'curso_selectOne']); // Testar!
+$router->post('/curso/add', ['PostController', 'curso_criar']); // Testar!
+$router->put('/curso/post/add', ['PostController', 'curso_addPost']); // Testar!
+$router->get('/curso/usuario', ['PostController', 'curso_selectUsuario']); // Testar!
+$router->get('/artigo/{id}', ['PostController', 'artigo_selectOne']); // Funcionando
+$router->post('/artigo/add', ['PostController', 'artigo_criar']); // Testar!
 $router->get('/atividade/{id}', ['PostController', 'atividade_selectOne']);
 #endregion
 
