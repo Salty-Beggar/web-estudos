@@ -5,6 +5,7 @@ export function criar_post(objeto_post){
     const autor_dados = document.createElement("div")
     const img_autor = document.createElement("img")
     const nome_autor = document.createElement("p")
+    console.log(objeto_post)
 
     post.classList.add("post_container")
     autor_dados.classList.add("autor_dados")
@@ -88,7 +89,62 @@ export function criar_post(objeto_post){
         down_vote.addEventListener("click", () => votar(genero_container, -1));
     })
    
+    if(objeto_post.tipo == "curso"){
+        botao_favoritar_curso(autor_dados, objeto_post.id)
+    } else {
+        // botao_adicionar_a_curso()
+    }
     return post
+}
+
+async function cursos_favoritados_usuario(){
+    const token = localStorage.getItem("token");
+    const resposta = await api_fetch("/cursos", {
+        method: "GET",
+        headers: { 
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+         }
+    })
+    if(resposta.success){
+        const cursos = resposta.mensagem.cursos ?? [];
+        return cursos;
+    }else{
+        console.error("Erro ao buscar cursos favoritados:", resposta.mensagem);
+        return [];
+    }
+}
+
+async function botao_favoritar_curso(container_autor, curso_id){
+    const cursos_favoritados = await cursos_favoritados_usuario();
+    // console.log("Cursos favoritados pelo usuário:", cursos_favoritados);
+    const botao_favoritar = document.createElement("button")
+    if(cursos_favoritados.some(curso => curso.id === curso_id)){
+        botao_favoritar.innerText = "Desfavoritar Curso"
+        botao_favoritar.classList.add("botao_desfavoritar_curso")
+        botao_favoritar.disabled = true
+    } else {
+        botao_favoritar.classList.add("botao_favoritar_curso")
+        botao_favoritar.innerText = "Favoritar Curso"
+    }
+    botao_favoritar.setAttribute("type", "button")
+    container_autor.appendChild(botao_favoritar)
+    botao_favoritar.addEventListener("click", async () => {
+        const token = localStorage.getItem("token");
+        const resposta = await api_fetch("/curso/favoritar", {
+            method: "POST",
+            headers: { 
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+             },
+            body: {
+                curso_id: curso_id
+            }
+        })
+        window.location.reload()
+    })
+    // window.reload()
+
 }
 
 async function votar(container, voto_clicado){

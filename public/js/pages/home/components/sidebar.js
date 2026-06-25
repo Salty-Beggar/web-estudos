@@ -76,6 +76,7 @@ async function fetch_dados_user(){
     const resposta = extrair_mensagem(dados);
     const usuario = resposta.usuario ?? resposta;
 
+    console.log("Dados do usuário:", usuario);
     return {
         "feeds" : usuario.feeds ?? [],
         "cursos" : usuario.cursos ?? [],

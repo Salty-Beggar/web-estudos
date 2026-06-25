@@ -151,7 +151,10 @@
     font-weight: 800;
 }
 
+
 .up_vote,
+.botao_favoritar_curso,
+.botao_desfavoritar_curso,
 .down_vote {
     border: 1px solid #55555a;
     border-radius: 9px;
@@ -162,6 +165,11 @@
     background: #3f3f43;
     color: #f0f0f0;
     transition: background var(--kh-transition), transform var(--kh-transition), border-color var(--kh-transition);
+}
+.botao_desfavoritar_curso:hover {
+    background: #6c2a2a;
+    border-color: #a46060;
+    transform: translateY(-1px);
 }
 
 .up_vote:hover {

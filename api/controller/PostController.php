@@ -157,6 +157,30 @@ class PostController {
         return resposta($this->formatarPost($post, $usuario, true));
     }
 
+    function curso_favoritar($usuario, $body) {
+        // return resposta(['usuario' => $usuario, "body" => $body], 200, true);
+        if (!isset($body->curso_id)) {
+            return resposta('curso_id é obrigatório!', 400, false);
+        }
+
+        $usuario_id = $usuario->id;
+        $curso_id = (int)$body->curso_id;
+        // return resposta(['usuario_id' => $usuario_id, 'curso_id' => $curso_id], 200, true);
+        $favoritoAtual = DB::queryAssoc("SELECT * FROM usuarios_cursos_favoritos WHERE usuario_id = ? AND curso_id = ?", [$usuario_id, $curso_id]);
+        if(!empty($favoritoAtual)) {
+            return resposta('curso já favoritado!', 400, false);
+        }else{
+            DB::executar("INSERT INTO usuarios_cursos_favoritos (usuario_id, curso_id) VALUES (?, ?)", [$usuario_id, $curso_id]);
+            return resposta("curso favoritado com sucesso", 200, true);
+        }
+        
+    }
+
+    function cursos_favoritos($usuario) {
+        $cursos_favoritados = DB::queryAssoc("SELECT posts.id FROM usuarios_cursos_favoritos JOIN cursos ON usuarios_cursos_favoritos.curso_id = cursos.post_id JOIN posts ON cursos.post_id = posts.id WHERE usuarios_cursos_favoritos.usuario_id = ?", [$usuario->id]);
+        return resposta(['cursos' => $cursos_favoritados]);
+    }
+
     function artigo_criar($usuario, $body) {
         $titulo = trim($body->titulo ?? '');
         $corpo = trim($body->corpo ?? $body->texto ?? '');

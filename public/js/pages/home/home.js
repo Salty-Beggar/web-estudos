@@ -317,3 +317,4 @@ export function formatar_url(url_normal){
         .replace(/\s/g, "_")
         .replace(/\//g, "-")
 }
+ 

@@ -860,3 +860,6 @@ INSERT INTO cursos_posts (curso_id, post_id) VALUES
 (2, 7), (2, 8), (2, 9),   -- Curso 2 (SQL) contém artigo + questionário
 (3, 10), (3, 11), (3, 12), (3, 13), -- Curso 3 (Fotografia) contém questionários
 (23, 21), (23, 22), (23, 24), (23, 25); -- Curso 23 contém posts de programação
+
+INSERT INTO usuarios_cursos_favoritos (usuario_id, curso_id) VALUES
+(1,1);

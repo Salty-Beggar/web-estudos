@@ -8,4 +8,11 @@ Content-Type: application/json
   "email": "ana.silva@email.com",
   "senha": "hash_ana123"
 }
+###
+POST http://localhost:8010/curso/favoritar
+Content-Type: application/json
+Authorization: Bearer <token>
 
+{
+  "curso_id": 1
+}

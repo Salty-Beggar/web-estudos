@@ -61,15 +61,17 @@ class UsuarioController {
         foreach ($feeds as &$feed) {
             $feed->loadRelation('categorias');
         }
-
-        $cursos = Post::select('*', " WHERE usuario_id = ? AND tipo = 1 ORDER BY data_criacao DESC", [$id]);
-        foreach ($cursos as &$curso) {
-            $curso->loadRelation('categorias');
-        }
+        //pega post ligado a curso e curso ligado a usuario id da tabela favoritos
+        // $cursos_favoritados = DB::queryAssoc("SELECT post.* FROM usuarios_cursos_favoritos JOIN cursos ON usuarios_cursos_favoritos.curso_id = cursos.post_id WHERE usuarios_cursos_favoritos.usuario_id = ?", [$id]);
+        $cursos_favoritados = DB::queryAssoc("SELECT posts.* FROM usuarios_cursos_favoritos JOIN cursos ON usuarios_cursos_favoritos.curso_id = cursos.post_id JOIN posts ON cursos.post_id = posts.id WHERE usuarios_cursos_favoritos.usuario_id = ?", [$usuario->id]);
+        // $cursos_favoritados = Post::select('*', " WHERE usuario_id = ? AND tipo = 1 ORDER BY data_criacao DESC", [$id]);
+        // foreach ($cursos_favoritados as &$curso) {
+        //     $curso->loadRelation('categorias');
+        // }
 
         $usuarioJson = $usuario->jsonSerialize();
         $usuarioJson['feeds'] = $feeds;
-        $usuarioJson['cursos'] = $cursos;
+        $usuarioJson['cursos'] = $cursos_favoritados;
         $usuarioJson['categorias'] = Categoria::select('*', " ORDER BY nome ASC LIMIT 40");
         $usuarioJson['amigos'] = $this->buscarAmigos((int)$id);
         $usuarioJson['servidores'] = [[

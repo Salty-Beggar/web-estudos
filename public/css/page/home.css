@@ -22,7 +22,6 @@ body {
 /* ================================== */
 /* ============ filtros ============= */
 /* ================================== */
-
 #filtro_container {
     grid-area: filtros_feed;
     min-height: 0;
@@ -220,6 +219,8 @@ body {
     font-weight: 700;
     transition: background var(--kh-transition), border-color var(--kh-transition), transform var(--kh-transition);
 }
+
+
 
 .checkbox_categoria_feed:hover {
     background: #ececec;

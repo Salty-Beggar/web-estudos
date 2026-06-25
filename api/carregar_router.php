@@ -80,6 +80,7 @@ class Router {
                 );
                 $token = explode(' ', $authorization);
                 $token = end($token);
+                // echo json_encode($token);
                 $tokenInfo = AuthController::lerToken($token);
                 if (!$tokenInfo['success']) die(resposta($tokenInfo['message'], 403, false));
                 $usuario = $tokenInfo['message'];

@@ -17,3 +17,4 @@ DROP TABLE IF EXISTS usuarios_posts;
 DROP TABLE IF EXISTS usuarios_amigos;
 DROP TABLE IF EXISTS posts;
 DROP TABLE IF EXISTS usuarios;
+DROP TABLE IF EXISTS usuarios_cursos_favoritos;

@@ -29,6 +29,7 @@ body {
     box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
 }
 
+
 .dados {
     display: grid;
     grid-template-columns: 170px minmax(0, 1fr);

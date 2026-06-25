@@ -22,6 +22,7 @@ CREATE TABLE feeds (
     usuario_id bigint not null,
     titulo varchar(200) not null,
     descricao text null,
+    ultimo_feed_ativo boolean not null default false,
     foreign key (usuario_id) references usuarios(id)
 );
 
@@ -61,6 +62,8 @@ CREATE TABLE categorias (
 --     foreign key (subcategoria_id) references categorias(id),
 --     primary key (categoria_id, subcategoria_id)
 -- );
+
+
 
 CREATE TABLE feeds_categorias(
     id bigint auto_increment,
@@ -151,4 +154,12 @@ CREATE TABLE opcoes(
     atividade_id bigint not null,
     texto text not null,
     foreign key (atividade_id) references atividades(post_id)
+);
+
+CREATE TABLE usuarios_cursos_favoritos (
+    usuario_id bigint not null,
+    curso_id bigint not null,
+    foreign key (usuario_id) references usuarios(id),
+    foreign key (curso_id) references cursos(post_id),
+    primary key (usuario_id, curso_id)
 );
