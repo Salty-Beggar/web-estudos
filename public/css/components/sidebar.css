@@ -1,0 +1,107 @@
+/* ============ barra lateral ============ */
+
+aside {
+    grid-area: barra_lateral;
+    min-height: 0;
+    height: auto;
+    background: #1f1f20;
+    border-right: 1px solid #141414;
+    padding: 14px 10px;
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+}
+
+.sessao_barra_lateral {
+    width: 100%;
+    background: #2d2d2f;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #3c3c3f;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+}
+
+.titulo_sessao {
+    width: 100%;
+    padding: 9px 10px;
+    text-align: center;
+    color: #141414;
+    background: #eeeeee;
+    text-transform: capitalize;
+    font-weight: 900;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background var(--kh-transition), color var(--kh-transition);
+}
+
+.titulo_sessao:hover {
+    background: #3a3a3d;
+    color: #f4f4f4;
+}
+
+.corpo_sessao {
+    width: 100%;
+    min-height: 42px;
+    padding: 8px;
+    color: #f7f7f7;
+    background: #242426;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 7px;
+    text-align: center;
+}
+
+.item_barra_lateral {
+    width: 100%;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px;
+    background: #171717;
+    border: 1px solid #3a3a3a;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background var(--kh-transition), transform var(--kh-transition), border-color var(--kh-transition);
+}
+
+.item_barra_lateral:hover {
+    background: #323234;
+    border-color: #5b5b60;
+    transform: translateX(2px);
+}
+
+.imagem_item_barra_lateral {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #55565a;
+    background: #5c5c5c;
+}
+
+.nome_item_barra_lateral {
+    min-width: 0;
+    color: #eeeeee;
+    font-size: 14px;
+    font-weight: 700;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#root.barra_lateral_fechada {
+    grid-template-columns: 0 minmax(0, 1fr) minmax(300px, 420px);
+}
+
+#root.barra_lateral_fechada #barra_lateral {
+    width: 0;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+}

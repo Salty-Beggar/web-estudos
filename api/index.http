@@ -1,0 +1,11 @@
+GET http://localhost:8010/
+
+###
+POST http://localhost:8010/auth/login
+Content-Type: application/json
+
+{
+  "email": "ana.silva@email.com",
+  "senha": "hash_ana123"
+}
+

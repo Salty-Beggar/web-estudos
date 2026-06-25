@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        * {
+            margin: 0; padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            width: 100vw;
+            min-height: 100vh;
+            height: 100%;
+        }
+
+        div {
+            border: 2px red solid;
+        }
+
+        button {
+            border: 2px blue solid;
+            cursor:pointer;
+        }
+
+        .selecionado {
+            background-color: blue;
+            color: white;
+        }
+
+        .pagina0 {
+            border: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        h2, h3 {
+            font-weight: bold;
+            font-size: 2rem;
+        }
+        
+        h2:hover, h3:hover {
+            color: red;
+            cursor:pointer;
+        }
+        h3 {
+            font-size: 1.3rem;
+        }
+
+        li {
+            margin-left: 30px;
+        }
+    </style>
+</head>
+<body style="height: 100vh">
+    <div class="col-span-12 row-span-1 text-center text-[30px]">
+        <b>Rede Social de Estudos</b>
+    </div>
+    <div class="pagina0 grid grid-cols-12 grid-rows-5 gap-1">
+        <div class="col-span-3 row-span-5">
+            <div>
+                <!-- <button id="MEUS-CURSOS">meus cursos</button>
+                <button id="MINHAS-ATIVIDADES">minhas atividades</button>
+                <button id="MINHAS-PROVAS">minhas provas</button>
+                <button id="MEUS-VIDEOS">meus videos</button>
+                <button id="MINHAS-QUESTOES">minhas questoes</button> -->
+                <b class="text-[2rem]">Salvos</b>
+            </div>
+            <div style="border: 0" id="tab_salvos">
+                <div style="margin-top: 10px; margin-bottom: 20px">
+                    <h3>Titulo</h3>
+                    <i>Prova</i><br>
+                    <i>Classificações</i>
+                    <ul>
+                        <li>Classe 1</li>
+                        <li>Classe 2</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-span-6 row-span-5" style="overflow: scroll;">
+            <div>
+                <header id="feed-header">
+                    <div id="material-buttons flex d">
+                        <button class="material-button">Atividades</button>
+                        <button class="material-button">Prova</button>
+                        <button class="material-button">Cursos</button>
+                        <button class="material-button">Vídeos</button>
+                        <button class="material-button">Questoes</button>
+                    </div>
+                </header>
+                <div id="feed">
+                    <div id="feed-container-main">
+                        <div id="feed-container" data-owner="feed-container">
+                            <section class="feed-container-data">
+                                <h2 class="container-tittle">Prova de historia do Americana.</h2><br>
+                                <p class="container-type-user">Usuário: Lucas Andrade da Silva (Professor)</p></br>
+                                <p class="container-date">Data de postagem: 20/06/2026</p></br>
+                                <p class="container-rating">
+                                    Matematica: 
+                                    <ul>
+                                        <li>
+                                            Dificuldade: 200
+                                        </li>
+                                        <li>
+                                            Votos: 5 <button>+</button><button>-</button>
+                                        </li>
+                                    </ul>
+                                    Interpretacao: 950: Votos: 5 <button>+</button><button>-</button></br>
+                                    Logica: 1010: Votos: 5 <button>+</button><button>-</button></br>
+                                </p><br>
+                            <section>
+                        </div>
+                    </div>
+                    <div id="feed-container-main">
+                        <div id="feed-container" data-owner="feed-container">
+                            <section class="feed-container-data">
+                                <h2 class="container-tittle">Prova de historia do Americana.</h2><br>
+                                <p class="container-type-user">Professor:Lucas Andrade da Silva</p></br>
+                                <p class="container-date">Data de postagem: 20/06/2026</p></br>
+                                <p class="container-rating">
+                                    Matematica: 200.</br>
+                                    Interpretacao: 950.</br>
+                                    Logica: 1010.</br>
+                                </p><br>
+                            <section>
+                        </div>
+                    </div>
+                    <div id="feed-container-main">
+                        <div id="feed-container" data-owner="feed-container">
+                            <section class="feed-container-data">
+                                <h2 class="container-tittle">Prova de historia do Americana.</h2><br>
+                                <p class="container-type-user">Professor:Lucas Andrade da Silva</p></br>
+                                <p class="container-date">Data de postagem: 20/06/2026</p></br>
+                                <p class="container-rating">
+                                    Matematica: 1200.</br>
+                                    Interpretacao: 122.</br>
+                                    Logica: 635.</br>
+                                </p><br>
+                            <section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-span-3 row-span-5">
+            <div class="text-[2rem]"><b>Classificações</b></div>
+            <div id="checklist_classificacoes">
+                <input type="checkbox">
+                Biologia
+            </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="pagina0"> <!-- Questão -->
+        <div>
+            Pressione ESC para voltar ao feed
+        </div>
+        <div class="question" type="question" question-type="select">
+            <h1 class="question-number">Questao 1.</h1>
+            <p>texto aleatorio pra encher linguica com nada de importante
+            texto aleatorio pra encher linguica com nada de importante
+            texto aleatorio pra encher linguica com nada de importante
+            texto aleatorio pra encher linguica com nada de importante
+            texto aleatorio pra encher linguica com nada de importante
+            texto aleatorio pra encher linguica com nada de importante</p>
+
+            <div class="options">
+                <div class="option">
+                    <input type="radio" name="question1" id="option1">
+                    <label for="option1">A)</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="question1" id="option2">
+                    <label for="option2">B)</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="question1" id="option3">
+                    <label for="option3">C)</label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="question1" id="option4">
+                    <label for="option4">D)</label>
+                </div>
+
+        </div>
+    </div>
+    <div class="pagina0"> <!-- Prova -->
+
+    </div>
+    <div class="pagina0"> <!-- Artigo -->
+
+    </div>
+    <div class="pagina0"> <!-- Post Social -->
+
+    </div>
+    
+    <script src="./script.js"></script>
+</body>
+</html>

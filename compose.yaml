@@ -1,0 +1,32 @@
+services:
+  web:
+    build: ./public
+    ports:
+      - "8000:80"
+    volumes:
+      - type: bind
+        source: ./public
+        target: /var/www/html
+  api:
+    build: ./api
+    ports:
+      - "8010:80"
+    volumes:
+      - type: bind
+        source: ./api
+        target: /var/www/html
+  db:
+    build: ./api/db
+    volumes:
+      - type: volume
+        source: db-data
+        target: /var/lib/mysql
+      - type: bind
+        source: ./api/db/beninifas.php
+        target: /srv/beninifas.php
+      - type: bind
+        source: ./api/db/events
+        target: /srv/events
+volumes:
+  db-data:
+    

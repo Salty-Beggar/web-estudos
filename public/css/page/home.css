@@ -1,0 +1,314 @@
+body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: var(--kh-bg);
+}
+
+#root {
+    height: 100vh;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(260px, 360px) minmax(0, 1fr) minmax(300px, 420px);
+    grid-template-rows: 75px minmax(0, 1fr);
+    grid-template-areas:
+        "cabecalho cabecalho cabecalho"
+        "barra_lateral corpo filtros_feed";
+    background:
+        radial-gradient(circle at 50% -20%, rgba(255, 255, 255, 0.08), transparent 35%),
+        var(--kh-bg);
+}
+
+/* ================================== */
+/* ============ filtros ============= */
+/* ================================== */
+
+#filtro_container {
+    grid-area: filtros_feed;
+    min-height: 0;
+    color: var(--kh-text);
+    background: linear-gradient(180deg, #222225, #171718);
+    border-left: 1px solid #111;
+    overflow-y: auto;
+}
+
+#feed_titulo {
+    margin: 0;
+    font-size: clamp(24px, 2vw, 30px);
+    line-height: 1.08;
+    letter-spacing: 0.2px;
+    color: #fff;
+}
+
+#feed_descricao {
+    margin: -6px 0 2px;
+    color: var(--kh-text-muted);
+    line-height: 1.45;
+}
+
+/* ================================== */
+/* ============ conteudo ============ */
+/* ================================== */
+
+#feed_container {
+    grid-area: corpo;
+    min-width: 0;
+    min-height: 0;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    background: #111112;
+}
+
+#corpo_feed {
+    min-height: 0;
+    overflow-y: auto;
+    padding: 18px;
+    display: grid;
+    align-content: start;
+    gap: 16px;
+}
+
+#header_feed {
+    min-width: 0;
+    padding: 16px 18px;
+    background: linear-gradient(180deg, #f6f6f6, #e9e9e9);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    border-bottom: 1px solid #c9c9c9;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.item_header_feed,
+#botao_adicionar_feed {
+    border-radius: 999px;
+    padding: 10px 18px;
+    border: 1px solid transparent;
+    transition: background var(--kh-transition), color var(--kh-transition), transform var(--kh-transition), border-color var(--kh-transition), box-shadow var(--kh-transition);
+    width: fit-content;
+    white-space: nowrap;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.item_header_feed {
+    background: #2a2a2a;
+    color: #fff;
+    border-color: #202020;
+}
+
+.item_header_feed:hover {
+    background: #111;
+    transform: translateY(-1px);
+}
+
+#botao_adicionar_feed {
+    background: #fff;
+    color: #101010;
+    border-color: #151515;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.18);
+}
+
+#botao_adicionar_feed:hover {
+    transform: translateY(-1px);
+    background: #101010;
+    color: #fff;
+}
+
+.ativo {
+    background: #6b6b6f;
+    color: #fff;
+    border-color: #8a8a8e;
+}
+
+.mensagem_feed_vazio,
+.mensagem_feed_erro {
+    padding: 18px;
+    border-radius: var(--kh-radius-md);
+    background: #1c1c1e;
+    border: 1px solid #38383b;
+    color: var(--kh-text-muted);
+    line-height: 1.45;
+}
+
+.mensagem_feed_erro,
+.mensagem_modal_feed {
+    color: #ff9b9b;
+    font-weight: 800;
+}
+
+/* ================================== */
+/* ===== modal de criar feed ======== */
+/* ================================== */
+
+.modal_feed_overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: rgba(0, 0, 0, 0.62);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal_feed {
+    width: min(600px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    background: #f7f7f7;
+    color: #1f1f1f;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: var(--kh-shadow);
+}
+
+.modal_feed h2 {
+    margin-bottom: 18px;
+    line-height: 1.1;
+}
+
+.form_criar_feed {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form_criar_feed label,
+.titulo_categorias_feed {
+    font-weight: 800;
+}
+
+.form_criar_feed input[type="text"],
+.form_criar_feed input:not([type]),
+.form_criar_feed textarea {
+    min-width: 0;
+    border: 1px solid #bdbdbd;
+    border-radius: 12px;
+    padding: 11px 12px;
+    background: #fff;
+    color: #1f1f1f;
+    transition: border-color var(--kh-transition), box-shadow var(--kh-transition);
+}
+
+.form_criar_feed input:focus,
+.form_criar_feed textarea:focus {
+    outline: none;
+    border-color: #444;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.form_criar_feed textarea {
+    resize: vertical;
+}
+
+.checkbox_categoria_feed {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    padding: 10px;
+    border: 1px solid #cfcfcf;
+    border-radius: 12px;
+    background: #fff;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background var(--kh-transition), border-color var(--kh-transition), transform var(--kh-transition);
+}
+
+.checkbox_categoria_feed:hover {
+    background: #ececec;
+    border-color: #8f8f8f;
+    transform: translateY(-1px);
+}
+
+.checkbox_categoria_feed span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.mensagem_modal_feed {
+    min-height: 18px;
+}
+
+.acoes_modal_feed {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.botao_cancelar_feed,
+.botao_salvar_feed {
+    border-radius: 12px;
+    padding: 10px 16px;
+    cursor: pointer;
+    font-weight: 800;
+    transition: background var(--kh-transition), color var(--kh-transition), transform var(--kh-transition), opacity var(--kh-transition);
+}
+
+.botao_cancelar_feed {
+    border: 1px solid #c7c7c7;
+    background: #dedede;
+    color: #222;
+}
+
+.botao_salvar_feed {
+    border: 1px solid #222;
+    background: #222;
+    color: #fff;
+}
+
+.botao_cancelar_feed:hover,
+.botao_salvar_feed:hover {
+    transform: translateY(-1px);
+}
+
+.botao_salvar_feed:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+@media (max-width: 1200px) {
+    #root {
+        grid-template-columns: minmax(220px, 300px) minmax(0, 1fr) minmax(260px, 340px);
+    }
+}
+
+@media (max-width: 900px) {
+    body {
+        overflow: auto;
+    }
+
+    #root {
+        min-height: 100vh;
+        height: auto;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto auto;
+        grid-template-areas:
+            "cabecalho"
+            "corpo"
+            "filtros_feed"
+            "barra_lateral";
+    }
+
+    #feed_container,
+    #filtro_container,
+    aside {
+        min-height: auto;
+    }
+
+    #corpo_feed,
+    #filtro_container,
+    aside {
+        overflow: visible;
+    }
+}

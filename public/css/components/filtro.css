@@ -1,0 +1,280 @@
+/* ============ filtro / categorias do feed ============ */
+
+#filtro_container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+    padding: 18px;
+    min-width: 0;
+}
+
+#section_generos {
+    width: 100%;
+    display: grid;
+    gap: 14px;
+}
+
+.cabecalho_categorias_feed {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+}
+
+.cabecalho_categorias_feed h3 {
+    margin: 0;
+    color: #f6f6f6;
+    font-size: 18px;
+    line-height: 1.2;
+}
+
+.acoes_categorias_feed,
+.acoes_retirar_categorias {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.botao_adicionar_categoria_feed,
+.botao_retirar_categoria_feed,
+.botao_cancelar_retirada,
+.botao_confirmar_retirada {
+    border-radius: 999px;
+    padding: 8px 13px;
+    font-weight: 800;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background var(--kh-transition), color var(--kh-transition), border-color var(--kh-transition), transform var(--kh-transition), opacity var(--kh-transition);
+}
+
+.botao_adicionar_categoria_feed {
+    border: 1px solid #f2f2f2;
+    background: #f2f2f2;
+    color: #111;
+}
+
+.botao_adicionar_categoria_feed:hover {
+    background: #111;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.botao_retirar_categoria_feed {
+    border: 1px solid #5c5c5f;
+    background: #191919;
+    color: #f4f4f4;
+}
+
+.botao_retirar_categoria_feed:hover,
+.botao_retirar_categoria_feed.ativo_retirar {
+    border-color: #b65a5a;
+    background: #3a1515;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.botao_adicionar_categoria_feed:disabled,
+.botao_retirar_categoria_feed:disabled,
+.botao_confirmar_retirada:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.lista_categorias_ativas_feed {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.categoria_feed_item {
+    min-width: 0;
+}
+
+.botao_categoria_feed,
+.botao_opcao_categoria_feed {
+    font: inherit;
+    cursor: pointer;
+}
+
+.botao_categoria_feed {
+    min-width: 0;
+    border-radius: 999px;
+    background: #141414;
+    color: #fff;
+    border: 1px solid #505050;
+    padding: 10px 13px;
+    text-align: left;
+    font-weight: 800;
+    transition: background var(--kh-transition), border-color var(--kh-transition), color var(--kh-transition), transform var(--kh-transition), box-shadow var(--kh-transition);
+}
+
+.botao_categoria_feed:hover {
+    background: #2c2c2f;
+    border-color: #777;
+    transform: translateY(-1px);
+}
+
+.lista_categorias_ativas_feed.modo_retirar .botao_categoria_feed:hover {
+    background: #421616;
+    border-color: #a74b4b;
+    color: #fff;
+}
+
+.categoria_feed_item.selecionada_para_remover .botao_categoria_feed {
+    background: #7a1919;
+    border-color: #e05b5b;
+    color: #fff;
+    box-shadow: 0 0 0 2px rgba(224, 91, 91, 0.18);
+}
+
+.painel_retirar_categorias {
+    display: grid;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 14px;
+    background: #151515;
+    border: 1px solid #3a3a3a;
+}
+
+.painel_retirar_categorias[hidden] {
+    display: none;
+}
+
+.painel_retirar_categorias p {
+    margin: 0;
+    color: #dedede;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.botao_cancelar_retirada {
+    border: 1px solid #555;
+    background: #2a2a2a;
+    color: #f4f4f4;
+}
+
+.botao_confirmar_retirada {
+    border: 1px solid #9f3333;
+    background: #8b1f1f;
+    color: #fff;
+}
+
+.botao_cancelar_retirada:hover,
+.botao_confirmar_retirada:hover {
+    transform: translateY(-1px);
+}
+
+.modal_categoria_feed {
+    width: min(760px, 100%);
+    background: #151515;
+    color: #f4f4f4;
+    border: 1px solid #343434;
+}
+
+.modal_categoria_feed h2 {
+    color: #fff;
+}
+
+.texto_modal_categoria_feed {
+    margin: 0 0 14px;
+    color: #d0d0d0;
+}
+
+.form_criar_categoria_feed {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.form_criar_categoria_feed input {
+    min-width: 0;
+    border: 1px solid #3f3f3f;
+    border-radius: 10px;
+    padding: 11px 12px;
+    background: #0f0f0f;
+    color: #f4f4f4;
+}
+
+.form_criar_categoria_feed input::placeholder {
+    color: #929292;
+}
+
+.form_criar_categoria_feed button {
+    border: 1px solid #f2f2f2;
+    border-radius: 10px;
+    padding: 10px 14px;
+    background: #f2f2f2;
+    color: #111;
+    cursor: pointer;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.form_criar_categoria_feed button:hover {
+    background: #111;
+    color: #fff;
+}
+
+.form_criar_categoria_feed button:disabled,
+.botao_opcao_categoria_feed:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.lista_adicionar_categoria_feed,
+.lista_categorias_feed {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 8px;
+    max-height: 360px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.botao_opcao_categoria_feed {
+    border-radius: 10px;
+    padding: 10px;
+    background: #101010;
+    color: #f4f4f4;
+    border: 1px solid #383838;
+    font-weight: 700;
+    text-align: left;
+    transition: background var(--kh-transition), border-color var(--kh-transition), transform var(--kh-transition);
+}
+
+.botao_opcao_categoria_feed:hover {
+    background: #242424;
+    border-color: #666;
+    transform: translateY(-1px);
+}
+
+.modal_categoria_feed .botao_cancelar_feed {
+    background: #2a2a2a;
+    color: #f4f4f4;
+    border: 1px solid #555;
+}
+
+.mensagem_categoria_vazia {
+    margin: 0;
+    color: #d8d8d8;
+    background: #151515;
+    border: 1px solid #3a3a3a;
+    border-radius: 12px;
+    padding: 12px;
+}
+
+@media (max-width: 900px) {
+    .form_criar_categoria_feed,
+    .cabecalho_categorias_feed {
+        grid-template-columns: 1fr;
+    }
+
+    .acoes_categorias_feed,
+    .acoes_retirar_categorias {
+        justify-content: flex-start;
+    }
+}

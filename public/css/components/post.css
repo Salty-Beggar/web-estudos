@@ -1,0 +1,227 @@
+/* =============================== */
+/* ============ posts ============ */
+/* =============================== */
+
+.post_container {
+    width: 100%;
+    min-width: 0;
+    background: linear-gradient(180deg, #232326, #1a1a1c);
+    border: 1px solid #3b3b3f;
+    border-radius: 16px;
+    padding: 14px;
+    color: #e8e8e8;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.24);
+    transition: border-color var(--kh-transition), transform var(--kh-transition), box-shadow var(--kh-transition);
+}
+
+.post_container:hover {
+    border-color: #56565c;
+    transform: translateY(-1px);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.28);
+}
+
+.autor_dados {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #3a3a3d;
+}
+
+.img_autor {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #505050;
+    border: 2px solid #606065;
+}
+
+.nome_autor {
+    margin: 0;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 1rem;
+    font-weight: 800;
+    color: #f0f0f0;
+}
+
+.post_dados {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+}
+
+.img_post {
+    width: 100%;
+    max-height: 320px;
+    object-fit: cover;
+    border-radius: 14px;
+    background: #414141;
+    border: 1px solid #4b4b4b;
+}
+
+.titulo_post {
+    margin: 4px 0 0;
+    font-size: clamp(1.18rem, 1.4vw, 1.5rem);
+    line-height: 1.25;
+    color: #f5f5f5;
+    padding: 4px 7px;
+    border-radius: 10px;
+    transition: background var(--kh-transition), color var(--kh-transition);
+}
+
+.titulo_post:hover {
+    color: #fff;
+    background: #333336;
+    cursor: pointer;
+}
+
+.tipo_post {
+    width: fit-content;
+    margin: 0;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: #eeeeee;
+    color: #121212;
+    font-size: 0.78rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.descricao_post {
+    margin: 0;
+    color: #c8c8cb;
+    font-size: 0.98rem;
+    line-height: 1.5;
+}
+
+.postado_quando_post {
+    margin: 0;
+    color: #9a9aa0;
+    font-size: 0.85rem;
+}
+
+.generos_post {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+.genero_container {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto auto;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    background: #222225;
+    border: 1px solid #404044;
+    border-radius: 12px;
+}
+
+.nome_genero {
+    margin: 0;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #eeeeee;
+}
+
+.pontos_genero {
+    margin: 0;
+    min-width: 54px;
+    text-align: center;
+    padding: 5px 8px;
+    border-radius: 999px;
+    background: #343438;
+    color: #dedee2;
+    font-size: 0.85rem;
+    font-weight: 800;
+}
+
+.up_vote,
+.down_vote {
+    border: 1px solid #55555a;
+    border-radius: 9px;
+    padding: 7px 10px;
+    font-size: 0.75rem;
+    font-weight: 900;
+    cursor: pointer;
+    background: #3f3f43;
+    color: #f0f0f0;
+    transition: background var(--kh-transition), transform var(--kh-transition), border-color var(--kh-transition);
+}
+
+.up_vote:hover {
+    background: #4e704f;
+    border-color: #75a878;
+    transform: translateY(-1px);
+}
+
+.down_vote:hover {
+    background: #7a4646;
+    border-color: #a46060;
+    transform: translateY(-1px);
+}
+
+.down_vote_checked {
+    background: #963232 !important;
+    border-color: #c75a5a !important;
+}
+
+.up_vote_checked {
+    background: #568a56 !important;
+    border-color: #85bb85 !important;
+}
+
+.up_vote:active,
+.down_vote:active {
+    transform: scale(0.96);
+}
+
+@media (max-width: 600px) {
+    .post_container {
+        padding: 14px;
+        border-radius: 14px;
+    }
+
+    .genero_container {
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+            "nome pontos"
+            "up down";
+    }
+
+    .nome_genero {
+        grid-area: nome;
+    }
+
+    .pontos_genero {
+        grid-area: pontos;
+    }
+
+    .up_vote {
+        grid-area: up;
+    }
+
+    .down_vote {
+        grid-area: down;
+    }
+
+    .up_vote,
+    .down_vote {
+        width: 100%;
+    }
+}

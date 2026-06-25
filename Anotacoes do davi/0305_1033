@@ -1,0 +1,28 @@
+### Objetivo: 
+Criacao dos elementos do feed
+
+### questao:
+- ainda nao entendo como funciona um feed mas nao pensarei sobre isso ainda suponho que comece com as coisas mais recentemente postadas e seguem ate as mais antigas.
+
+- tenho que pegar os itens recentemente postados do back end por fetch(por enquanto faremos uma api externa "falsa")
+
+- cada item vira como um array de objetos e espero que venham separados mas se nao vierem fareimanualmente.
+
+- ao separar o tipo de postagem sera montada como ela aparecera na tela inicial(nao ha necessidade de montar o formato ainda pois elas nao tem o formato do seu tipo na tela inicial so as informacoes quem postou etc)
+
+- o que ela tera no formato inicial e (os generos que mais condizem com elas)
+exemplo: post_generos(geografia:1000,geopolitica:200,interpretação:800)
+
+- tambem tera quem postou 
+exemplo post([foto do usuario] Joao Cunha Neves, Há 3 horas, professor de: historia, geografia e matematica)
+
+### problemas
+- como posso organizar acho que colocaria post e feed separado como dois componentes porem feed nao se comporta tanto como componente ele fas mais parte da tela principal mesmo ent acho que o ideal seria criar o feed no home.js mesmo e criar o componente post pra quando for gerar o html dos posnt pra inserir no feed, e sobre a parte de feed ser componente acho que ele so seria se fosse reutilizado porem acho que ele so sera utilizado na pagina inicial.
+- por enqunato: farei o feed na home.js mesmo e o post como componente se uma ideia melhor sugir irei trocar mas por enquanro o objetivo e fazer funcionar
+### resultado:
+o css foi feito pelo chat gpt o resto fui eu 
+
+parece que esta funcionando definitivamente nao da melhor forma pq nao sei exatamnete o formato dos posts o que tem neles mas ele esta pegando os posts externamente por fetch e inserindo no container de posts e parecem bonitos, o css esta uma merda no sentido de estruturacao, pode quebrar a qualquer momento o css a geracao esta dando certo ate entao
+e ficou pronto +- as 14:05 do mesmo dia que esta dizendo abaixo
+naofiquei todo esse tempo fazendo ela fiquei um tempo existindo odiando programar fazendo o almoco e odiando programar denovo e almocando 
+======================== horario 10:47 dia 03/05 ========================================
