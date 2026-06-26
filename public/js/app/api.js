@@ -118,7 +118,8 @@ export function normalizar_tipo_post(tipo) {
         1: "curso",
         2: "artigo",
         3: "questionario",
-        4: "atividade"
+        4: "atividade",
+        5: "prova"
     };
 
     if (typeof tipo === "string" && Number.isNaN(Number(tipo))) return tipo;
@@ -143,6 +144,17 @@ function resumo_texto(texto = "", limite = 170) {
     return `${limpo.slice(0, limite).trim()}...`;
 }
 
+function normalizar_booleano(valor) {
+    if (typeof valor === "boolean") return valor;
+    if (typeof valor === "number") return valor !== 0;
+    if (typeof valor === "string") {
+        const texto = valor.trim().toLowerCase();
+        if (["1", "true", "sim", "yes", "publicado"].includes(texto)) return true;
+        if (["0", "false", "nao", "não", "no", "rascunho", "privado", ""].includes(texto)) return false;
+    }
+    return Boolean(valor);
+}
+
 export function normalizar_post(post = {}) {
     const usuario = normalizar_usuario(post.usuario ?? post.autor ?? {});
     const tipo_id = post.tipo_id ?? (Number.isNaN(Number(post.tipo)) ? null : Number(post.tipo));
@@ -150,10 +162,15 @@ export function normalizar_post(post = {}) {
 
     const descricao = post.descricao
         ?? post.resumo
-        ?? (tipo === "artigo" ? resumo_texto(post.corpo ?? "") : resumo_texto(post.texto_atividade ?? post.enunciado ?? ""));
+        ?? (tipo === "artigo"
+            ? resumo_texto(post.corpo ?? "")
+            : tipo === "prova"
+                ? resumo_texto(post.descricao_prova ?? `Prova com ${post.qtd_atividades ?? 0} atividades.`)
+                : resumo_texto(post.texto_atividade ?? post.enunciado ?? ""));
 
     return {
         ...post,
+        publicado: normalizar_booleano(post.publicado),
         tipo_id,
         tipo,
         texto_atividade: post.texto_atividade ?? post.texto ?? "",

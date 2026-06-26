@@ -177,41 +177,51 @@ INSERT INTO categorias (id, nome) VALUES
 -- 3. POSTS (20 rows)
 -- tipo: 1=Curso, 2=Artigo, 3=Questionário, 4=Atividade
 -- ------------------------------------------------------------
-INSERT INTO posts (id, usuario_id, titulo, data_criacao, tipo) VALUES
-(1, 1, 'Curso de Python Básico', '2025-01-10', 1),
-(2, 2, 'Curso de SQL Avançado', '2025-02-14', 1),
-(3, 3, 'Curso de Fotografia', '2025-03-20', 1),
-(4, 4, 'Como manter a calma em crise', '2025-01-22', 2),
-(5, 5, '5 hábitos para uma vida saudável', '2025-02-28', 2),
-(6, 6, 'Entendendo a economia circular', '2025-03-05', 2),
-(7, 7, 'Investimentos para iniciantes', '2025-04-01', 2),
-(8, 8, 'O futuro do trabalho remoto', '2025-04-15', 2),
-(9, 9, 'Questionário de Lógica', '2025-01-18', 3),
-(10, 10, 'Quiz sobre HTML/CSS', '2025-02-20', 3),
-(11, 11, 'Teste de conhecimentos gerais', '2025-03-25', 3),
-(12, 12, 'Avaliação de matemática', '2025-04-10', 3),
-(13, 13, 'Pesquisa de satisfação', '2025-05-02', 3),
-(14, 14, 'Atividade: Montar um PC', '2025-01-12', 4),
-(15, 15, 'Atividade: Criar uma API REST', '2025-02-18', 4),
-(16, 16, 'Atividade: Redação dissertativa', '2025-03-22', 4),
-(17, 17, 'Atividade: Cálculo de IMC', '2025-04-05', 4),
-(18, 18, 'Atividade: Planejamento financeiro', '2025-04-28', 4),
-(19, 19, 'Atividade: Análise de dados', '2025-05-15', 4),
-(20, 20, 'Atividade: Criação de um blog', '2025-06-01', 4),
-(21, 1, 'Como organizar uma API em PHP', '2026-06-12', 2),
-(22, 1, 'Guia rápido de rotas no front-end', '2026-06-13', 2),
-(23, 1, 'Curso prático de Banco de Dados', '2026-06-14', 1),
-(24, 1, 'Atividade: criar um feed personalizado', '2026-06-15', 4),
-(25, 1, 'Questionário de JavaScript básico', '2026-06-16', 3),
-(26, 1, 'Como estudar inglês técnico todo dia', '2026-06-17', 2),
-(27, 1, 'Treino leve e recuperação no vôlei', '2026-06-18', 2),
-(28, 1, 'Projeto Integrador: documentação e entregas', '2026-06-19', 2);
+INSERT INTO posts (id, usuario_id, titulo, data_criacao, tipo, publicado) VALUES
+(1, 1, 'Curso de Python Básico', '2025-01-10', 1, true),
+(2, 2, 'Curso de SQL Avançado', '2025-02-14', 1, true),
+(3, 3, 'Curso de Fotografia', '2025-03-20', 1, true),
+(4, 4, 'Como manter a calma em crise', '2025-01-22', 2, true),
+(5, 5, '5 hábitos para uma vida saudável', '2025-02-28', 2, true),
+(6, 6, 'Entendendo a economia circular', '2025-03-05', 2, true),
+(7, 7, 'Investimentos para iniciantes', '2025-04-01', 2, true),
+(8, 8, 'O futuro do trabalho remoto', '2025-04-15', 2, true),
+(9, 9, 'Questionário de Lógica', '2025-01-18', 3, true),
+(10, 10, 'Quiz sobre HTML/CSS', '2025-02-20', 3, true),
+(11, 11, 'Teste de conhecimentos gerais', '2025-03-25', 3, true),
+(12, 12, 'Avaliação de matemática', '2025-04-10', 3, true),
+(13, 13, 'Pesquisa de satisfação', '2025-05-02', 3, true),
+(14, 14, 'Atividade: Montar um PC', '2025-01-12', 4, true),
+(15, 15, 'Atividade: Criar uma API REST', '2025-02-18', 4, true),
+(16, 16, 'Atividade: Redação dissertativa', '2025-03-22', 4, true),
+(17, 17, 'Atividade: Cálculo de IMC', '2025-04-05', 4, true),
+(18, 18, 'Atividade: Planejamento financeiro', '2025-04-28', 4, true),
+(19, 19, 'Atividade: Análise de dados', '2025-05-15', 4, true),
+(20, 20, 'Atividade: Criação de um blog', '2025-06-01', 4, true),
+(21, 1, 'Como organizar uma API em PHP', '2026-06-12', 2, true),
+(22, 1, 'Guia rápido de rotas no front-end', '2026-06-13', 2, true),
+(23, 1, 'Curso prático de Banco de Dados', '2026-06-14', 1, true),
+(24, 1, 'Atividade: criar um feed personalizado', '2026-06-15', 4, true),
+(25, 1, 'Questionário de JavaScript básico', '2026-06-16', 3, true),
+(26, 1, 'Como estudar inglês técnico todo dia', '2026-06-17', 2, true),
+(27, 1, 'Treino leve e recuperação no vôlei', '2026-06-18', 2, true),
+(28, 1, 'Projeto Integrador: documentação e entregas', '2026-06-19', 2, true),
+(29, 1, 'Prova: Fundamentos de Programação Web', '2026-06-20', 5, true),
+(30, 1, 'Prova: Revisão Geral IFRS', '2026-06-21', 5, true),
+(31, 2, 'Curso prático de Banco de Dados', '2026-06-22', 1, false);
 
 -- ------------------------------------------------------------
 -- 4. CURSOS (subtype for post tipo=1)
 -- ------------------------------------------------------------
-INSERT INTO cursos (post_id) VALUES
-(1), (2), (3), (23);
+INSERT INTO cursos (post_id, origem_curso_id, publicado) VALUES
+(1, NULL, true),
+(2, NULL, true),
+(3, NULL, true),
+(23, NULL, true);
+
+-- Curso 31 simula Pedro salvando uma cópia do curso 23 criado por Ana.
+INSERT INTO cursos (post_id, origem_curso_id, publicado) VALUES
+(31, 23, false);
 
 -- ------------------------------------------------------------
 -- 5. ARTIGOS (subtype for post tipo=2)
@@ -364,6 +374,14 @@ INSERT INTO questionarios (post_id) VALUES
 (9), (10), (11), (12), (13), (25);
 
 -- ------------------------------------------------------------
+-- 6.1. PROVAS (subtype for post tipo=5)
+-- Uma prova é um post que junta várias atividades objetivas.
+-- ------------------------------------------------------------
+INSERT INTO provas (post_id, descricao, nota_maxima, formato_nota, mostrar_resultado_imediato, permitir_resposta_nula) VALUES
+(29, 'Prova curta para revisar rotas, HTML, CSS, APIs e criação de feeds.', 10.00, 'dez', true, true),
+(30, 'Prova de revisão geral com conteúdos variados do curso técnico.', 10.00, 'dez', true, true);
+
+-- ------------------------------------------------------------
 -- 7. ATIVIDADES (subtype for post tipo=4)
 -- resposta_certa guarda a ordem da alternativa correta, de 1 a 4.
 -- ------------------------------------------------------------
@@ -375,7 +393,7 @@ INSERT INTO atividades (post_id, enunciado, texto, resposta_certa, explicacao) V
 (18, 'Com renda de R$ 3000, despesas fixas de R$ 2100 e despesas variáveis de R$ 600, quanto sobra no mês?', 'Some as despesas e subtraia da renda. Essa atividade treina organização financeira básica e leitura de orçamento mensal.', 2, 'As despesas somam R$ 2700. Como a renda é R$ 3000, sobram R$ 300.'),
 (19, 'Em Python, qual comando é mais direto para ler um arquivo CSV em uma tabela usando pandas?', 'Considere que a biblioteca pandas já foi importada como pd. A pergunta pede a forma mais comum para transformar o CSV em um DataFrame.', 1, 'pd.read_csv() lê um arquivo CSV e retorna um DataFrame, que pode ser filtrado, exibido e analisado.'),
 (20, 'Qual conjunto de elementos deixa a estrutura inicial de um blog mais semântica?', 'Um blog simples pode ter cabeçalho, área principal, artigos e rodapé. A semântica ajuda o navegador e outras ferramentas a entenderem melhor o conteúdo.', 3, 'header, main, article e footer indicam o papel de cada parte da página com mais clareza do que usar apenas divs.'),
-(24, 'Qual é o fluxo correto para criar um feed personalizado ligado ao usuário logado?', 'O feed precisa ter título, pertencer ao usuário atual e possuir pelo menos uma categoria. Depois da criação, a tela precisa atualizar a lista para mostrar o feed novo.', 1, 'O fluxo correto cria o feed com usuário, título, descrição opcional e categorias, depois recarrega os feeds no front.');
+(24, 'Qual é o fluxo correto para criar um feed personalizado ligado ao usuário logado?', 'O feed precisa ter título e pertencer ao usuário atual. As categorias são opcionais: se nenhuma for escolhida, ele vira um feed sem filtro e mostra todos os posts publicados.', 1, 'O fluxo correto cria o feed com usuário, título, descrição opcional e categorias, depois recarrega os feeds no front.');
 
 -- ------------------------------------------------------------
 -- 8. OPCOES (4 opções para cada atividade)
@@ -423,6 +441,18 @@ INSERT INTO opcoes (ordem, atividade_id, texto) VALUES
 (4, 24, 'Atualizar apenas o HTML da tela sem chamar o backend.');
 
 -- ------------------------------------------------------------
+-- 8.1. PROVAS_ATIVIDADES
+-- ------------------------------------------------------------
+INSERT INTO provas_atividades (prova_id, atividade_id, ordem) VALUES
+(29, 15, 1),
+(29, 20, 2),
+(29, 24, 3),
+(30, 16, 1),
+(30, 17, 2),
+(30, 18, 3),
+(30, 19, 4);
+
+-- ------------------------------------------------------------
 -- 9. FEEDS (10 rows)
 -- ------------------------------------------------------------
 INSERT INTO feeds (id, usuario_id, titulo, descricao) VALUES
@@ -440,7 +470,8 @@ INSERT INTO feeds (id, usuario_id, titulo, descricao) VALUES
 (12, 1, 'Banco de Dados e APIs', 'SQL, models, controllers e organização do backend'),
 (13, 1, 'Estudos IFRS', 'Conteúdos, trabalhos e revisões do curso técnico'),
 (14, 1, 'Inglês Técnico', 'Leitura e vocabulário técnico para programação'),
-(15, 1, 'Vôlei e Recuperação', 'Treino, descanso e evolução no esporte');
+(15, 1, 'Vôlei e Recuperação', 'Treino, descanso e evolução no esporte'),
+(16, 1, 'Todos os Estudos', 'Feed sem filtro: mostra todos os posts do site');
 
 -- ------------------------------------------------------------
 -- 10. USUARIOS_POSTS (many-to-many) – 25 rows
@@ -455,7 +486,8 @@ INSERT INTO usuarios_posts (usuario_id, post_id) VALUES
 (7, 1), (7, 19),
 (8, 2), (8, 20),
 (9, 3),
-(1, 21), (1, 22), (1, 23), (1, 24), (1, 25), (1, 26), (1, 27), (1, 28);
+(1, 21), (1, 22), (1, 23), (1, 24), (1, 25), (1, 26), (1, 27), (1, 28), (1, 29), (1, 30),
+(2, 31);
 
 -- ------------------------------------------------------------
 -- 11. FEEDS_CATEGORIAS
@@ -813,7 +845,36 @@ INSERT INTO posts_categorias (post_id, categoria_id, votos) VALUES
 (28, 54, 52),
 (28, 55, 46),
 (28, 56, 40),
-(28, 106, 25);
+(28, 106, 25),
+(29, 1, 42),
+(29, 7, 48),
+(29, 9, 36),
+(29, 10, 31),
+(29, 11, 28),
+(29, 15, 39),
+(29, 17, 35),
+(29, 24, 45),
+(29, 25, 41),
+(29, 52, 22),
+(30, 3, 44),
+(30, 27, 31),
+(30, 31, 38),
+(30, 43, 30),
+(30, 44, 34),
+(30, 50, 36),
+(30, 51, 40),
+(30, 52, 33),
+(30, 97, 35),
+(30, 98, 37),
+(31, 1, 25),
+(31, 4, 17),
+(31, 7, 49),
+(31, 12, 39),
+(31, 13, 33),
+(31, 14, 27),
+(31, 15, 21),
+(31, 16, 55),
+(31, 82, 24);
 
 -- ------------------------------------------------------------
 -- 13. USUARIOS_POSTS_CATEGORIAS (20 rows)
@@ -848,7 +909,11 @@ INSERT INTO usuarios_posts_categorias (usuario_id, post_id, categoria_id, voto) 
 (1, 25, 1, 0),
 (1, 26, 3, 1),
 (1, 27, 5, 1),
-(1, 28, 3, 1);
+(1, 28, 3, 1),
+(1, 29, 7, 1),
+(1, 29, 24, 1),
+(1, 30, 3, 1),
+(1, 30, 51, 1);
 
 -- ------------------------------------------------------------
 -- 14. CURSOS_POSTS (each course contains 2-3 other posts)
@@ -859,7 +924,8 @@ INSERT INTO cursos_posts (curso_id, post_id) VALUES
 (1, 4), (1, 5), (1, 6),   -- Curso 1 (Python) contains artigos
 (2, 7), (2, 8), (2, 9),   -- Curso 2 (SQL) contém artigo + questionário
 (3, 10), (3, 11), (3, 12), (3, 13), -- Curso 3 (Fotografia) contém questionários
-(23, 21), (23, 22), (23, 24), (23, 25); -- Curso 23 contém posts de programação
+(23, 21), (23, 22), (23, 24), (23, 25), (23, 29), (23, 30), -- Curso 23 contém posts de programação e provas
+(31, 21), (31, 22), (31, 24), (31, 25), (31, 29), (31, 30); -- Curso 31 é uma cópia salva por outro usuário
 
-INSERT INTO usuarios_cursos_favoritos (usuario_id, curso_id) VALUES
-(1,1);
+-- A tabela usuarios_cursos_favoritos fica apenas para compatibilidade antiga.
+-- A lógica atual de salvar curso cria uma cópia em posts/cursos com usuario_id do usuário que salvou.

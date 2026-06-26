@@ -61,17 +61,36 @@ class UsuarioController {
         foreach ($feeds as &$feed) {
             $feed->loadRelation('categorias');
         }
-        //pega post ligado a curso e curso ligado a usuario id da tabela favoritos
-        // $cursos_favoritados = DB::queryAssoc("SELECT post.* FROM usuarios_cursos_favoritos JOIN cursos ON usuarios_cursos_favoritos.curso_id = cursos.post_id WHERE usuarios_cursos_favoritos.usuario_id = ?", [$id]);
-        $cursos_favoritados = DB::queryAssoc("SELECT posts.* FROM usuarios_cursos_favoritos JOIN cursos ON usuarios_cursos_favoritos.curso_id = cursos.post_id JOIN posts ON cursos.post_id = posts.id WHERE usuarios_cursos_favoritos.usuario_id = ?", [$usuario->id]);
-        // $cursos_favoritados = Post::select('*', " WHERE usuario_id = ? AND tipo = 1 ORDER BY data_criacao DESC", [$id]);
-        // foreach ($cursos_favoritados as &$curso) {
-        //     $curso->loadRelation('categorias');
-        // }
+        $cursos = DB::queryAssoc(
+            "SELECT posts.*, cursos.origem_curso_id
+             FROM posts
+             JOIN cursos ON cursos.post_id = posts.id
+             WHERE posts.usuario_id = ? AND posts.tipo = 1
+             ORDER BY posts.titulo ASC, posts.id ASC",
+            [(int)$id]
+        );
+
+        foreach ($cursos as &$curso) {
+            $curso['id'] = (int)($curso['id'] ?? 0);
+            $curso['usuario_id'] = (int)($curso['usuario_id'] ?? 0);
+            $curso['tipo_id'] = 1;
+            $curso['tipo_nome'] = 'curso';
+            $curso['proprietario'] = (int)$id === (int)$usuarioLogado->id;
+            $curso['curso_salvo'] = true;
+            $curso['publicado'] = !empty($curso['publicado']);
+            $curso['categorias'] = DB::queryAssoc(
+                "SELECT categorias.*
+                 FROM categorias
+                 JOIN posts_categorias ON posts_categorias.categoria_id = categorias.id
+                 WHERE posts_categorias.post_id = ?
+                 ORDER BY categorias.nome ASC",
+                [$curso['id']]
+            );
+        }
 
         $usuarioJson = $usuario->jsonSerialize();
         $usuarioJson['feeds'] = $feeds;
-        $usuarioJson['cursos'] = $cursos_favoritados;
+        $usuarioJson['cursos'] = $cursos;
         $usuarioJson['categorias'] = Categoria::select('*', " ORDER BY nome ASC LIMIT 40");
         $usuarioJson['amigos'] = $this->buscarAmigos((int)$id);
         $usuarioJson['servidores'] = [[
@@ -110,4 +129,79 @@ class UsuarioController {
 
         return resposta($this->buscarAmigos((int)$usuarioLogado->id));
     }
+
+    public function update($usuarioLogado, $body) {
+        $usuarioID = (int)$usuarioLogado->id;
+        $nome = isset($body->nome) ? trim((string)$body->nome) : null;
+        $email = isset($body->email) ? trim(strtolower((string)$body->email)) : null;
+        $biografia = isset($body->biografia) ? trim((string)$body->biografia) : null;
+
+        if ($nome !== null && $nome === '') return resposta('O nome não pode ficar vazio!', 400, false);
+        if ($email !== null) {
+            if ($email === '') return resposta('O email não pode ficar vazio!', 400, false);
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) return resposta('Email inválido!', 400, false);
+            $emailExistente = DB::queryAssoc('SELECT id FROM usuarios WHERE email = ? AND id <> ?', [$email, $usuarioID]);
+            if (!empty($emailExistente)) return resposta('Esse email já está sendo usado por outro usuário!', 409, false);
+        }
+
+        $usuario = Usuario::select('*', ' WHERE id = ?', [$usuarioID])[0] ?? null;
+        if (!$usuario) return resposta('Usuário não encontrado!', 404, false);
+
+        if ($nome !== null) $usuario->nome = $nome;
+        if ($email !== null) $usuario->email = $email;
+        if ($biografia !== null) $usuario->biografia = $biografia;
+
+        DB::executar(
+            'UPDATE usuarios SET nome = ?, email = ?, biografia = ? WHERE id = ?',
+            [$usuario->nome, $usuario->email, $usuario->biografia, $usuarioID]
+        );
+
+        $usuarioAtualizado = Usuario::select('*', ' WHERE id = ?', [$usuarioID])[0] ?? null;
+        return resposta($this->limparUsuario($usuarioAtualizado));
+    }
+
+    public function atualizarAvatar($usuarioLogado, $body) {
+        $usuarioID = (int)$usuarioLogado->id;
+        $imagem = $body->imagem ?? $body->image ?? $body->foto_base64 ?? '';
+        if (!is_string($imagem) || $imagem === '') return resposta('Imagem é obrigatória!', 400, false);
+
+        if (!preg_match('/^data:image\/(png|jpeg|jpg|webp);base64,/', $imagem, $matches)) {
+            return resposta('Envie a imagem em base64 no formato data:image.', 400, false);
+        }
+
+        $base64 = preg_replace('/^data:image\/(png|jpeg|jpg|webp);base64,/', '', $imagem);
+        $binario = base64_decode($base64, true);
+        if ($binario === false) return resposta('Imagem inválida!', 400, false);
+        if (strlen($binario) > 8 * 1024 * 1024) return resposta('Imagem muito grande!', 413, false);
+
+        $usuario = Usuario::select('*', ' WHERE id = ?', [$usuarioID])[0] ?? null;
+        if (!$usuario) return resposta('Usuário não encontrado!', 404, false);
+
+        $hashEmail = substr(hash('sha256', strtolower((string)$usuario->email)), 0, 20);
+        $arquivo = "user_{$usuarioID}_{$hashEmail}.png";
+        $diretorios = [
+            '/var/www/public_assets/users',
+            __DIR__ . '/../../public/assets/imgs/users'
+        ];
+
+        $salvo = false;
+        foreach ($diretorios as $diretorio) {
+            if (!is_dir($diretorio)) @mkdir($diretorio, 0775, true);
+            if (is_dir($diretorio) && is_writable($diretorio)) {
+                $salvo = file_put_contents($diretorio . '/' . $arquivo, $binario) !== false;
+                if ($salvo) break;
+            }
+        }
+
+        if (!$salvo) {
+            return resposta('Não foi possível salvar a imagem na pasta pública de usuários.', 500, false);
+        }
+
+        $caminho = '/assets/imgs/users/' . $arquivo;
+        DB::executar('UPDATE usuarios SET foto = ? WHERE id = ?', [$caminho, $usuarioID]);
+        $usuario->foto = $caminho;
+
+        return resposta($this->limparUsuario($usuario));
+    }
+
 }

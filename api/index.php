@@ -63,12 +63,15 @@ $router->post('/auth/criarConta', ['UsuarioController', 'add'], false);
 $router->post('/auth/login', ['AuthController', 'fazerLogin'], false);
 $router->post('/usuario', ['AuthController', 'fazerLogin'], false); // alias antigo do front
 $router->get('/auth/me', ['AuthController', 'me']);
+$router->get('/usuario/me', ['AuthController', 'me']);
 #endregion
 
 #region Usuário
 $router->get('/usuario/amigos', ['UsuarioController', 'amigos']);
 $router->post('/usuario/amigo/add', ['UsuarioController', 'addAmigo']);
 $router->delete('/usuario/amigo/delete/{id}', ['UsuarioController', 'deleteAmigo']);
+$router->put('/usuario/update', ['UsuarioController', 'update']);
+$router->post('/usuario/avatar', ['UsuarioController', 'atualizarAvatar']);
 $router->get('/usuario/{id}', ['UsuarioController', 'selectOne']);
 #endregion
 
@@ -81,6 +84,8 @@ $router->get('/feeds/{feedID}', ['FeedController', 'carregarFeed']); // alias an
 $router->post('/feed', ['FeedController', 'add']);
 $router->post('/feed/add', ['FeedController', 'add']);
 $router->put('/feed/update', ['FeedController', 'update']);
+$router->put('/feed/ativo/{id}', ['FeedController', 'definirAtivo']);
+$router->post('/feed/ativo/{id}', ['FeedController', 'definirAtivo']);
 $router->delete('/feed/delete', ['FeedController', 'delete']);
 $router->delete('/feed/delete/{id}', ['FeedController', 'delete']);
 $router->put('/feed/categoria/add/{id}/{categoriaID}', ['FeedController', 'addCategoria']);
@@ -93,16 +98,29 @@ $router->delete('/feed/categoria/delete/{feedID}/{categoriaID}', ['FeedControlle
 $router->get('/posts', ['PostController', 'selectAll']);
 $router->get('/posts/{id}', ['PostController', 'selectOne']);
 $router->put('/post/vote', ['PostController', 'usuarioVotar']);
+$router->put('/post/publicar/{id}', ['PostController', 'publicar']);
+$router->put('/post/despublicar/{id}', ['PostController', 'despublicar']);
 $router->get('/curso/{id}', ['PostController', 'curso_selectOne']);
-$router->get('/cursos', ['PostController', 'cursos_favoritos']);
+$router->get('/cursos', ['PostController', 'curso_selectUsuario']);
 $router->post('/curso/add', ['PostController', 'curso_criar']);
 $router->put('/curso/post/add', ['PostController', 'curso_addPost']);
+$router->post('/curso/post/add', ['PostController', 'curso_addPost']);
 $router->get('/curso/usuario', ['PostController', 'curso_selectUsuario']);
-$router->post('/curso/favoritar', ['PostController', 'curso_favoritar']);
+$router->post('/curso/salvar', ['PostController', 'curso_salvar']);
+$router->post('/curso/copiar', ['PostController', 'curso_salvar']);
+$router->post('/curso/favoritar', ['PostController', 'curso_salvar']);
+$router->post('/curso/desfavoritar', ['PostController', 'curso_desfavoritar']);
+$router->delete('/curso/favoritar/{id}', ['PostController', 'curso_desfavoritar']);
+$router->delete('/curso/desfavoritar/{id}', ['PostController', 'curso_desfavoritar']);
 $router->get('/artigo/{id}', ['PostController', 'artigo_selectOne']);
 $router->post('/artigo/add', ['PostController', 'artigo_criar']);
 $router->get('/atividade/{id}', ['PostController', 'atividade_selectOne']);
 $router->post('/atividade/add', ['PostController', 'atividade_criar']);
+$router->get('/prova/{id}', ['PostController', 'prova_selectOne']);
+$router->get('/prova/usuario', ['PostController', 'prova_selectUsuario']);
+$router->post('/prova/add', ['PostController', 'prova_criar']);
+$router->post('/prova/atividade/add', ['PostController', 'prova_addAtividade']);
+$router->put('/prova/atividade/add', ['PostController', 'prova_addAtividade']);
 #endregion
 
 #region Categoria

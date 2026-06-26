@@ -167,8 +167,8 @@
     transition: background var(--kh-transition), transform var(--kh-transition), border-color var(--kh-transition);
 }
 .botao_desfavoritar_curso:hover {
-    background: #6c2a2a;
-    border-color: #a46060;
+    background: #30465f;
+    border-color: #6f91b8;
     transform: translateY(-1px);
 }
 
@@ -232,4 +232,103 @@
     .down_vote {
         width: 100%;
     }
+}
+
+/* ===== polimento visual atual ===== */
+.post_container {
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.09), rgba(255,255,255,0.035)),
+        rgba(12, 14, 20, 0.92);
+    border-color: var(--kh-border);
+    box-shadow: var(--kh-shadow-soft);
+}
+
+.post_container:hover {
+    border-color: rgba(79, 140, 255, 0.38);
+    box-shadow: 0 18px 46px rgba(79, 140, 255, 0.1), var(--kh-shadow-soft);
+}
+
+.autor_dados {
+    border-bottom-color: var(--kh-border);
+}
+
+.img_autor {
+    border-color: rgba(155, 92, 255, 0.52);
+}
+
+.tipo_post {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    border: 1px solid var(--kh-border);
+}
+
+.genero_container {
+    background: rgba(255,255,255,0.055);
+    border-color: var(--kh-border);
+}
+
+.pontos_genero {
+    background: rgba(0,0,0,0.28);
+    color: var(--kh-text-muted);
+}
+
+.up_vote,
+.botao_favoritar_curso,
+.botao_desfavoritar_curso,
+.down_vote {
+    border-color: var(--kh-border);
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+}
+
+.botao_favoritar_curso:hover {
+    background: linear-gradient(135deg, rgba(55,214,122,0.78), rgba(79,140,255,0.78));
+    border-color: rgba(55,214,122,0.55);
+    transform: translateY(-1px);
+}
+
+.botao_desfavoritar_curso:hover {
+    background: linear-gradient(135deg, rgba(79,140,255,0.72), rgba(94,234,212,0.58));
+    border-color: rgba(94,234,212,0.45);
+}
+
+.botao_adicionar_post_curso {
+    margin-left: auto;
+    border: 1px solid var(--kh-border);
+    border-radius: 999px;
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform var(--kh-transition), background var(--kh-transition), border-color var(--kh-transition);
+}
+
+.botao_adicionar_post_curso:hover {
+    transform: translateY(-1px);
+    border-color: rgba(79, 140, 255, 0.5);
+    background: linear-gradient(135deg, rgba(79,140,255,0.72), rgba(155,92,255,0.72));
+}
+
+/* Mostra só as 3 primeiras categorias nos cards do feed; o restante abre pelo botão. */
+.genero_oculto {
+    display: none !important;
+}
+
+.botao_mostrar_generos_post {
+    border: 1px solid var(--kh-border, rgba(255,255,255,0.14));
+    border-radius: 999px;
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.08);
+    color: var(--kh-text, #fff);
+    font-size: 12px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+}
+
+.botao_mostrar_generos_post:hover {
+    transform: translateY(-1px);
+    border-color: rgba(79, 140, 255, 0.55);
+    background: linear-gradient(135deg, rgba(79,140,255,0.68), rgba(155,92,255,0.68));
 }

@@ -42,6 +42,25 @@ export function carregar_feed_filtro(feed){
     titulo.innerText = feed.titulo ?? "Feed";
     descricao.innerText = feed.descricao ?? "";
 
+    const painel_feed = document.createElement("div");
+    painel_feed.classList.add("painel_acoes_feed");
+
+    const botao_editar_feed = document.createElement("button");
+    botao_editar_feed.type = "button";
+    botao_editar_feed.classList.add("botao_editar_feed");
+    botao_editar_feed.innerText = "Atualizar feed";
+    botao_editar_feed.addEventListener("click", abrir_modal_atualizar_feed);
+
+    const botao_deletar_feed = document.createElement("button");
+    botao_deletar_feed.type = "button";
+    botao_deletar_feed.classList.add("botao_deletar_feed");
+    botao_deletar_feed.innerText = "Deletar feed";
+    botao_deletar_feed.addEventListener("click", abrir_modal_deletar_feed);
+
+    painel_feed.appendChild(botao_editar_feed);
+    painel_feed.appendChild(botao_deletar_feed);
+    section_generos.appendChild(painel_feed);
+
     const cabecalho_categorias = document.createElement("div");
     cabecalho_categorias.classList.add("cabecalho_categorias_feed");
 
@@ -103,12 +122,12 @@ export function carregar_feed_filtro(feed){
     botao_cancelar.addEventListener("click", () => desativar_modo_retirar({ lista, painel_retirada, botao_retirar, botao_adicionar, botao_confirmar }));
     botao_confirmar.addEventListener("click", () => confirmar_retirada_categorias(botao_confirmar));
 
-    const categorias = feed.categorias ?? feed.generos ?? [];
+    const categorias = Array.isArray(feed.categorias ?? feed.generos) ? (feed.categorias ?? feed.generos) : [];
     if (categorias.length === 0) {
         botao_retirar.disabled = true;
         const vazio = document.createElement("p");
         vazio.classList.add("mensagem_categoria_vazia");
-        vazio.innerText = "Esse feed ainda não tem categorias.";
+        vazio.innerText = "Feed sem filtro: ele mostra todos os posts.";
         lista.appendChild(vazio);
         return;
     }
@@ -139,11 +158,8 @@ export function carregar_feed_filtro(feed){
 }
 
 function ativar_modo_retirar({ lista, painel_retirada, botao_retirar, botao_adicionar, botao_confirmar }){
-    const categorias = feed_atual?.categorias ?? feed_atual?.generos ?? [];
-    if (categorias.length <= 1) {
-        alert("O feed precisa ter pelo menos uma categoria.");
-        return;
-    }
+    const categorias = Array.isArray(feed_atual?.categorias ?? feed_atual?.generos) ? (feed_atual?.categorias ?? feed_atual?.generos) : [];
+    if (categorias.length === 0) return;
 
     modo_retirar = true;
     categorias_marcadas_para_retirar = new Set();
@@ -180,12 +196,140 @@ function alternar_categoria_para_retirar(categoria_id, item, botao_confirmar){
     botao_confirmar.disabled = categorias_marcadas_para_retirar.size === 0;
 }
 
+function abrir_modal_atualizar_feed(){
+    if (!feed_atual?.id) return;
+    fechar_modal_feed_acao();
+
+    const overlay = criar_overlay_modal("modal_feed_acao_overlay");
+    const modal = criar_modal_base("Atualizar feed");
+    const form = document.createElement("form");
+    form.classList.add("form_criar_feed");
+
+    const labelTitulo = document.createElement("label");
+    labelTitulo.innerText = "Título do feed *";
+    const inputTitulo = document.createElement("input");
+    inputTitulo.type = "text";
+    inputTitulo.maxLength = 200;
+    inputTitulo.required = true;
+    inputTitulo.value = feed_atual.titulo ?? "";
+
+    const labelDescricao = document.createElement("label");
+    labelDescricao.innerText = "Descrição";
+    const textareaDescricao = document.createElement("textarea");
+    textareaDescricao.rows = 4;
+    textareaDescricao.value = feed_atual.descricao ?? "";
+
+    const mensagem = document.createElement("p");
+    mensagem.classList.add("mensagem_modal_feed");
+
+    const acoes = document.createElement("div");
+    acoes.classList.add("acoes_modal_feed");
+    const cancelar = document.createElement("button");
+    cancelar.type = "button";
+    cancelar.classList.add("botao_cancelar_feed");
+    cancelar.innerText = "Cancelar";
+    cancelar.addEventListener("click", fechar_modal_feed_acao);
+    const salvar = document.createElement("button");
+    salvar.type = "submit";
+    salvar.classList.add("botao_salvar_feed");
+    salvar.innerText = "Salvar alterações";
+
+    acoes.appendChild(cancelar);
+    acoes.appendChild(salvar);
+    form.append(labelTitulo, inputTitulo, labelDescricao, textareaDescricao, mensagem, acoes);
+    modal.appendChild(form);
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+    inputTitulo.focus();
+
+    overlay.addEventListener("click", (evento) => {
+        if (evento.target === overlay) fechar_modal_feed_acao();
+    });
+
+    form.addEventListener("submit", async (evento) => {
+        evento.preventDefault();
+        mensagem.innerText = "";
+        salvar.disabled = true;
+        salvar.innerText = "Salvando...";
+        try {
+            await api_fetch("/feed/update", {
+                method: "PUT",
+                body: {
+                    id: Number(feed_atual.id),
+                    titulo: inputTitulo.value.trim(),
+                    descricao: textareaDescricao.value.trim()
+                }
+            });
+            fechar_modal_feed_acao();
+            emitir_feeds_alterados(feed_atual.id);
+        } catch (erro) {
+            mensagem.innerText = erro.message;
+            salvar.disabled = false;
+            salvar.innerText = "Salvar alterações";
+        }
+    });
+}
+
+function abrir_modal_deletar_feed(){
+    if (!feed_atual?.id) return;
+    fechar_modal_feed_acao();
+
+    const overlay = criar_overlay_modal("modal_feed_acao_overlay");
+    const modal = criar_modal_base("Deletar feed");
+    modal.classList.add("modal_confirmar_delete_feed");
+
+    const aviso = document.createElement("p");
+    aviso.classList.add("texto_modal_categoria_feed");
+    aviso.innerText = `Tem certeza que deseja deletar o feed "${feed_atual.titulo ?? 'Feed'}"? Os posts não serão apagados, só o feed.`;
+
+    const mensagem = document.createElement("p");
+    mensagem.classList.add("mensagem_modal_feed");
+
+    const acoes = document.createElement("div");
+    acoes.classList.add("acoes_modal_feed");
+    const cancelar = document.createElement("button");
+    cancelar.type = "button";
+    cancelar.classList.add("botao_cancelar_feed");
+    cancelar.innerText = "Cancelar";
+    cancelar.addEventListener("click", fechar_modal_feed_acao);
+    const deletar = document.createElement("button");
+    deletar.type = "button";
+    deletar.classList.add("botao_deletar_confirmado");
+    deletar.innerText = "Sim, deletar";
+
+    acoes.appendChild(cancelar);
+    acoes.appendChild(deletar);
+    modal.append(aviso, mensagem, acoes);
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+
+    overlay.addEventListener("click", (evento) => {
+        if (evento.target === overlay) fechar_modal_feed_acao();
+    });
+
+    deletar.addEventListener("click", async () => {
+        mensagem.innerText = "";
+        deletar.disabled = true;
+        deletar.innerText = "Deletando...";
+        try {
+            await api_fetch(`/feed/delete/${feed_atual.id}`, { method: "DELETE" });
+            fechar_modal_feed_acao();
+            emitir_feeds_alterados(null, true);
+        } catch (erro) {
+            mensagem.innerText = erro.message;
+            deletar.disabled = false;
+            deletar.innerText = "Sim, deletar";
+        }
+    });
+}
+
 async function abrir_modal_adicionar_categoria(){
     if (!feed_atual?.id) return;
     fechar_modal_categoria_feed();
 
     const categorias = await buscar_categorias();
-    const categorias_atuais = new Set((feed_atual.categorias ?? feed_atual.generos ?? []).map(categoria => Number(categoria.id)));
+    const categorias_ativas = Array.isArray(feed_atual.categorias ?? feed_atual.generos) ? (feed_atual.categorias ?? feed_atual.generos) : [];
+    const categorias_atuais = new Set(categorias_ativas.map(categoria => Number(categoria.id)));
     const categorias_disponiveis = categorias.filter(categoria => !categorias_atuais.has(Number(categoria.id)));
 
     const overlay = document.createElement("div");
@@ -289,6 +433,26 @@ async function abrir_modal_adicionar_categoria(){
     });
 }
 
+function criar_overlay_modal(id){
+    const overlay = document.createElement("div");
+    overlay.classList.add("modal_feed_overlay");
+    overlay.id = id;
+    return overlay;
+}
+
+function criar_modal_base(tituloTexto){
+    const modal = document.createElement("section");
+    modal.classList.add("modal_feed", "modal_feed_acao");
+    const titulo = document.createElement("h2");
+    titulo.innerText = tituloTexto;
+    modal.appendChild(titulo);
+    return modal;
+}
+
+function fechar_modal_feed_acao(){
+    document.getElementById("modal_feed_acao_overlay")?.remove();
+}
+
 function fechar_modal_categoria_feed(){
     document.getElementById("modal_categoria_feed_overlay")?.remove();
 }
@@ -308,7 +472,7 @@ async function adicionar_categoria_ao_feed(categoria_id, botao){
             body: {}
         });
         fechar_modal_categoria_feed();
-        emitir_atualizacao_feed();
+        emitir_feeds_alterados(feed_atual.id);
     } catch (erro) {
         alert(erro.message);
         if (botao) botao.disabled = false;
@@ -318,12 +482,8 @@ async function adicionar_categoria_ao_feed(categoria_id, botao){
 async function confirmar_retirada_categorias(botao_confirmar){
     if (!feed_atual?.id || categorias_marcadas_para_retirar.size === 0) return;
 
-    const categorias = feed_atual.categorias ?? feed_atual.generos ?? [];
-    if (categorias_marcadas_para_retirar.size >= categorias.length) {
-        alert("O feed precisa ficar com pelo menos uma categoria.");
-        return;
-    }
-
+    // Pode remover todas as categorias: feed sem categorias é feed sem filtro.
+    // Nesse caso o backend carrega todos os posts publicados.
     botao_confirmar.disabled = true;
     botao_confirmar.innerText = "Retirando...";
 
@@ -333,7 +493,7 @@ async function confirmar_retirada_categorias(botao_confirmar){
                 method: "DELETE"
             });
         }
-        emitir_atualizacao_feed();
+        emitir_feeds_alterados(feed_atual.id);
     } catch (erro) {
         alert(erro.message);
         botao_confirmar.disabled = false;
@@ -341,8 +501,8 @@ async function confirmar_retirada_categorias(botao_confirmar){
     }
 }
 
-function emitir_atualizacao_feed(){
+function emitir_feeds_alterados(feed_id = feed_atual?.id, deletado = false){
     window.dispatchEvent(new CustomEvent("knowledgehub:feedCategoriasAtualizadas", {
-        detail: { feed_id: feed_atual?.id }
+        detail: { feed_id, deletado }
     }));
 }

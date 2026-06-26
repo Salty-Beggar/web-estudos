@@ -7,6 +7,13 @@ export async function load_login_page(param){
 
     const input_checkbox = document.getElementById("mostrar-senha")
     input_checkbox.addEventListener("click", evento => mostrar_senha(evento))
+
+    const link_cadastro = document.getElementById("link_cadastro");
+    link_cadastro?.addEventListener("click", async (evento) => {
+        evento.preventDefault();
+        history.pushState(null, null, "/Cadastre-se");
+        await routes.executar();
+    });
 }
 
 async function buscar_usuario(evento){

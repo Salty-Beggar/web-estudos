@@ -6,7 +6,7 @@ import { load_generos_page } from "/js/pages/generos/generos.js";
 
 export const pages = {
     "home": { 
-        "css" :{ "page" : "home", "components" : ["header","sidebar","post","filtro"]},
+        "css" :{ "page" : "home", "components" : ["header","sidebar","post","filtro","criador_conteudo"]},
         "func": (param) => load_home_page(param)
     },
     "login": { 
@@ -18,7 +18,7 @@ export const pages = {
         "func": (param) => load_cadastro_page(param)
     },
     "post": {
-        "css" :{"page": "post", "components": []}, 
+        "css" :{"page": "post", "components": ["criador_conteudo"]}, 
         "func": (param) => load_post_page(param)
     },
     "generos": {

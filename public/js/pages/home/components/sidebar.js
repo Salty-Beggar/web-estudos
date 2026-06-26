@@ -1,4 +1,5 @@
 import { api_fetch, extrair_mensagem, normalizar_usuario } from "/js/app/api.js";
+import { abrir_modal_criar_conteudo } from "/js/components/criador_conteudo.js";
 
 export async function renderizar_barra_lateral(){
     const dados_usuario = await fetch_dados_user()
@@ -28,11 +29,33 @@ function criar_barra_lateral(dados_usuario){
         sessao_item.appendChild(corpo_sessao);
 
         sessao_item.setAttribute("id",`sessao_${index}`)
-        titulo_sessao.innerText = index
+        titulo_sessao.innerText = titulo_secao(index)
         inserir_dados(corpo_sessao, [index,valores ?? []])
     });
+    const acoes = document.createElement("section");
+    acoes.classList.add("sidebar_acoes");
+
+    const botaoCriar = document.createElement("button");
+    botaoCriar.type = "button";
+    botaoCriar.classList.add("botao_criar_conteudo_sidebar");
+    botaoCriar.innerText = "Criar";
+    botaoCriar.addEventListener("click", () => abrir_modal_criar_conteudo());
+
+    acoes.appendChild(botaoCriar);
+    barra_lateral.appendChild(acoes);
+
     root.appendChild(barra_lateral)
 }
+function titulo_secao(secao){
+    const titulos = {
+        feeds: "Feeds",
+        cursos: "Meus cursos",
+        categorias: "Categorias",
+        amigos: "Amigos"
+    };
+    return titulos[secao] ?? secao;
+}
+
 function inserir_dados(corpo_sessao, itens){
     itens[1].forEach(item => {
         const item_barra = document.createElement("div")
@@ -76,7 +99,6 @@ async function fetch_dados_user(){
     const resposta = extrair_mensagem(dados);
     const usuario = resposta.usuario ?? resposta;
 
-    console.log("Dados do usuário:", usuario);
     return {
         "feeds" : usuario.feeds ?? [],
         "cursos" : usuario.cursos ?? [],

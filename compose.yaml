@@ -15,6 +15,9 @@ services:
       - type: bind
         source: ./api
         target: /var/www/html
+      - type: bind
+        source: ./public/assets/imgs/users
+        target: /var/www/public_assets/users
   db:
     build: ./api/db
     volumes:

@@ -12,6 +12,7 @@ class FeedController {
             2 => 'artigo',
             3 => 'questionario',
             4 => 'atividade',
+            5 => 'prova',
             default => 'post'
         };
     }
@@ -52,6 +53,34 @@ class FeedController {
         );
     }
 
+    private function normalizarUltimoFeedAtivo(int $usuarioID): ?int {
+        $feeds = DB::queryAssoc(
+            "SELECT id, ultimo_feed_ativo FROM feeds WHERE usuario_id = ? ORDER BY id ASC",
+            [$usuarioID]
+        );
+
+        if (empty($feeds)) return null;
+
+        $ativos = array_values(array_filter($feeds, fn($feed) => !empty($feed['ultimo_feed_ativo'])));
+        $ativoID = count($ativos) > 0 ? (int)$ativos[0]['id'] : (int)$feeds[0]['id'];
+
+        if (count($ativos) !== 1 || count($feeds) > 1) {
+            DB::executar(
+                "UPDATE feeds SET ultimo_feed_ativo = CASE WHEN id = ? THEN 1 ELSE 0 END WHERE usuario_id = ?",
+                [$ativoID, $usuarioID]
+            );
+        }
+
+        return $ativoID;
+    }
+
+    private function marcarUltimoFeedAtivo(int $usuarioID, int $feedID): void {
+        DB::executar(
+            "UPDATE feeds SET ultimo_feed_ativo = CASE WHEN id = ? THEN 1 ELSE 0 END WHERE usuario_id = ?",
+            [$feedID, $usuarioID]
+        );
+    }
+
     private function categoriasDoPost(int $postID, int $usuarioID) {
         $categorias = DB::queryAssoc(
             "SELECT
@@ -82,7 +111,9 @@ class FeedController {
         $feedJson = is_object($feed) && method_exists($feed, 'jsonSerialize') ? $feed->jsonSerialize() : (array)$feed;
         $feedJson['id'] = (int)($feedJson['id'] ?? 0);
         $feedJson['usuario_id'] = (int)($feedJson['usuario_id'] ?? 0);
+        $feedJson['ultimo_feed_ativo'] = !empty($feedJson['ultimo_feed_ativo']);
         $feedJson['categorias'] = $this->categoriasDoFeed($feedJson['id']);
+        $feedJson['sem_filtro'] = count($feedJson['categorias']) === 0;
         return $feedJson;
     }
 
@@ -95,6 +126,7 @@ class FeedController {
         $postJson['usuario_id'] = (int)($postJson['usuario_id'] ?? 0);
         $postJson['tipo_id'] = (int)($postJson['tipo'] ?? $postJson['tipo_id'] ?? 0);
         $postJson['tipo_nome'] = $this->tipoNome($postJson['tipo_id']);
+        $postJson['publicado'] = !empty($postJson['publicado']);
 
         $autor = Usuario::select('*', " WHERE id = ?", [$postJson['usuario_id']])[0] ?? null;
         if ($autor) {
@@ -123,6 +155,14 @@ class FeedController {
             $postJson['descricao'] = $this->resumoTexto($postJson['texto_atividade'] ?: $postJson['enunciado']);
         }
 
+        if ($postJson['tipo_nome'] === 'prova') {
+            $prova = DB::queryAssoc("SELECT descricao FROM provas WHERE post_id = ?", [$postID]);
+            $total = DB::queryAssoc("SELECT COUNT(*) AS total FROM provas_atividades WHERE prova_id = ?", [$postID]);
+            $postJson['descricao_prova'] = $prova[0]['descricao'] ?? '';
+            $postJson['qtd_atividades'] = (int)($total[0]['total'] ?? 0);
+            $postJson['descricao'] = $this->resumoTexto($postJson['descricao_prova'] ?: "Prova com {$postJson['qtd_atividades']} atividades.");
+        }
+
         if (empty($postJson['descricao'])) {
             $postJson['descricao'] = '';
         }
@@ -134,37 +174,52 @@ class FeedController {
         $feedID = (int)$feedID;
         $feed = Feed::select('*', " WHERE id = ? AND usuario_id = ?", [$feedID, $usuario->id])[0] ?? null;
         if (!$feed) return resposta('Feed inválido ou não pertence ao usuário logado!', 403, false);
+        $this->marcarUltimoFeedAtivo((int)$usuario->id, $feedID);
 
         $feedCategorias = DB::queryAssoc("SELECT categoria_id FROM feeds_categorias WHERE feed_id = ?", [$feedID]);
         $feedCategorias = array_values(array_unique(array_map(fn($linha) => (int)$linha['categoria_id'], $feedCategorias)));
 
-        if (empty($feedCategorias)) return resposta([]);
+        $pesquisaTexto = trim((string)$pesquisa);
+        $pesquisaLike = '%' . $pesquisaTexto . '%';
 
-        $placeholders = implode(',', array_fill(0, count($feedCategorias), '?'));
-        $pesquisa = '%' . trim((string)$pesquisa) . '%';
-
-        $posts = Post::select(
-            'posts.*, rank_feed.pontuacao_feed',
-            "JOIN (
-                SELECT post_id, SUM(votos) AS pontuacao_feed
-                FROM posts_categorias
-                WHERE categoria_id IN ({$placeholders})
-                GROUP BY post_id
-            ) AS rank_feed ON rank_feed.post_id = posts.id
-            WHERE posts.titulo LIKE ?
-            ORDER BY rank_feed.pontuacao_feed DESC, posts.data_criacao DESC, posts.id DESC",
-            [...$feedCategorias, $pesquisa],
-            ['pontuacao_feed']
-        );
+        if (empty($feedCategorias)) {
+            // Feed sem filtro: não faz JOIN obrigatório com categorias.
+            // Funciona como um SELECT geral de posts, só aplicando pesquisa se houver texto.
+            $posts = DB::queryAssoc(
+                "SELECT posts.*, 0 AS pontuacao_feed
+                 FROM posts
+                 WHERE posts.publicado = 1
+                   AND (? = '' OR posts.titulo LIKE ?)
+                 ORDER BY posts.data_criacao DESC, posts.id DESC",
+                [$pesquisaTexto, $pesquisaLike]
+            );
+        } else {
+            $placeholders = implode(',', array_fill(0, count($feedCategorias), '?'));
+            $posts = DB::queryAssoc(
+                "SELECT posts.*, rank_feed.pontuacao_feed
+                 FROM posts
+                 JOIN (
+                    SELECT post_id, SUM(votos) AS pontuacao_feed
+                    FROM posts_categorias
+                    WHERE categoria_id IN ({$placeholders})
+                    GROUP BY post_id
+                 ) AS rank_feed ON rank_feed.post_id = posts.id
+                 WHERE posts.publicado = 1
+                   AND (? = '' OR posts.titulo LIKE ?)
+                 ORDER BY rank_feed.pontuacao_feed DESC, posts.data_criacao DESC, posts.id DESC",
+                [...$feedCategorias, $pesquisaTexto, $pesquisaLike]
+            );
+        }
 
         foreach ($posts as &$post) {
             $post = $this->formatarPost($post, $usuario);
         }
 
-        return resposta($posts);
+        return resposta(['posts' => $posts]);
     }
 
     public function select($usuario) {
+        $this->normalizarUltimoFeedAtivo((int)$usuario->id);
         $feeds = Feed::select('*', " WHERE usuario_id = ? ORDER BY id ASC", [$usuario->id]);
         foreach ($feeds as &$feed) {
             $feed = $this->formatarFeed($feed);
@@ -177,7 +232,6 @@ class FeedController {
         if ($titulo === '') return resposta('O título do feed é obrigatório!', 400, false);
 
         $categorias = $this->normalizarCategorias($body);
-        if (empty($categorias)) return resposta('Selecione pelo menos uma categoria para o feed!', 400, false);
 
         foreach ($categorias as $categoriaID) {
             $categoria = Categoria::select('id', " WHERE id = ?", [$categoriaID])[0] ?? null;
@@ -194,6 +248,8 @@ class FeedController {
         $feed->fillRelations($body);
         $feed->insertSelf();
         $feed->saveRelations('categorias');
+        $this->marcarUltimoFeedAtivo((int)$usuario->id, (int)$feed->id);
+        $feed->ultimo_feed_ativo = 1;
 
         return resposta($this->formatarFeed($feed), 201);
     }
@@ -212,6 +268,19 @@ class FeedController {
         return resposta($this->formatarFeed($feed));
     }
 
+    public function definirAtivo($usuario, $body, $id = null) {
+        $feedID = (int)($id ?? $body->id ?? $body->feed_id ?? 0);
+        if ($feedID <= 0) return resposta('ID do feed é obrigatório!', 400, false);
+
+        $feed = Feed::select('*', " WHERE id = ? AND usuario_id = ?", [$feedID, $usuario->id])[0] ?? null;
+        if (!$feed) return resposta('Feed não encontrado!', 404, false);
+
+        $this->marcarUltimoFeedAtivo((int)$usuario->id, $feedID);
+        $feed->ultimo_feed_ativo = 1;
+
+        return resposta($this->formatarFeed($feed));
+    }
+
     public function delete($usuario, $id = null) {
         if (empty($id)) return resposta('ID do feed é obrigatório!', 400, false);
         $feedID = (int)$id;
@@ -221,6 +290,7 @@ class FeedController {
 
         DB::executar("DELETE FROM feeds_categorias WHERE feed_id = ?", [$feedID]);
         DB::executar("DELETE FROM feeds WHERE id = ? AND usuario_id = ?", [$feedID, $usuario->id]);
+        $this->normalizarUltimoFeedAtivo((int)$usuario->id);
         return resposta('Feed removido com sucesso!');
     }
 
@@ -247,11 +317,6 @@ class FeedController {
         $categoriaID = (int)$categoriaID;
         $feed = Feed::select('id', " WHERE id = ? AND usuario_id = ?", [$feedID, $usuario->id])[0] ?? null;
         if (!$feed) return resposta('Feed não encontrado!', 404, false);
-
-        $totalCategorias = DB::queryAssoc("SELECT COUNT(*) AS total FROM feeds_categorias WHERE feed_id = ?", [$feedID]);
-        if ((int)($totalCategorias[0]['total'] ?? 0) <= 1) {
-            return resposta('O feed precisa ficar com pelo menos uma categoria!', 400, false);
-        }
 
         DB::executar("DELETE FROM feeds_categorias WHERE feed_id = ? AND categoria_id = ?", [$feedID, $categoriaID]);
         return resposta('Categoria removida do feed com sucesso!');

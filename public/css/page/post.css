@@ -157,6 +157,72 @@ body {
     text-align: center;
 }
 
+/* ===== publicação do post/curso ===== */
+.acoes_publicacao_post {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.status_publicacao_post {
+    width: fit-content;
+    margin: 0;
+    padding: 7px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--kh-border);
+    background: rgba(255,255,255,0.07);
+    color: var(--kh-text);
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.status_publicacao_post.rascunho {
+    border-color: rgba(255, 191, 87, 0.42);
+    background: rgba(255, 191, 87, 0.12);
+    color: #ffd18a;
+}
+
+.status_publicacao_post.publicado {
+    border-color: rgba(85, 220, 125, 0.42);
+    background: rgba(85, 220, 125, 0.12);
+    color: #a8f0b6;
+}
+
+.botao_publicar_post {
+    width: fit-content;
+    border: 1px solid rgba(85, 220, 125, 0.52);
+    border-radius: 999px;
+    padding: 9px 15px;
+    background: linear-gradient(135deg, var(--kh-green), var(--kh-blue));
+    color: #fff;
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform var(--kh-transition), opacity var(--kh-transition), border-color var(--kh-transition);
+}
+
+.botao_publicar_post:hover:not(:disabled) {
+    transform: translateY(-1px);
+    border-color: rgba(255,255,255,0.24);
+}
+
+.botao_publicar_post:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.mensagem_publicacao_post {
+    margin: 0;
+    color: #ffb0b0;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.mensagem_publicacao_post:empty {
+    display: none;
+}
+
 .material_post {
     min-height: 260px;
     background: #101012;
@@ -471,4 +537,703 @@ body {
     .botao_confirmar_atividade {
         width: 100%;
     }
+}
+
+/* ===== polimento visual atual da página de post ===== */
+body {
+    background:
+        radial-gradient(circle at 18% 0%, rgba(79, 140, 255, 0.18), transparent 34%),
+        radial-gradient(circle at 82% 8%, rgba(155, 92, 255, 0.16), transparent 34%),
+        var(--kh-bg);
+}
+
+.post_container {
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.09), rgba(255,255,255,0.035)),
+        rgba(10, 12, 18, 0.94);
+    border-color: var(--kh-border);
+    box-shadow: var(--kh-shadow);
+}
+
+.dados_autor,
+.material_post,
+.atividade_texto,
+.atividade_questao,
+.feedback_atividade,
+.atividade_sem_opcoes {
+    background: rgba(255,255,255,0.055);
+    border-color: var(--kh-border);
+}
+
+.img_autor {
+    border-color: rgba(155, 92, 255, 0.58);
+}
+
+.tipo_post,
+.atividade_etiqueta,
+.curso_etiqueta {
+    background: linear-gradient(135deg, var(--kh-blue), var(--kh-purple));
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.18);
+}
+
+.genero_container,
+.opcao_atividade {
+    background: rgba(255,255,255,0.06);
+    border-color: var(--kh-border);
+}
+
+.genero_container:hover,
+.opcao_atividade:hover {
+    background: rgba(255,255,255,0.11);
+    border-color: rgba(79, 140, 255, 0.42);
+}
+
+.pontos_genero,
+.opcao_letra {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    border: 1px solid var(--kh-border);
+}
+
+.botao_confirmar_atividade {
+    background: linear-gradient(135deg, var(--kh-green), var(--kh-blue));
+    color: #fff;
+    border-color: rgba(255,255,255,0.22);
+}
+
+.botao_confirmar_atividade:hover:not(:disabled) {
+    background: linear-gradient(135deg, var(--kh-blue), var(--kh-purple));
+}
+
+/* ===== posts dentro do curso ===== */
+.curso_material {
+    display: grid;
+    gap: 18px;
+}
+
+.curso_material_cabecalho {
+    display: grid;
+    gap: 8px;
+    padding: 18px;
+    border-radius: 18px;
+    background:
+        radial-gradient(circle at 8% 0%, rgba(79, 140, 255, 0.18), transparent 32%),
+        rgba(255,255,255,0.055);
+    border: 1px solid var(--kh-border);
+}
+
+.curso_material_cabecalho h2 {
+    margin: 0;
+    font-size: clamp(24px, 3vw, 34px);
+    line-height: 1.1;
+}
+
+.curso_material_cabecalho p:not(.curso_etiqueta) {
+    margin: 0;
+    color: var(--kh-text-muted);
+    line-height: 1.5;
+}
+
+.curso_etiqueta {
+    width: fit-content;
+    margin: 0;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.curso_lista_posts {
+    display: grid;
+    gap: 12px;
+}
+
+.curso_post_item {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr);
+    align-items: center;
+    gap: 14px;
+    padding: 14px;
+    border: 1px solid var(--kh-border);
+    border-radius: 16px;
+    background: rgba(255,255,255,0.055);
+    color: var(--kh-text);
+    text-align: left;
+    cursor: pointer;
+    transition: transform var(--kh-transition), background var(--kh-transition), border-color var(--kh-transition), box-shadow var(--kh-transition);
+}
+
+.curso_post_item:hover {
+    transform: translateY(-2px);
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(79, 140, 255, 0.46);
+    box-shadow: 0 14px 32px rgba(79, 140, 255, 0.12);
+}
+
+.curso_post_numero {
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(79,140,255,0.9), rgba(155,92,255,0.9));
+    color: #fff;
+    font-weight: 900;
+}
+
+.curso_post_conteudo {
+    min-width: 0;
+    display: grid;
+    gap: 4px;
+}
+
+.curso_post_conteudo strong {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 17px;
+}
+
+.curso_post_conteudo small {
+    color: var(--kh-text-soft);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.curso_posts_vazio {
+    margin: 0;
+    padding: 16px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.055);
+    border: 1px solid var(--kh-border);
+    color: var(--kh-text-muted);
+    font-weight: 800;
+}
+
+@media (max-width: 520px) {
+    .curso_post_item {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ===== adicionar post ao curso / modal reutilizado na página do post ===== */
+.botao_adicionar_post_curso_detalhe {
+    width: fit-content;
+    border: 1px solid rgba(79,140,255,0.45);
+    border-radius: 999px;
+    padding: 10px 15px;
+    background: linear-gradient(135deg, rgba(79,140,255,0.72), rgba(155,92,255,0.72));
+    color: #fff;
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform var(--kh-transition), opacity var(--kh-transition);
+}
+
+.botao_adicionar_post_curso_detalhe:hover {
+    transform: translateY(-1px);
+}
+
+.modal_feed_overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    background: rgba(0,0,0,0.66);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal_feed {
+    width: min(620px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    display: grid;
+    gap: 14px;
+    padding: 24px;
+    border-radius: 22px;
+    border: 1px solid var(--kh-border);
+    background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.04)), rgba(11, 13, 20, 0.96);
+    color: var(--kh-text);
+    box-shadow: var(--kh-shadow);
+}
+
+.modal_feed h2 {
+    margin: 0;
+}
+
+.texto_modal_categoria_feed,
+.curso_modal_vazio {
+    margin: 0;
+    color: var(--kh-text-muted);
+}
+
+.lista_cursos_modal,
+.form_criar_curso_rapido,
+.acoes_modal_feed {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.botao_curso_modal,
+.botao_cancelar_feed,
+.form_criar_curso_rapido button {
+    border: 1px solid var(--kh-border);
+    border-radius: 12px;
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.botao_curso_modal:hover,
+.form_criar_curso_rapido button:hover {
+    background: linear-gradient(135deg, rgba(79,140,255,0.72), rgba(155,92,255,0.72));
+}
+
+.form_criar_curso_rapido input {
+    flex: 1 1 260px;
+    border: 1px solid var(--kh-border);
+    border-radius: 12px;
+    padding: 10px 12px;
+    background: rgba(255,255,255,0.08);
+    color: var(--kh-text);
+}
+
+.mensagem_modal_feed {
+    min-height: 20px;
+    margin: 0;
+    color: #ffb0b0;
+    font-weight: 800;
+}
+
+.curso_grupo_tipo {
+    display: grid;
+    gap: 12px;
+}
+
+.curso_grupo_tipo h3 {
+    margin: 8px 0 0;
+    font-size: 20px;
+    color: #fff;
+}
+
+/* ===== provas ===== */
+.acoes_post_detalhe,
+.acoes_atividade_post,
+.curso_acoes_cabecalho,
+.prova_acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.prova_container {
+    display: grid;
+    gap: 20px;
+}
+
+.prova_cabecalho {
+    display: grid;
+    gap: 16px;
+    padding: 18px;
+    border: 1px solid var(--kh-border);
+    border-radius: 18px;
+    background:
+        radial-gradient(circle at 10% 0%, rgba(79, 140, 255, 0.2), transparent 34%),
+        rgba(255,255,255,0.055);
+}
+
+.prova_cabecalho_topo {
+    display: grid;
+    gap: 8px;
+}
+
+.prova_cabecalho h2,
+.prova_atividade_topo h3 {
+    margin: 0;
+    color: #fff;
+    line-height: 1.2;
+}
+
+.prova_cabecalho p:not(.curso_etiqueta) {
+    margin: 0;
+    color: var(--kh-text-muted);
+    line-height: 1.5;
+}
+
+.prova_configuracoes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+}
+
+.prova_configuracoes label {
+    display: grid;
+    gap: 7px;
+    padding: 12px;
+    border: 1px solid var(--kh-border);
+    border-radius: 14px;
+    background: rgba(255,255,255,0.055);
+    color: var(--kh-text);
+    font-weight: 900;
+}
+
+.prova_check_config {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+}
+
+.prova_check_config input {
+    width: 18px;
+    height: 18px;
+}
+
+.prova_configuracoes select {
+    border: 1px solid var(--kh-border);
+    border-radius: 10px;
+    padding: 9px 10px;
+    background: rgba(255,255,255,0.08);
+    color: var(--kh-text);
+}
+
+.prova_resultado {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    padding: 13px;
+    border: 1px solid rgba(79,140,255,0.34);
+    border-radius: 14px;
+    background: rgba(79,140,255,0.09);
+}
+
+.prova_resultado strong,
+.prova_resultado span {
+    padding: 7px 10px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid var(--kh-border);
+    color: #fff;
+    font-weight: 900;
+}
+
+.prova_lista_atividades {
+    display: grid;
+    gap: 16px;
+}
+
+.prova_atividade_item {
+    display: grid;
+    gap: 14px;
+    padding: 16px;
+    border: 1px solid var(--kh-border);
+    border-radius: 18px;
+    background: rgba(255,255,255,0.045);
+}
+
+.prova_atividade_topo {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 12px;
+    align-items: center;
+}
+
+.botao_verificar_questao {
+    width: fit-content;
+}
+
+.botao_mover_atividade_prova {
+    border: 1px solid rgba(79,140,255,0.45);
+    border-radius: 999px;
+    padding: 9px 12px;
+    background: rgba(79,140,255,0.16);
+    color: #fff;
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform var(--kh-transition), background var(--kh-transition), border-color var(--kh-transition);
+}
+
+.botao_mover_atividade_prova:hover {
+    transform: translateY(-1px);
+    background: linear-gradient(135deg, rgba(79,140,255,0.72), rgba(155,92,255,0.72));
+    border-color: rgba(255,255,255,0.24);
+}
+
+.curso_post_item .botao_mover_atividade_prova {
+    justify-self: end;
+}
+
+/* Curso: o botão "Adicionar à prova" fica dentro do item, à direita, sem escapar do card. */
+.curso_post_item {
+    grid-template-columns: 56px minmax(0, 1fr) auto;
+}
+
+.curso_post_item .botao_mover_atividade_prova {
+    grid-column: 3;
+    justify-self: end;
+    align-self: center;
+    margin-left: 12px;
+    white-space: nowrap;
+    max-width: 180px;
+}
+
+@media (max-width: 720px) {
+    .curso_post_item {
+        grid-template-columns: 46px minmax(0, 1fr);
+    }
+
+    .curso_post_item .botao_mover_atividade_prova {
+        grid-column: 1 / -1;
+        justify-self: start;
+        margin-left: 0;
+        max-width: 100%;
+    }
+}
+
+/* Ajuste para ações dos itens dentro do curso */
+.curso_post_item {
+    grid-template-columns: 56px minmax(0, 1fr) auto;
+}
+
+.botao_mover_atividade_prova {
+    justify-self: end;
+    align-self: center;
+    border: 1px solid rgba(79,140,255,0.45);
+    border-radius: 999px;
+    padding: 10px 13px;
+    background: rgba(79,140,255,0.14);
+    color: #fff;
+    font-weight: 900;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: transform var(--kh-transition), background var(--kh-transition), border-color var(--kh-transition);
+}
+
+.botao_mover_atividade_prova:hover {
+    transform: translateY(-1px);
+    border-color: rgba(79,140,255,0.68);
+    background: linear-gradient(135deg, rgba(79,140,255,0.66), rgba(155,92,255,0.62));
+}
+
+@media (max-width: 700px) {
+    .curso_post_item {
+        grid-template-columns: 56px minmax(0, 1fr);
+    }
+
+    .botao_mover_atividade_prova {
+        grid-column: 1 / -1;
+        justify-self: stretch;
+    }
+}
+
+/* ===== refinamento do curso e dos modais de adicionar ===== */
+.curso_material_cabecalho {
+    gap: 14px;
+    padding: clamp(16px, 2.6vw, 24px);
+}
+
+.curso_acoes_cabecalho {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+    gap: 12px;
+    width: 100%;
+    margin-top: 4px;
+}
+
+.curso_acoes_cabecalho .botao_adicionar_post_curso_detalhe {
+    width: 100%;
+    min-height: 58px;
+    justify-content: flex-start;
+    border-radius: 18px;
+    padding: 14px 16px;
+    background: rgba(255,255,255,0.07);
+    border-color: var(--kh-border);
+    box-shadow: none;
+    text-align: left;
+}
+
+.curso_acoes_cabecalho .botao_adicionar_post_curso_detalhe:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, rgba(79,140,255,0.32), rgba(155,92,255,0.24));
+    border-color: rgba(79,140,255,0.55);
+    box-shadow: 0 18px 40px rgba(79, 140, 255, 0.13);
+}
+
+.acoes_post_detalhe,
+.acoes_atividade_post {
+    align-items: stretch;
+}
+
+.acoes_post_detalhe .botao_adicionar_post_curso_detalhe,
+.acoes_atividade_post .botao_adicionar_post_curso_detalhe {
+    border-radius: 16px;
+    padding: 11px 15px;
+    background: rgba(255,255,255,0.08);
+    border-color: var(--kh-border);
+}
+
+.acoes_post_detalhe .botao_adicionar_post_curso_detalhe:hover,
+.acoes_atividade_post .botao_adicionar_post_curso_detalhe:hover {
+    background: linear-gradient(135deg, rgba(79,140,255,0.58), rgba(155,92,255,0.52));
+    border-color: rgba(255,255,255,0.22);
+}
+
+.modal_post_curso_overlay {
+    padding: clamp(14px, 3vw, 28px);
+}
+
+.modal_post_curso.modal_criador_conteudo {
+    width: min(780px, 100%);
+    max-height: 92vh;
+    gap: 16px;
+    padding: clamp(18px, 3vw, 28px);
+    border-radius: 24px;
+    background:
+        radial-gradient(circle at 14% 0%, rgba(79, 140, 255, 0.2), transparent 34%),
+        radial-gradient(circle at 92% 8%, rgba(155, 92, 255, 0.16), transparent 32%),
+        rgba(10, 12, 18, 0.97);
+}
+
+.modal_post_curso .topo_modal_post_curso {
+    margin: 0;
+    padding: 0 0 10px;
+    border-bottom: 1px solid var(--kh-border);
+}
+
+.modal_post_curso .topo_modal_post_curso h2 {
+    margin: 0;
+    color: var(--kh-text);
+    font-size: clamp(24px, 3vw, 34px);
+}
+
+.modal_post_curso .topo_modal_post_curso p {
+    max-width: 620px;
+}
+
+.lista_modal_post_curso {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    width: 100%;
+}
+
+.modal_post_curso .botao_curso_modal {
+    width: 100%;
+    min-height: 76px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    border-radius: 18px;
+    padding: 16px;
+    background: rgba(255,255,255,0.07);
+    border-color: var(--kh-border);
+    color: var(--kh-text);
+    text-align: left;
+    line-height: 1.35;
+    box-shadow: none;
+    transition: transform var(--kh-transition), background var(--kh-transition), border-color var(--kh-transition), box-shadow var(--kh-transition), opacity var(--kh-transition);
+}
+
+.modal_post_curso .botao_curso_modal:hover:not(:disabled) {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, rgba(79,140,255,0.32), rgba(155,92,255,0.24));
+    border-color: rgba(79,140,255,0.55);
+    box-shadow: 0 18px 40px rgba(79, 140, 255, 0.13);
+}
+
+.modal_post_curso .curso_modal_vazio {
+    grid-column: 1 / -1;
+    padding: 14px;
+    border: 1px solid var(--kh-border);
+    border-radius: 16px;
+    background: rgba(255,255,255,0.055);
+    color: var(--kh-text-muted);
+    font-weight: 800;
+    line-height: 1.45;
+}
+
+.form_modal_post_curso {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 12px;
+    width: 100%;
+    padding: 14px;
+    border: 1px solid var(--kh-border);
+    border-radius: 18px;
+    background: rgba(255,255,255,0.045);
+}
+
+.form_modal_post_curso .campo_modal_post_curso {
+    gap: 8px;
+}
+
+.form_modal_post_curso .campo_modal_post_curso input {
+    min-height: 44px;
+}
+
+.form_modal_post_curso .botao_salvar_feed {
+    min-height: 44px;
+    white-space: nowrap;
+}
+
+.curso_post_item {
+    grid-template-columns: 56px minmax(0, 1fr) auto;
+}
+
+.curso_post_item .botao_mover_atividade_prova {
+    width: fit-content;
+    max-width: 190px;
+    margin-left: 10px;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.08);
+    border-color: var(--kh-border);
+}
+
+@media (max-width: 700px) {
+    .curso_acoes_cabecalho,
+    .lista_modal_post_curso,
+    .form_modal_post_curso {
+        grid-template-columns: 1fr;
+    }
+
+    .modal_post_curso .criador_topo_acoes,
+    .form_modal_post_curso .botao_salvar_feed {
+        width: 100%;
+    }
+
+    .curso_post_item {
+        grid-template-columns: 50px minmax(0, 1fr);
+    }
+
+    .curso_post_item .botao_mover_atividade_prova {
+        grid-column: 1 / -1;
+        justify-self: stretch;
+        width: 100%;
+        max-width: none;
+        margin-left: 0;
+    }
+}
+
+.curso_acoes_cabecalho .botao_adicionar_post_curso_detalhe,
+.acoes_post_detalhe .botao_adicionar_post_curso_detalhe,
+.acoes_atividade_post .botao_adicionar_post_curso_detalhe {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.curso_acoes_cabecalho .botao_adicionar_post_curso_detalhe {
+    justify-content: flex-start;
 }

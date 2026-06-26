@@ -313,3 +313,289 @@ body {
         overflow: visible;
     }
 }
+
+/* ===== polimento visual atual ===== */
+#root {
+    background:
+        radial-gradient(circle at 18% 0%, rgba(79, 140, 255, 0.18), transparent 35%),
+        radial-gradient(circle at 82% 0%, rgba(155, 92, 255, 0.16), transparent 32%),
+        var(--kh-bg);
+}
+
+#feed_container {
+    background: rgba(5, 6, 8, 0.62);
+    border-left: 1px solid rgba(255,255,255,0.06);
+    border-right: 1px solid rgba(255,255,255,0.06);
+}
+
+#header_feed {
+    background: rgba(8, 9, 13, 0.84);
+    border-bottom: 1px solid var(--kh-border);
+    backdrop-filter: blur(16px);
+}
+
+.item_header_feed,
+#botao_adicionar_feed {
+    border-radius: 999px;
+    border: 1px solid var(--kh-border);
+    box-shadow: none;
+}
+
+.item_header_feed {
+    background: rgba(255,255,255,0.07);
+    color: var(--kh-text-muted);
+}
+
+.item_header_feed:hover {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    border-color: rgba(79, 140, 255, 0.42);
+}
+
+.item_header_feed.ativo,
+.ativo {
+    background: linear-gradient(135deg, rgba(79,140,255,0.95), rgba(155,92,255,0.95));
+    color: #fff;
+    border-color: rgba(255,255,255,0.28);
+    box-shadow: 0 12px 28px rgba(79, 140, 255, 0.22);
+}
+
+#botao_adicionar_feed {
+    background: #ffffff;
+    color: #07090d;
+}
+
+#botao_adicionar_feed:hover {
+    background: linear-gradient(135deg, var(--kh-green), var(--kh-blue));
+    color: #fff;
+}
+
+#corpo_feed {
+    padding: clamp(14px, 2vw, 24px);
+}
+
+#filtro_container {
+    background: rgba(8, 9, 13, 0.78);
+    border-left: 1px solid var(--kh-border);
+    backdrop-filter: blur(16px);
+}
+
+.modal_feed {
+    background: rgba(10, 12, 18, 0.96);
+    color: var(--kh-text);
+    border: 1px solid var(--kh-border);
+}
+
+.form_criar_feed input[type="text"],
+.form_criar_feed input:not([type]),
+.form_criar_feed textarea,
+.checkbox_categoria_feed {
+    background: rgba(255,255,255,0.08);
+    color: var(--kh-text);
+    border-color: var(--kh-border);
+}
+
+.checkbox_categoria_feed:hover {
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(79, 140, 255, 0.4);
+}
+
+.botao_cancelar_feed {
+    background: rgba(255,255,255,0.08);
+    color: var(--kh-text);
+    border-color: var(--kh-border);
+}
+
+.botao_salvar_feed {
+    background: linear-gradient(135deg, var(--kh-blue), var(--kh-purple));
+    color: #fff;
+    border-color: rgba(255,255,255,0.22);
+}
+
+/* ===== ações do feed na lateral direita ===== */
+#section_generos {
+    display: grid;
+    gap: 16px;
+    padding: 22px 16px;
+}
+
+.painel_acoes_feed,
+.cabecalho_categorias_feed,
+.acoes_categorias_feed,
+.acoes_retirar_categorias,
+.form_criar_categoria_feed,
+.form_criar_curso_rapido {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.painel_acoes_feed {
+    padding: 12px;
+    border: 1px solid var(--kh-border);
+    border-radius: 18px;
+    background: rgba(255,255,255,0.045);
+}
+
+.botao_editar_feed,
+.botao_deletar_feed,
+.botao_adicionar_categoria_feed,
+.botao_retirar_categoria_feed,
+.botao_cancelar_retirada,
+.botao_confirmar_retirada,
+.botao_deletar_confirmado,
+.botao_opcao_categoria_feed,
+.botao_curso_modal,
+.botao_adicionar_post_curso {
+    border: 1px solid var(--kh-border);
+    border-radius: 999px;
+    padding: 9px 13px;
+    background: rgba(255,255,255,0.08);
+    color: var(--kh-text);
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform var(--kh-transition), background var(--kh-transition), border-color var(--kh-transition), opacity var(--kh-transition);
+}
+
+.botao_editar_feed:hover,
+.botao_adicionar_categoria_feed:hover,
+.botao_opcao_categoria_feed:hover,
+.botao_curso_modal:hover,
+.botao_adicionar_post_curso:hover {
+    transform: translateY(-1px);
+    border-color: rgba(79, 140, 255, 0.5);
+    background: linear-gradient(135deg, rgba(79,140,255,0.7), rgba(155,92,255,0.7));
+}
+
+.botao_deletar_feed:hover,
+.botao_deletar_confirmado:hover,
+.botao_retirar_categoria_feed:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255,92,112,0.55);
+    background: linear-gradient(135deg, rgba(255,92,112,0.72), rgba(155,92,255,0.58));
+}
+
+.botao_deletar_confirmado {
+    background: rgba(255,92,112,0.18);
+    border-color: rgba(255,92,112,0.45);
+}
+
+.botao_editar_feed:disabled,
+.botao_deletar_feed:disabled,
+.botao_adicionar_categoria_feed:disabled,
+.botao_retirar_categoria_feed:disabled,
+.botao_cancelar_retirada:disabled,
+.botao_confirmar_retirada:disabled,
+.botao_deletar_confirmado:disabled,
+.botao_opcao_categoria_feed:disabled,
+.botao_curso_modal:disabled,
+.botao_adicionar_post_curso:disabled {
+    opacity: 0.58;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.lista_categorias_ativas_feed,
+.lista_adicionar_categoria_feed,
+.lista_cursos_modal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.categoria_feed_item .botao_categoria_feed {
+    border: 1px solid var(--kh-border);
+    border-radius: 999px;
+    padding: 9px 13px;
+    background: rgba(255,255,255,0.065);
+    color: var(--kh-text);
+    font-weight: 900;
+    cursor: pointer;
+    transition: background var(--kh-transition), border-color var(--kh-transition), transform var(--kh-transition);
+}
+
+.categoria_feed_item .botao_categoria_feed:hover {
+    transform: translateY(-1px);
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(79,140,255,0.42);
+}
+
+.lista_categorias_ativas_feed.modo_retirar .categoria_feed_item .botao_categoria_feed:hover,
+.categoria_feed_item.selecionada_para_remover .botao_categoria_feed {
+    background: rgba(255,92,112,0.22);
+    border-color: rgba(255,92,112,0.62);
+    color: #ffd9df;
+}
+
+.painel_retirar_categorias {
+    padding: 12px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,92,112,0.22);
+    background: rgba(255,92,112,0.08);
+}
+
+.painel_retirar_categorias p,
+.texto_modal_categoria_feed,
+.curso_modal_vazio {
+    margin: 0;
+    color: var(--kh-text-muted);
+    line-height: 1.45;
+}
+
+.form_criar_categoria_feed input,
+.form_criar_curso_rapido input {
+    flex: 1 1 220px;
+    min-width: 0;
+    border: 1px solid var(--kh-border);
+    border-radius: 12px;
+    padding: 11px 12px;
+    background: rgba(255,255,255,0.08);
+    color: var(--kh-text);
+}
+
+.form_criar_categoria_feed button,
+.form_criar_curso_rapido button {
+    border: 1px solid rgba(79,140,255,0.45);
+    border-radius: 12px;
+    padding: 11px 14px;
+    background: linear-gradient(135deg, rgba(79,140,255,0.82), rgba(155,92,255,0.72));
+    color: #fff;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.modal_post_curso {
+    display: grid;
+    gap: 14px;
+}
+
+.dica_feed_sem_filtro {
+    margin: -4px 0 4px;
+    color: var(--kh-text-muted);
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+/* Cards da Home: categorias extras ficam recolhidas até clicar em Mostrar mais. */
+.genero_oculto {
+    display: none !important;
+}
+
+.botao_mostrar_generos_post {
+    border: 1px solid var(--kh-border);
+    border-radius: 999px;
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.08);
+    color: var(--kh-text);
+    font-size: 12px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform var(--kh-transition), background var(--kh-transition), border-color var(--kh-transition);
+}
+
+.botao_mostrar_generos_post:hover {
+    transform: translateY(-1px);
+    border-color: rgba(79, 140, 255, 0.55);
+    background: linear-gradient(135deg, rgba(79,140,255,0.68), rgba(155,92,255,0.68));
+}

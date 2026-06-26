@@ -7,6 +7,7 @@ import { api_fetch, extrair_mensagem, extrair_lista, normalizar_post, normalizar
 let feed_ativo_id = null;
 let pesquisar_handler = null;
 let categorias_handler = null;
+let cursos_handler = null;
 
 export async function load_home_page(param){
     try {
@@ -43,10 +44,24 @@ export async function load_home_page(param){
         const feed_id = evento.detail?.feed_id ?? feed_ativo_id;
         const feeds = await carregar_feed_header();
         const feed_atualizado = feeds.find(feed => Number(feed.id) === Number(feed_id));
-        if (feed_atualizado) await selecionar_feed(feed_atualizado);
+        if (feed_atualizado) {
+            await selecionar_feed(feed_atualizado);
+        } else if (feeds.length > 0) {
+            await selecionar_feed(feeds.find(feed => feed.ultimo_feed_ativo) ?? feeds[0]);
+        } else {
+            feed_ativo_id = null;
+            carregar_feed_filtro({ titulo: 'Sem feed', descricao: 'Crie um feed para começar.', categorias: [] });
+            await carregar_conteudo(null);
+        }
         await atualizar_barra_lateral();
     };
     window.addEventListener("knowledgehub:feedCategoriasAtualizadas", categorias_handler);
+
+    if (cursos_handler) window.removeEventListener("knowledgehub:cursosAtualizados", cursos_handler);
+    cursos_handler = async () => {
+        await atualizar_barra_lateral();
+    };
+    window.addEventListener("knowledgehub:cursosAtualizados", cursos_handler);
 }
 
 function trocar_barra_lateral(){
@@ -66,6 +81,17 @@ function configurar_botao_adicionar_feed(){
 
 async function selecionar_feed(feed) {
     feed_ativo_id = feed.id;
+
+    try {
+        await api_fetch(`/feed/ativo/${feed.id}`, {
+            method: "PUT",
+            body: { id: Number(feed.id) }
+        });
+        feed.ultimo_feed_ativo = true;
+    } catch (erro) {
+        console.warn("Não foi possível salvar o último feed ativo:", erro.message);
+    }
+
     carregar_feed_filtro(feed);
 
     const header_feeds = document.getElementById("header_feed");
@@ -152,7 +178,17 @@ async function carregar_feed_header(){
 
 async function carregar_feeds(){
     const dados = await api_fetch("/feed")
-    return extrair_lista(dados, ["feeds"]);
+    return extrair_lista(dados, ["feeds"]).map(feed => {
+        const categorias = Array.isArray(feed.categorias ?? feed.generos) ? (feed.categorias ?? feed.generos) : [];
+        return {
+            ...feed,
+            categorias,
+            generos: categorias,
+            id: Number(feed.id),
+            ultimo_feed_ativo: Boolean(feed.ultimo_feed_ativo),
+            sem_filtro: categorias.length === 0
+        };
+    });
 }
 
 async function abrir_modal_criar_feed(){
@@ -191,7 +227,11 @@ async function abrir_modal_criar_feed(){
 
     const titulo_categorias = document.createElement("p");
     titulo_categorias.classList.add("titulo_categorias_feed");
-    titulo_categorias.innerText = "Categorias *";
+    titulo_categorias.innerText = "Categorias (opcional)";
+
+    const dica_sem_filtro = document.createElement("p");
+    dica_sem_filtro.classList.add("dica_feed_sem_filtro");
+    dica_sem_filtro.innerText = "Deixe sem categoria para criar um feed sem filtro, mostrando todos os posts.";
 
     const lista_categorias = document.createElement("div");
     lista_categorias.classList.add("lista_categorias_feed");
@@ -238,6 +278,7 @@ async function abrir_modal_criar_feed(){
     form.appendChild(label_descricao);
     form.appendChild(textarea_descricao);
     form.appendChild(titulo_categorias);
+    form.appendChild(dica_sem_filtro);
     form.appendChild(lista_categorias);
     form.appendChild(mensagem);
     form.appendChild(acoes);
@@ -259,11 +300,6 @@ async function abrir_modal_criar_feed(){
         const categorias_marcadas = [...form.querySelectorAll('input[name="categorias"]:checked')]
             .map(input => Number(input.value));
 
-        if (categorias_marcadas.length === 0) {
-            mensagem.innerText = "Escolha pelo menos uma categoria.";
-            return;
-        }
-
         salvar.disabled = true;
         salvar.innerText = "Criando...";
 
@@ -273,7 +309,8 @@ async function abrir_modal_criar_feed(){
                 body: {
                     titulo: input_titulo.value.trim(),
                     descricao: textarea_descricao.value.trim(),
-                    categorias: categorias_marcadas
+                    categorias: categorias_marcadas,
+                    ultimo_feed_ativo: true
                 }
             });
 

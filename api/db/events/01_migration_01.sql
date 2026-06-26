@@ -32,7 +32,8 @@ CREATE TABLE posts (
     foreign key (usuario_id) references usuarios(id),
     titulo varchar(200) null,
     data_criacao date not null,
-    tipo smallint not null
+    tipo smallint not null,
+    publicado boolean not null default false
     -- nivel_publicidade enum('publico', 'privado') -- Não ideal fazer isso!
 );
 
@@ -112,11 +113,15 @@ CREATE TABLE usuarios_posts_categorias (
 -- );
 
 -- Tipos de post
+-- tipo: 1=Curso, 2=Artigo, 3=Questionário, 4=Atividade, 5=Prova
 
 CREATE TABLE cursos (
-    post_id bigint not null,
-    id bigint auto_increment primary key,
-    foreign key (post_id) references posts(id)
+    post_id bigint not null primary key,
+    id bigint auto_increment unique,
+    origem_curso_id bigint null,
+    publicado boolean not null default false,
+    foreign key (post_id) references posts(id),
+    foreign key (origem_curso_id) references cursos(post_id)
 );  
 
 CREATE TABLE cursos_posts (
@@ -139,6 +144,16 @@ CREATE TABLE questionarios (
     foreign key (post_id) references posts(id)
 );
 
+CREATE TABLE provas (
+    post_id bigint not null primary key,
+    foreign key (post_id) references posts(id),
+    descricao text null,
+    nota_maxima decimal(5,2) not null default 10.00,
+    formato_nota enum('dez', 'porcentagem') not null default 'dez',
+    mostrar_resultado_imediato boolean not null default true,
+    permitir_resposta_nula boolean not null default true
+);
+
 CREATE TABLE atividades (
     post_id bigint not null primary key,
     foreign key (post_id) references posts(id),
@@ -154,6 +169,15 @@ CREATE TABLE opcoes(
     atividade_id bigint not null,
     texto text not null,
     foreign key (atividade_id) references atividades(post_id)
+);
+
+CREATE TABLE provas_atividades (
+    prova_id bigint not null,
+    atividade_id bigint not null,
+    ordem int not null default 1,
+    foreign key (prova_id) references provas(post_id),
+    foreign key (atividade_id) references atividades(post_id),
+    primary key (prova_id, atividade_id)
 );
 
 CREATE TABLE usuarios_cursos_favoritos (

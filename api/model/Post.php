@@ -4,9 +4,11 @@ require_once 'Model.php';
 require_once 'Categoria.php';
 
 enum PostTipoEnum {
+    case Curso;
     case Artigo;
     case Atividade;
     case Questionario;
+    case Prova;
 }
 
 class Post extends Model {
